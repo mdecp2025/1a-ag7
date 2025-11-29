@@ -20,7 +20,7 @@
 ![Page 1](images/page001.png)
 
 ### 第 2 頁  
-![Page 2](images/page002.ppg)
+![Page 2](images/page002.png)
 
 ### 第 3 頁
 ![Page 3](images/page003.png)
