@@ -1,3 +1,7 @@
+# ## [此處是分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
+
+
+
 # w4 計算機程式專題報告
 
 **組員**：陳漢宸、溫振豪、周昱翰、葉柏驊、李承祐  
