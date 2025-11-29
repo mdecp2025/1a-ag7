@@ -55,7 +55,7 @@
 # 41423117_個人製作
 
 ## 點擊 [此處打開模擬器](https://41423117.github.io/Eternal-Realm-Games/)
-## 點擊 [此處是個人製作網站](https://41423117.github.io/Eternal-Realm-Games/)
+## 點擊 [此處是個人製作網站](https://github.com/41423117/Eternal-Realm-Games)
 
 ### 第 1 頁
 ![Page 1](folder/page01.png)
