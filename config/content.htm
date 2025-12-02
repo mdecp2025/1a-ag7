@@ -7,14 +7,59 @@
 <p style="padding-left: 60px;">若希望可攜系統啟動直接進入 cmsimde 環境，可將 start_miniconda3.bat 檔案中第 98 行: call "%CONDA_ROOT%\Scripts\activate.bat" %ENV_NAME% 更換為 call "%CONDA_ROOT%\Scripts\activate.bat" %Disk%:\envs\cmsimde</p>
 <p><span>機器人程式編輯器:</span></p>
 <p style="padding-left: 30px;"><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=222">https://s5.eng.nfu.edu.tw:9499/brython_test?load=222</a></p>
-<p style="padding-left: 60px;"><span>若移除原下方的繪圖程式碼： 刪除主程式中原先的 for i in range(10): draw_digit(...) 迴圈。 </span></p>
-<p style="padding-left: 60px;"><span>調整 Y 座標： 重新計算 Y 軸偏移量 (START_Y_SUB_CELL)，使數字向上移動到鏡射後的位置。 </span></p>
-<p style="padding-left: 60px;"><span>因為數字的高度是 7 個細格 (從 0 到 6)。如果我們將頂部 Y=0 的數字翻轉，新的頂部應該在畫布的上方。 </span></p>
-<p style="padding-left: 60px;"><span>我將把數字的繪製區塊移動到畫布的頂部，並保持原有的數字結構（即沒有實際鏡像操作，因為數字本身結構不變，只是改變顯示位置）。</span></p>
+<p style="padding-left: 60px;">1.🌍 MyWorld 類別的修改</p>
+<p style="padding-left: 90px;">世界尺寸擴大 :</p>
+<p style="padding-left: 120px;">原先 : MyWorld(width=10, height=10, sub_cell=5) 2222。</p>
+<p style="padding-left: 120px;">改後 : 為了容納 10 個數字，世界寬度被擴大為 width=15 3。</p>
+<p style="padding-left: 90px;">細格座標轉換修正 (sub_to_px) :</p>
+<p style="padding-left: 120px;">原先 : 採用了基於大格 (big_x, big_y) 和偏移量 (offset_x, offset_y) 的複雜轉換，並註明 BaseWorld 的 Y 軸是從下往上 4。</p>
+<p style="padding-left: 120px;">改後 : 採用了更簡潔且統一的細格座標轉換，直接將細格座標 sub_x 和 sub_y 轉換為像素座標。它通過 $py = (self.height \times self.sub\_cell - 1 - sub\_y) \times self.sub\_size + self.sub\_size // 2$ 的公式，將「Y 越大越往下」的 sub_y 座標系轉換為 BaseWorld 「Y 越大越往上」的像素 py 座標 5。</p>
+<p style="padding-left: 60px;">2. 🤖 MyRobot 類別的修改</p>
+<p style="padding-left: 90px;">初始化位置修正 (__init__) :</p>
+<p style="padding-left: 120px;">原先 : 機器人從大格 (start_big_x, start_big_y) 初始化，然後內部轉換為細格中心 6。</p>
+<p style="padding-left: 120px;">改後 : 機器人直接從細格座標 (start_sub_x, start_sub_y) 初始化，並將 super().__init__ 的大格座標設為 (0, 0)（因為細格移動會自行處理位置） 7。</p>
+<p style="padding-left: 90px;">移動轉向邏輯修正 (move_to) :</p>
+<p style="padding-left: 120px;">原先 : 轉向邏輯中，dy &gt; 0 (Y 增大) 對應 target = "N" (北/上) 8。</p>
+<p style="padding-left: 120px;">改後 : 轉向邏輯根據新的「Y 越大越往下」的細格座標系進行了修正：</p>
+<p style="padding-left: 150px;">(1) dy &gt; 0 (Y 增大，即往下) 對應 target = "S" (南/下) 9。</p>
+<p style="padding-left: 150px;">(2) dy &lt; 0 (Y 減小，即往上) 對應 target = "N" (北/上) 10。</p>
+<p style="padding-left: 150px;">(3) 速度調整: 2.0 版本將 timer.set_timeout 的延遲從 40 毫秒減少到 10 毫秒。</p>
+<p style="padding-left: 60px;">3. 🔢 七段顯示器定義和繪製的修改</p>
+<p style="padding-left: 90px;">移除 PATHS (原先) 並新增 FLIPPED_PATHS (改後) :</p>
+<p style="padding-left: 120px;">原先 : 原始的 PATHS 已經是預先反轉 Y 軸 (Y=0 為頂部) 的版本 12。</p>
+<p style="padding-left: 120px;">改後  : 移除了 1.0 版本預先反轉的 PATHS，並新增了一個 FLIPPED_PATHS 字典 13。這個新的路徑是標準七段顯示器結構的 180 度上下翻轉版本 14。例如：原來的 A 段 (上) 變成了 D 段的位置 (下) 15。</p>
+<p style="padding-left: 90px;">繪製函數增強 (draw_digit) :</p>
+<p style="padding-left: 120px;">新增 : draw_digit 函數增加了一個 flipped=False 的參數。這允許程式選擇使用標準路徑還是 FLIPPED_PATHS 來繪製數字 16。</p>
+<p style="padding-left: 90px;">主程式繪製邏輯變更 :</p>
+<p style="padding-left: 120px;">原先 : 繪製 10 個數字，X 偏移量為 4 + i * 6 17。</p>
+<p style="padding-left: 120px;">改後 : 繪製 10 個數字，X 偏移量為 1 + i * 5 (每個數字寬度 4 格，間隔 1 格，總共 5 格) 18。</p>
+<p style="padding-left: 60px;"><span></span></p>
 <p style="padding-left: 30px;"><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=224">https://s5.eng.nfu.edu.tw:9499/brython_test?load=224</a></p>
-<p style="padding-left: 60px;"><span>修正數字混亂</span></p>
-<p>QAQ</p>
-<p></p><h1>Reeborg</h1>
+<p style="padding-left: 60px;"><span></span></p>
+<p style="padding-left: 60px;">1. 🎨 結構化與參數化 (核心變更)</p>
+<p style="padding-left: 90px;">新增繪圖函數 draw_taiwan_flag :</p>
+<p style="padding-left: 120px;">原先：所有繪圖邏輯直接寫在主程式碼中，只能在固定位置繪製單面國旗 1。</p>
+<p style="padding-left: 120px;">改後：將整個國旗繪製過程封裝在一個函數 draw_taiwan_flag(ctx, x, y, w, h, rotation_degrees) 內 2。</p>
+<p style="padding-left: 120px;">優勢：這使得國旗的位置 (x, y)、尺寸 (w, h) 和旋轉角度 (rotation_degrees) 都可以作為參數傳入，實現程式碼的重用性和靈活性。</p>
+<p style="padding-left: 60px;">2. 🔄 旋轉功能的實現 (最重要的功能新增)</p>
+<p style="padding-left: 90px;">Canvas 座標轉換與旋轉 :</p>
+<p style="padding-left: 120px;">原先：程式碼中註釋掉了座標轉換，直接使用 Canvas 原始座標繪圖。</p>
+<p style="padding-left: 120px;">改後：在 draw_taiwan_flag 函數內部，利用 ctx.save(), ctx.translate(), ctx.rotate(), ctx.translate(), 和 ctx.restore() 這一組標準 Canvas API，實現了以國旗中心為原點的旋轉。</p>
+<p style="padding-left: 60px;">3. ✨ 白日光芒繪製邏輯的修正 (修正圖形細節)</p>
+<p style="padding-left: 90px;">新增內半徑 (使白日為十二角星) :</p>
+<p style="padding-left: 120px;">原先：白日部分僅使用單一半徑 (star_radius)，通過 24 次 moveTo/lineTo 繪製，實際繪製出來的是一個 12 邊形。</p>
+<p style="padding-left: 120px;">改後：新增了一個 inner_radius 變數 7。在 24 次迴圈中，它交替使用 star_radius (外半徑) 和 inner_radius (內半徑)，正確地繪製出十二角星 (Star of David-like shape) 8。</p>
+<p style="padding-left: 90px;">起始角度修正 :</p>
+<p style="padding-left: 120px;">原先：使用 angle = 0 開始，每次增加 $5 \times \frac{\pi \times 2}{12}$ 9。</p>
+<p style="padding-left: 120px;">改後：使用公式 (i * 15 - 90) * math.pi / 180 來計算角度，確保十二角星的第一個角是垂直向上的 (即 -90 度偏移，或 $-0.5\pi$ 弧度) 10。</p>
+<p style="padding-left: 60px;">4. 🖼️ 主程式碼的應用繪製多面國旗 :</p>
+<p style="padding-left: 90px;">原先：只繪製一個在固定位置的大國旗。</p>
+<p style="padding-left: 90px;">改後：主程式碼呼叫 draw_taiwan_flag 函數兩次 11：</p>
+<p style="padding-left: 120px;">(1) 繪製一個 90 度旋轉的國旗 12。</p>
+<p style="padding-left: 120px;">(2) 繪製一個 45 度旋轉的國旗 13。</p>
+<p style="padding-left: 90px;">同時，程式碼清理了 Canvas 畫布 (ctx.clearRect) 以準備繪製 14。</p>
+<p style="padding-left: 90px;"></p>
+<h1>Reeborg</h1>
 <p><a href="https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1.py">https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1.py</a></p>
 <p><a href="https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1_east_west.py">https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1_east_west.py</a> </p>
 <hr/>
