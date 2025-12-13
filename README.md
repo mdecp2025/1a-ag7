@@ -1,5 +1,5 @@
 * **起始點：** $\texttt{\`\`\`bash}$ 
-```bash
+*```bash
 .\venv\Scripts\activate
 
 * **終止點：** $\texttt{\`\`\`pip install waitress}$ 
