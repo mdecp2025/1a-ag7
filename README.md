@@ -1,5 +1,5 @@
-* $\texttt{\`\`\`bash}$
-* ```bash
+* $\texttt{\`\`\`}$
+* ```
   .\venv\Scripts\activate
   pip install waitress
 * $\texttt{\`\`\`}$
