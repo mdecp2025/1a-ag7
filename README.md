@@ -1,9 +1,9 @@
 * **起始點：** $\texttt{\`\`\`bash}$
 * ```bash
-# 確保您已經啟動虛擬環境
+確保您已經啟動虛擬環境
 .\venv\Scripts\activate
 
-# 安裝 Waitress
+安裝 Waitress
 pip install waitress
 * **終止點：** $\texttt{\`\`\`}$ 
 
