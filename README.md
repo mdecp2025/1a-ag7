@@ -1,6 +1,6 @@
-** $\texttt{\`\`\`bash}$ **必須**在一個**獨立的行**上，前後不能有任何其他文字或空格。
-** bird.x > gameCanvas.width + birdWidth/2
-** $\texttt{\`\`\`}$ **必須**在一個**獨立的行**上，前後不能有任何其他文字或空格。
+* **起始線 ($\texttt{\`\`\`bash}$)
+* birdWidth/2
+* **終止線 ($\texttt{\`\`\`}$)
 
 # ## [此處是分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
 
