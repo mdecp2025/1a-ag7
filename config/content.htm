@@ -6,7 +6,6 @@
 <p style="padding-left: 60px;">可攜系統啟動後，在命令列執行 conda activate y:\envs\cmsimde 可進入能執行 CMSiMDE 的環境。</p>
 <p style="padding-left: 60px;">若希望可攜系統啟動直接進入 cmsimde 環境，可將 start_miniconda3.bat 檔案中第 98 行: call "%CONDA_ROOT%\Scripts\activate.bat" %ENV_NAME% 更換為 call "%CONDA_ROOT%\Scripts\activate.bat" %Disk%:\envs\cmsimde</p>
 <p><span>機器人程式編輯器:</span></p>
-<p style="padding-left: 30px;"><span>1.</span></p>
 <p style="padding-left: 30px;"><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=222">https://s5.eng.nfu.edu.tw:9499/brython_test?load=222</a> </p>
 <p style="padding-left: 60px;">1.🌍 MyWorld 類別的修改</p>
 <p style="padding-left: 90px;">世界尺寸擴大 :</p>
@@ -34,8 +33,7 @@
 <p style="padding-left: 90px;">主程式繪製邏輯變更 :</p>
 <p style="padding-left: 120px;">原先 : 繪製 10 個數字，X 偏移量為 4 + i * 6 17。</p>
 <p style="padding-left: 120px;">改後 : 繪製 10 個數字，X 偏移量為 1 + i * 5 (每個數字寬度 4 格，間隔 1 格，總共 5 格) 18。</p>
-<p style="padding-left: 30px;"><span></span>2.</p>
-<p style="padding-left: 30px;"><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=224">https://s5.eng.nfu.edu.tw:9499/brython_test?load=224</a> </p>
+<p style="padding-left: 30px;"><span></span><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=224">https://s5.eng.nfu.edu.tw:9499/brython_test?load=224</a> </p>
 <p style="padding-left: 60px;"><span></span></p>
 <p style="padding-left: 60px;">1. 🎨 結構化與參數化 (核心變更)</p>
 <p style="padding-left: 90px;">新增繪圖函數 draw_taiwan_flag :</p>
@@ -59,7 +57,34 @@
 <p style="padding-left: 120px;">(1) 繪製一個 90 度旋轉的國旗 12。</p>
 <p style="padding-left: 120px;">(2) 繪製一個 45 度旋轉的國旗 13。</p>
 <p style="padding-left: 90px;">同時，程式碼清理了 Canvas 畫布 (ctx.clearRect) 以準備繪製 14。</p>
-<p style="padding-left: 90px;"></p>
+<p></p>
+<p>w13  <span>📝 專案心得與學習總結</span></p>
+<p style="padding-left: 30px;">🎯 專案目標與核心任務 這個專案主要圍繞以下三個核心任務展開，展示了對 Reeborg 程式設計環境和基本控制邏輯的掌握： </p>
+<p style="padding-left: 60px;">1. 環境巡邏 (Patrol)：讓機器人以有規律的方式（例如水平蛇行或垂直巡邏）遍歷整個區域，確保路徑規劃的完整性和效率。 </p>
+<p style="padding-left: 90px;">相關檔案：1. 水平巡邏.txt 、2. 上下垂直巡邏.txt 、2. 水平巡邏_走過每一個區域.txt       </p>
+<p style="padding-left: 60px;">2. 田地採收 (Harvesting)：讓機器人沿著預定路徑移動，並在經過的每個格子中執行 take() 命令，採集所有物品（紅蘿蔔）。 </p>
+<p style="padding-left: 90px;">相關檔案：1. 水平採收.txt 、2. 下垂直採收.txt     </p>
+<p style="padding-left: 60px;">3. 環境標準化 (Normalization)：不僅是採集，還需要對特定區域內的格子進行整理，使每個格子最終只留下一個物品 (put())，體現了更複雜的邏輯判斷。 </p>
+<p style="padding-left: 90px;">相關檔案：1. 採收與播種.txt   </p>
+<p style="padding-left: 30px;">💡 學習到的程式設計概念</p>
+<p style="padding-left: 30px;">透過完成這些任務，主要學習並應用了以下程式設計和邏輯思維概念： </p>
+<p style="padding-left: 60px;">1. 基礎控制與自訂函數 (Custom Functions) </p>
+<p style="padding-left: 90px;">抽象化 (Abstraction)：頻繁使用 def turn_right(): 和 def turn_left():  透過組合基本操作（如 turn_left()）來定義更複雜、更直觀的動作 (turn_right())，使主程式碼更具可讀性。       </p>
+<p style="padding-left: 90px;">迴圈控制 (Loop Control)：大量使用 repeat n: 或 for i in range(n):  實現連續移動或連續轉彎，這是機器人程式設計中重複行為的基礎。     </p>
+<p style="padding-left: 60px;">2. 導航與路徑規劃 (Navigation &amp; Path Planning)</p>
+<p style="padding-left: 90px;">蛇行模式 (Zig-Zag Pattern)：  在水平巡邏（2. 水平巡邏_走過每一個區域.txt） 中，利用 y % 2 == 0 來判斷當前是偶數行 (向東) 還是奇數行 (向西) ，從而實現折返移動，避免走重複的路，這是遍歷整個網格的標準高效算法.     </p>
+<p style="padding-left: 120px;">相對方向判斷：程式中包含複雜的轉向邏輯，例如：當機器人面向 E 時，需要 turn_around() 才能轉向 W；當面向 N 時，需要 turn_left() 才能轉向 W 。這訓練了從相對座標系思考導航問題的能力。 </p>
+<p style="padding-left: 60px;">3. 條件判斷與狀態管理 (Conditionals &amp; State) </p>
+<p style="padding-left: 90px;">環境感知 (Sensing)：使用 object_here() 判斷當前格子上是否有物品，並使用 is_facing_north()  判斷方向，這是在與環境互動時不可或缺的輸入。     </p>
+<p style="padding-left: 90px;">複雜邏輯：在 1. 採收與播種.txt 中，normalize_one_cell() 函數首先利用 while object_here(): take() 來清空當前格子，然後再根據原本的計數 (count) 決定是否 put() 回一個物品 ，展示了讀取、處理、寫入的完整控制流程。 </p>
+<p style="padding-left: 90px;">全局狀態：在 1. 水平採收.txt 中，使用 global object_taken 變數來追蹤已採集的總數量，並在達到目標 (object_taken &gt;= 36) 時終止程式 (done = True) ，這是狀態機設計的雛形。   </p>
+<p style="padding-left: 30px;">🚀 專業程式設計技巧</p>
+<p style="padding-left: 30px;">從 2. 水平巡邏_走過每一個區域.txt  的程式碼中，可以看出專案不僅限於 Reeborg 內建函數的使用，還深入到了網頁應用開發的層面，這是專案的進階亮點： </p>
+<p style="padding-left: 60px;">物件導向程式設計 (OOP)：定義了 World 和 AnimatedRobot 兩個類別，分別管理世界的渲染、牆壁、網格 以及機器人的狀態（位置、方向）和動畫行為 。   </p>
+<p style="padding-left: 60px;">非同步編程 (Asynchronous Programming)：大量使用 async def 和 await asyncio.sleep(0.2)  處理機器人的移動和轉彎，這確保了動畫的流暢性和程式執行的非阻塞性，是現代遊戲或模擬器開發的關鍵技術。   </p>
+<p style="padding-left: 60px;">DOM 操作與事件處理：程式碼涉及 js.document.createElement("canvas") 和 js.document.addEventListener('keydown', key_handler) 等，這表明這個專案能夠將 Python 程式碼與瀏覽器環境 (HTML/JavaScript) 進行深度整合，實現鍵盤和觸控按鈕對機器人的控制 。   </p>
+<p style="padding-left: 30px;">結論 總體而言，這是一個全面且深入的 Reeborg 專案。它從基本的機器人控制和路徑規劃開始，逐步引入了蛇行算法、環境感知、狀態管理等核心邏輯，最終在進階檔案中展示了物件導向、非同步處理以及與網頁介面互動的能力。透過這個專案的實作，不僅掌握了 Reeborg 世界的操作，也為學習更複雜的自動化、遊戲開發或 Web 應用程式奠定了堅實的基礎。</p>
+<p style="padding-left: 30px;"></p>
 <h1>Reeborg</h1>
 <p><a href="https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1.py">https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1.py</a></p>
 <p><a href="https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1_east_west.py">https://mde.tw/cp2025/reeborg?lang=en&amp;mode=python&amp;menu=worlds/menus/select_collection_en.json&amp;name=Alone&amp;url=worlds/tutorial_en/harvest1.json&amp;editor=python/harvest1_east_west.py</a> </p>
