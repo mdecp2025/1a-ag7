@@ -1,3 +1,4 @@
+* **起始點：** $\texttt{\`\`\`bash}$ 放在您想複製內容的第一行之前。
 ```bash
 # 確保您已經啟動虛擬環境 (venv\Scripts\activate)
 .\venv\Scripts\activate
