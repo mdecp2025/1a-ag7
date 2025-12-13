@@ -1,9 +1,9 @@
 * **起始點：** $\texttt{\`\`\`bash}$ 放在您想複製內容的第一行之前。
 * ```bash
-.\venv\Scripts\activate
+```.\venv\Scripts\activate
 
-pip install waitress
-```
+```pip install waitress
+
 * **終止點：** $\texttt{\`\`\`}$ 放在您想複製內容的最後一行之後。
 
 # ## [此處是分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
