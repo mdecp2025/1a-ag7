@@ -1,10 +1,7 @@
-* **起始點：** $\texttt{\`\`\`121}$ 
-* ```bash
-* * #*#*# 確保您已經
-* .\venv\Scripts\activate
-
-* * #*#*# 安裝 Wa
-* pip install waitress
+* **起始點：** $\texttt{\`\`\`bash}$ 
+```bash
+.\venv\Scripts\activate
+pip install waitress
 
 * **終止點：** $\texttt{\`\`\`}$ 
 
