@@ -1,8 +1,7 @@
 * **起始點：** $\texttt{\`\`\`bash}$ 放在您想複製內容的第一行之前。
 * ```bash
-```.\venv\Scripts\activate
-
-```pip install waitress
+  .\venv\Scripts\activate
+  pip install waitress
 
 * **終止點：** $\texttt{\`\`\`}$ 放在您想複製內容的最後一行之後。
 
