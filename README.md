@@ -2,8 +2,8 @@
 * ```
   .\venv\Scripts\activate
   pip install waitress
-* $\texttt{\`\`\`1}$
-* ```1
+* $\texttt{\`\`\`}$
+* ```
   .\venv\Scripts\activate
   pip install waitress
 * $\texttt{\`\`\`}$
