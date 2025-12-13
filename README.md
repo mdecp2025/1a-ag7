@@ -1,9 +1,8 @@
 * **起始點：** $\texttt{\`\`\`bash}$ 
 ```bash
 .\venv\Scripts\activate
-pip install waitress
 
-* **終止點：** $\texttt{\`\`\`}$ 
+* **終止點：** $\texttt{\`\`\`pip install waitress}$ 
 
 # ## [此處是分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
 
