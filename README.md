@@ -1,12 +1,3 @@
-\\\
-```bash
-# 確保您已經啟動虛擬環境
-.\venv\Scripts\activate
-
-# 安裝 Waitress
-pip install waitress
-\\\\
-
 # ## [此處是分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
 
 
