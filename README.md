@@ -2,8 +2,6 @@
 * ```
   .\venv\Scripts\activate
   pip install waitress
-* $\texttt{\`\`\`}$
-
 * $\texttt{\`\`\`1}$
 * ```1
   .\venv\Scripts\activate
