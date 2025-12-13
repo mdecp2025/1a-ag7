@@ -1,4 +1,4 @@
-* **起始點：** $\texttt{\`\`\`}$ 
+* **起始點：** $\texttt{\`\`\`121}$ 
 * ```bash
 * * #*#*# 確保您已經
 * .\venv\Scripts\activate
