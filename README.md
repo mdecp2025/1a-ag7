@@ -4,7 +4,7 @@
 
 # 安裝 Waitress
 pip install waitress
-* ** $\texttt{\`\`\`}$
+* $\texttt{\`\`\`}$
 
 # ## [此處是分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
 
