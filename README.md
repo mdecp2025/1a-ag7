@@ -1,4 +1,4 @@
-```bash $\texttt{\`\`\`}$
+```bash > $\texttt{\`\`\`}$
 # 確保您已經啟動虛擬環境 (venv\Scripts\activate)
 .\venv\Scripts\activate
 
