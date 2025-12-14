@@ -154,7 +154,6 @@
 * ```
   bird.x < -birdWidth/2。
 $\texttt{}$
-
   飛鳥飛出畫面後會從陣列中移除，並增加 birdsEscaped 計數。
 
 
