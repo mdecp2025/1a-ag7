@@ -20,37 +20,37 @@
 ## 專題報告內容
 
 ### 第 1 頁
-![Page 1](folder/page07.png)
+![Page 1](images/page1.jpg)
 
 ### 第 2 頁  
-![Page 2](folder/page08.png)
+![Page 2](images/page2.jpg)
 
 ### 第 3 頁
-![Page 3](folder/page04.png)
+![Page 3](page3.jpg)
 
 ### 第 4 頁  
-![Page 4](folder/page05.png)
+![Page 4](page4.jpg)
 
 ### 第 5 頁
-![Page 5](folder/page06.png)
+![Page 5](page5.jpg)
 
 ### 第 6 頁  
-![Page 6](folder/page09.png)
+![Page 6](page6.jpg)
 
 ### 第 7 頁
-![Page 7](folder/page10.png)
+![Page 7](page7.jpg)
 
-### 第 8 頁
-![Page 8](folder/page11.png)
+### 第 8 頁  
+![Page 8](page8.jpg)
 
 ### 第 9 頁
-![Page 9](folder/page12.png)
+![Page 9](page9.jpg)
 
 ### 第 10 頁  
-![Page 10](folder/page13.png)
+![Page 10](page10.jpg)
 
-### 第 11 頁  
-![Page 11](folder/page14.png)
+### 第 11 頁
+![Page 11](page11.jpg)
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # 
@@ -94,7 +94,6 @@
 
 ### 第 11 頁  
 ![Page 11](folder/page14.png)
-
 
 # w9_11/6_12:41成功運行
   我在些關卡做出一個遊戲，這個遊戲的開始主畫面背景如2k圖片顯示，而開始的主畫面在橫的中間下方生成出一個開始的文字按鍵，
