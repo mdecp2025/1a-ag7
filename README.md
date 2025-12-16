@@ -62,6 +62,7 @@
 # 41423117_個人製作
 
 ## 點擊 [此處打開模擬器](https://41423117.github.io/Eternal-Realm-Games/)
+## 點擊 [此處打開 Youtube 影片時拍](https://youtu.be/_Cj6NyARDBo)
 ## 點擊 [程式指令](https://github.com/41423117/Eternal-Realm-Games/blob/main/index.html)
 ## 點擊 [此處是個人製作網站](https://github.com/41423117/Eternal-Realm-Games)
 
