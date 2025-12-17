@@ -65,7 +65,7 @@
 ## 點擊 [此處打開 Youtube 影片時拍](https://youtu.be/_Cj6NyARDBo)
 ## 點擊 [程式指令](https://github.com/41423117/Eternal-Realm-Games/blob/main/index.html)
 ## 點擊 [此處是個人製作網站](https://github.com/41423117/Eternal-Realm-Games)
-## 點擊 [此處是個人心得](file:///C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
+## 點擊 [此處是個人心得](C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
 
 ### 第 1 頁
 ![Page 1](folder/page07.png)
