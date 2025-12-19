@@ -63,7 +63,7 @@
 # 41423117_Individually Created
 
 ## Click [here to open the simulator](https://41423117.github.io/Eternal-Realm-Games/)
-## Click [Click here to record when opening a YouTube video](https://youtu.be/_Cj6NyARDBo)
+## Click [Click here to record when opening a YouTube video](file:///C:/Users/user/Desktop/[%E5%A4%A7%E4%B8%80]%E4%B8%8A%E5%AD%B8%E6%9C%9F/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A8%8B%E5%BC%8F/Eternal-Realm-Games/[1.5].txt)
 ## Click [Program instructions](https://github.com/41423117/Eternal-Realm-Games/blob/main/index.html)
 ## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
 ## Click [This is a personal notes/reflections section](C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
