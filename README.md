@@ -64,7 +64,7 @@
 
 ## Click [here to open the simulator](https://41423117.github.io/Eternal-Realm-Games/)
 ## Click [Click here to record when opening a YouTube video](https://youtu.be/_Cj6NyARDBo)
-## Download [game.html](index.html)   
+## Click to download [game.html](index.html)   
 ## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
 ## Click [This is a personal notes/reflections section](C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
 
