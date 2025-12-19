@@ -66,7 +66,7 @@
 ## Click [Click here to record when opening a YouTube video](https://youtu.be/_Cj6NyARDBo)
 ## Click [Code Example](index.html)   
 ## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
-## Click [This is a personal notes/reflections section](file:///G:/[%E5%A4%A7%E5%AD%B8]114%E5%B9%B4_1%E4%B8%8A_%E4%B8%8A%E8%AA%B2%E8%B3%87%E6%96%99/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A8%8B%E5%BC%8F/w15%E5%B0%88%E6%A1%88/[%E5%B0%88%E6%A1%88]%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%AD%B8%E7%BF%92%E7%A8%8B%E5%BC%8F%E9%96%8B%E7%99%BC.htm)
+## Click [This is a personal notes/reflections section](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2F41423117%2Fword%2Frefs%2Fheads%2Fmain%2F%255B%25E5%25B0%2588%25E6%25A1%2588%255D%25E5%25BE%259E%25E9%259B%25B6%25E9%2596%258B%25E5%25A7%258B%25E5%25AD%25B8%25E7%25BF%2592%25E7%25A8%258B%25E5%25BC%258F%25E9%2596%258B%25E7%2599%25BC.docx&wdOrigin=BROWSELINK)
 
 ### Page 1
 ![Page 1](folder/page07.png)
