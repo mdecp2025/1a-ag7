@@ -1,18 +1,19 @@
 # ## [此處是1a-ag7分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
-### 機器人心得 ⬆
+### Robotics Reflections ⬆
 
 #
 
 
-# w4 計算機程式專題報告
+# w4 Computer Programming Project Report
 
-**組員**：陳漢宸、周昱翰、李承祐  
-**日期**：2025 年 10 月 1 日
+**Team Members**：陳漢宸、周昱翰、李承祐  
+**Date**：2025 年 10 月 1 日
 
-## 主題
+## Theme
 什麼是 git, GitHub, gist 與 CMSIMDE? 如何使用這些工具？為什麼要使用這些工具？
 
-## 目錄
+## Table of Contents
+
 1. [引言](#引言)
 2. [Git與程式設計課程的關係](#git與程式設計課程的關係)
 3. [GitHub與程式設計課程的關係](#github與程式設計課程的關係)
@@ -20,380 +21,363 @@
 5. [CMSIMDE與程式設計課程的關係](#cmsimde與程式設計課程的關係)
 6. [綜合分析與結論](#綜合分析與結論)
 
-## 專題報告內容
+## Project Report Content
 
-### 第 1 頁
+### Page 1
 ![Page 1](images/page001.png)
 
-### 第 2 頁  
+### Page 2  
 ![Page 2](images/page002.png)
 
-### 第 3 頁
+### Page 3
 ![Page 3](images/page003.png)
 
-### 第 4 頁  
+### Page 4
 ![Page 4](images/page004.png)
 
-### 第 5 頁
+### Page 5
 ![Page 5](images/page005.png)
 
-### 第 6 頁  
+### Page 6 
 ![Page 6](images//page006.png)
 
-### 第 7 頁
+### Page 7
 ![Page 7](images/page007.png)
 
-### 第 8 頁  
+### Page 8
 ![Page 8](images/page008.png)
 
-### 第 9 頁
+### Page 9
 ![Page 9](images/page009.png)
 
-### 第 10 頁  
+### Page 10
 ![Page 10](images/page010.png)
 
-### 第 11 頁
+### Page 11
 ![Page 11](images/page011.png)
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # 
 
 
-# 41423117_個人製作
+# 41423117_Individually Created
 
-## 點擊 [此處打開模擬器](https://41423117.github.io/Eternal-Realm-Games/)
-## 點擊 [此處打開 Youtube 影片時拍](https://youtu.be/_Cj6NyARDBo)
-## 點擊 [程式指令](https://github.com/41423117/Eternal-Realm-Games/blob/main/index.html)
-## 點擊 [此處是個人製作網站](https://github.com/41423117/Eternal-Realm-Games)
-## 點擊 [此處是個人心得](C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
+## Click [here to open the simulator](https://41423117.github.io/Eternal-Realm-Games/)
+## Click [Click here to record when opening a YouTube video](https://youtu.be/_Cj6NyARDBo)
+## Click [Program instructions](https://github.com/41423117/Eternal-Realm-Games/blob/main/index.html)
+## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
+## Click [This is a personal notes/reflections section](C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
 
-### 第 1 頁
+### Page 1
 ![Page 1](folder/page07.png)
 
-### 第 2 頁  
+### Page 2
 ![Page 2](folder/page08.png)
 
-### 第 3 頁
+### Page 3
 ![Page 3](folder/page04.png)
 
-### 第 4 頁  
+### Page 4  
 ![Page 4](folder/page05.png)
 
-### 第 5 頁
+### Page 5
 ![Page 5](folder/page06.png)
 
-### 第 6 頁  
+### Page 6  
 ![Page 6](folder/page09.png)
 
-### 第 7 頁
+### Page 7
 ![Page 7](folder/page10.png)
 
-### 第 8 頁
+### Page 8
 ![Page 8](folder/page11.png)
 
-### 第 9 頁
+### Page 9
 ![Page 9](folder/page12.png)
 
-### 第 10 頁  
+### Page 10 
 ![Page 10](folder/page13.png)
 
-### 第 11 頁  
+### Page 11  
 ![Page 11](folder/page14.png)
 
-# w9_11/6_12:41成功運行
-  我在些關卡做出一個遊戲，這個遊戲的開始主畫面背景如2k圖片顯示，而開始的主畫面在橫的中間下方生成出一個開始的文字按鍵，
+
+# w9_11/6_12:41 Successfully launched
+I have created a game at this stage. The background of the game's main start screen is as shown in the 2k image, and a text button that says "Start" is generated in the lower middle section of the horizontal screen.
+
+When the spacebar is pressed or the mouse clicks the start button, the scene gradually transitions to another screen. The background of this screen is generated as per image 1753283162418.
+
+In the middle of this screen, five flat rectangular slots are generated from top to bottom. The text in the first slot from the top is "Simple," the text in the second slot is "Normal," the text in the fourth slot is "Random Difficulty," and the text in the fifth slot is "Exit."
+
+When the first slot is pressed, the game starts. Birds are generated one by one on either the far left or far right side of the top half of the screen. The generation time is random, between 1 to 2.5 seconds, and all birds fly toward the opposite side. When a bird touches its respective opposite side, it disappears. This level only generates 15 birds, and the speed of the birds at the start of the game is not too fast.
+
+When the second slot is pressed, the game starts. The number of birds generated and their movement speed are increased by 5 birds and 0.3 seconds faster, respectively, compared to the first slot.
+
+When the third slot is pressed, the game starts. The number of birds generated and their movement speed are increased by 10 birds and 0.5 seconds faster, respectively, compared to the second slot.
+
+When the fourth slot is pressed, the game starts. The number of birds generated and their movement speed vary randomly between the values of the first, second, and third slots.
+
+In these four levels of the game, my mouse cursor becomes a shooting circle. When the circle clicks on a bird, the bird is killed and disappears. The clickable range of my circle is 1.5 times its size. The level ends when all birds have completely disappeared.
+
+When the ESC key on the keyboard is pressed, the game pauses, and the screen with the five slots appears. Additionally, a new slot is generated below the fifth slot, with the text "Continue" inside it.
+
+When the "Continue" slot is pressed, the game returns to the paused screen and resumes the unfinished level until the game ends. If the "Exit" slot is pressed, the scene transitions back to the main start screen of the game.
+
+To enter the game again, simply press the "Start" button once more.
+
+When a level is completed, the five slots reappear. If "Exit" is pressed at this point, the scene transitions back to the main start screen of the game. To enter the game again, simply press the "Start" button once more.
 
   
-  當按下空白鍵或滑鼠點案開始後，場景便漸漸轉換到另一個畫面，而這畫面背景如1753283162418圖生成，
+# w10_11/13_00:19 New feature added: After completing each level, the game now returns to the difficulty selection screen. Additionally, I have improved the issue where the remaining bird count did not update when birds flew to the end.
 
+## Key Update Notes
+
+
+### Added an escaped bird counter:
+
+Added a birdsEscaped variable to track the number of birds that have flown off the screen.
+
+Improved the bird disappearance logic.
+
+In the updateBirds() function, a check is now performed to determine whether a bird has completely flown off the screen.
   
-  而畫面中間生成由上到下5個扁長的長方格子，由上往下的第一個格子內的文字為簡單，第二個格子內的文字為一般，第四個格子內的文字為隨機難度，第五個格子內的文字為退出，
+### When a bird flies out from the left side, check bird.x.
+```
+bird.x > gameCanvas.width + birdWidth/2。
+```
+### When a bird flies out from the right side, check bird.x.
+```
+bird.x < -birdWidth/2。
+```
 
-  
-  當按下第一個格子便開始遊戲，畫面的一半上面最左邊或右邊一隻一隻的飛鳥生成，生成時間為1~2.5秒內隨機時間生成，且飛鳥都要往對邊線飛，當飛鳥處碰到各自的對邊便消失，這關只生成15隻，而開始遊戲的飛鳥速度不會太快，
+Birds that fly off the screen will be removed from the array, and the birdsEscaped count will be incremented.
 
-  
-  當按下第二格格子便開始遊戲，而開始遊戲的飛鳥數量和移動速度比第一個格子的多5隻和移動快0.3秒，
+### The method for calculating remaining birds has been updated:
 
-  
-  當按下第三格格子便開始遊戲，而開始遊戲的飛鳥數量和速度比第二個格子的多10隻和移動快0.5秒，
+The [updateBirdsLeft()] function has been modified. The calculation is now as follows:
 
-  
-  當按下第四格格子便開始遊戲，而開始遊戲的飛鳥數量和速度就由第一個格子到第三個格子的飛鳥數量和速度隨機變化，
+Remaining birds = Total birds - Birds killed - Birds escaped.
 
-  
-  在這四關遊戲內我的滑鼠變成射擊圓圈，當圓圈點到飛鳥便殺死飛鳥，殺死的捻也就消失了，而我圓圈點按的範圍為我的圓圈1.5被大，當所有飛鳥都完全消失後便結束這關。
+This accurately reflects the number of birds that still need to be dealt with.
 
-  
-  當按下鍵盤ESC鍵便遊戲暫停，且跳出那五個格子的畫面，並且在第五個格子下方再生成一個格子，這新的格子內的文字為繼續，
+### Improved Bird Generation Logic:
 
-  
-  當按下繼續的格子便跳回剛剛的遊戲停止的畫面繼續執行未完成的遊戲直到遊戲結束，若按的是退出的格子，場景就轉變成這個遊戲的開始主畫面，
+When generating birds, the direction of each bird (fromLeft) is recorded.
 
-  
-  當想進入遊戲就再按一次開始就可以了，
+Records include: date and time, difficulty level, and score.
 
-  
-  當遊玩完某關關卡時便跳出那五個格子，且按下退出時，一樣場景就轉變成這個遊戲的開始主畫面，當想進入遊戲就在再按一次開始就可以了。
+The most recent records are displayed at the top, with older records listed below in descending order.
 
-  
-# w10_11/13_00:19 新增加了每關結束後，都能回到選擇度畫面。且外，我還改善了飛鳥飛到底，剩餘鳥的數量沒改善的缺點:
+### Data Persistence:
 
+Uses localStorage to save historical records.
 
-## 主要修改說明
+Records persist even after closing the browser or refreshing the page.
 
+A maximum of 50 recent records are saved.
 
-### 新增了飛鳥逃脫計數器：
 
-  添加了 birdsEscaped 變數來記錄飛出畫面的飛鳥數量。
+### History Display:
 
-  改進了飛鳥消失邏輯。
+Each record shows the date, difficulty level, and score.
 
-  在 updateBirds() 函數中，現在會檢查飛鳥是否完全飛出畫面。
-  
-**當飛鳥從左邊飛出時，檢查 bird.x：** $\texttt{\`\`\`}$
-* ```
-  bird.x > gameCanvas.width + birdWidth/2。
-**當飛鳥從右邊飛出時，檢查 bird.x：** $\texttt{\`\`\`}$
-* ```
-  bird.x < -birdWidth/2。
-$\texttt{}$
-  飛鳥飛出畫面後會從陣列中移除，並增加 birdsEscaped 計數。
+If no historical records exist, "No game records yet" is displayed.
 
 
-### 更新了剩餘飛鳥計算方式：
+# 11/15_02:53 I changed the game title to 【Eternal Realm Kingdom】 and added multiple game options and language settings:
 
-  修改了 updateBirdsLeft() 函數，現在計算方式為：
 
-  剩餘飛鳥 = 總飛鳥數 - 已擊殺飛鳥 - 已逃脫飛鳥。
+## New Features
 
-  這樣可以準確反映還需要處理的飛鳥數量。
+### Game Selection Interface:
 
+After clicking "Start Game," a new game selection interface is displayed.
 
-### 改進了飛鳥生成邏輯：
+There are six category tabs at the top: All Games, Shooting Games, Driving Games, Card Games, Action Games, Settings.
 
-  在生成飛鳥時記錄了飛鳥的方向 (fromLeft)。
+The "All Games" category is displayed by default.
 
-  記錄包含：日期時間、難度、分數。
+The content area displays games corresponding to the selected category.
 
-  最新記錄顯示在最上方，舊記錄向下排列。
+### Game Display:
 
+"Bird Shooting Game" is displayed in both the "All Games" and "Shooting Games" categories.
 
-### 數據持久化：
+Clicking "Bird Shooting Game" leads to the difficulty selection interface.
 
-  使用 localStorage 保存歷史記錄。
+Other categories display "No games available" if they are empty.
 
-  即使關閉瀏覽器或刷新頁面，記錄仍然存在。
+### Language Switching Function:
 
-  最多保存 50 條最近的記錄。
+Language switching options are displayed in the "Settings" category.
 
+The language selector defaults to displaying "中文繁體" (Traditional Chinese).
 
-### 歷史記錄顯示：
+Clicking it expands a list containing multiple language options.
 
-  每條記錄顯示日期、難度和分數。
+After selecting a language, all text on the page switches to the corresponding language.
 
-  如果沒有歷史記錄，會顯示"暫無遊戲記錄"。
+The language names within the selector itself always remain in Chinese.
 
+### Multi-language Support:
 
-# 11/15_02:53 我修改遊戲標題成【永恆領域國度】，還新增多種遊戲選項和語言設定:
+Complete translations for Traditional Chinese, Simplified Chinese, and English have been implemented.
 
+Other languages can be easily added.
 
-## 新增功能
+This implementation retains all the original features of the Bird Shooting Game while adding the game selection interface and language switching function. The interface design maintains the original style, ensuring a consistent user experience.
 
+# w13 12/06_04:00 更Feature Update
 
-### 游戏选择界面：
+## New Features:
 
-点击"开始游戏"后显示新的游戏选择界面。
 
-顶部有六个分类标签：所有游戏、射击游戏、开车游戏、纸牌游戏、动作游戏、设定。
+### Background Change Function:
 
-默认显示"所有游戏"分类。
+Added a "Change Background" option below the language switch in the Settings page.
 
-内容区域显示相应分类的游戏。
+A "Change Picture" button is on the right; clicking it opens a simulated file explorer window.
 
-### 游戏显示：
+### File Explorer Simulation:
 
-在"所有游戏"和"射击游戏"分类中显示"飞鸟射击游戏"。
+Designed an interface similar to the Windows File Explorer.
 
-点击"飞鸟射击游戏"后进入难度选择界面。
+Displays common folders (Pictures, Downloads, Desktop, Documents).
 
-其他分类没有游戏时显示"暂无游戏"。
+Provides a direct image upload function.
 
-### 语言切换功能：
+### Image Processing and Saving:
 
-在"设定"分类中显示语言切换选项。
+Uses the FileReader API to read image files.
 
-语言选择器默认显示"中文繁體"。
+Saves images in Base64 format to localStorage.
 
-点击后展开语言列表，包含多种语言选项。
+Applies the background image using the CSS variable (--custom-background).
 
-选择语言后，整个页面的文字会切换到对应语言。
+### Persistent Storage:
 
-语言选择器中的语言名称始终保持为中文。
+Uses localStorage to save the background image.
 
-### 多语言支持：
+The background image persists after the game is closed or the page is refreshed.
 
-实现了中文繁体、中文简体和英文的完整翻译。
+Image clarity is maintained.
 
-可以轻松扩展其他语言。
+### Background Application Scope:
 
-这个实现保留了原有的飞鸟射击游戏的所有功能，同时添加了游戏选择界面和语言切换功能。界面设计保持了原有的风格，确保用户体验的一致性。
+Applied to the "Start Game" main screen.
 
+Applied to the "Options screen after starting the game."
 
-# w13 12/06_04:00 更新功能
+Retains the original tech-style light points and robotic arm effects.
 
+### Reset Function:
 
-## 新增功能：
+Added a "Reset Background" button.
 
+Restores the default background style.
 
-### 背景更換功能：
+### Multi-language Support:
 
-在設定頁面中，語言切換下方新增了「背景更換」選項。
+The background change function supports multi-language display.
 
-右邊有「更改圖片」按鈕，點擊後會開啟模擬的檔案總管視窗。
+Integrated with the existing language system.
 
-### 檔案總管模擬：
+This allows users to freely change the game's background image, and the changed background will be permanently saved until the user manually resets it.
 
-設計了類似Windows檔案總管的介面。
+# w14_12/14_15:20  Modifications:
 
-顯示常見的資料夾（圖片、下載、桌面、文件）。
+## 1. CSS Section (Lines 135-275): Completely replaced the robotic arm style with an armor-plated style, including:
 
-提供直接上傳圖片的功能。
+Deeper metallic tones and pronounced borders.
 
-### 圖片處理與保存：
+5 distinct, protruding fingers (thumb, index finger, middle finger, ring finger, little finger).
 
-使用 FileReader API 讀取圖片檔案。
+Finger joint details and a longer design.
 
-將圖片以 Base64 格式保存到 localStorage。
+Armor plates and bolt/rivet decorations.
 
-使用CSS變數(--custom-background)套用背景圖片。
+Enhanced light effects and shadows.
 
-### 持久化儲存：
+## 2. HTML Section (Lines 519-547): Replaced the structure of the left and right robotic hands:
 
-使用 localStorage 保存背景圖片。
+Added more finger structures (5 fingers).
 
-遊戲關閉或頁面重新整理後，背景圖片依然保留。
+Added armor plates and bolt decorations.
 
-圖片保持清晰度。
+Each finger has joint details.
 
-### 背景套用範圍：
+### The robotic arms now appear as armor-plated mechanical hands with more distinct and protruding fingers, giving an overall more three-dimensional and mechanical feel.
 
-套用到「開始遊戲」主畫面。
+# w15_12/17_02:20 Main New Features
 
-套用到「開始遊戲後的選項」畫面。
+## 1. Background Change System
 
-保留原有的科技感光點和機器手效果。
+Added a "Settings" tab containing the background change function.
 
-### 重置功能：
+Added a "File Explorer Simulation Window" interface.
 
-新增「重置背景」按鈕。
+Supports uploading custom images as the game background.
 
-可以恢復為預設的背景樣式。
+Added a "Reset Background" button (square button design).
 
-### 多語言支援：
+## 2. Language Switching Function
 
-背景更換功能支援多語言顯示。
+Added a complete language switching system within Settings.
 
-與原有的語言系統整合。
+Supports three languages: Traditional Chinese, Simplified Chinese, and English.
 
-這樣使用者就可以自由更換遊戲的背景圖片，並且更換後的背景會永久保存，直到使用者手動重置。
+Dynamically updates all interface text.
 
+## 3.  Enhanced Shooting Game Features
 
-# w14_12/14_15:20 修改說明:
+### Added Bomb Element: Randomly appearing bombs that deduct points when clicked.
 
-## 1. CSS部分（第135-275行）：完全替換了機器手臂的樣式，改為鎧甲風格，包括：  
+### Improved Random Difficulty Mode:
 
-更深的金屬色調和明顯的邊框。
+Changed to a 40-second time-limited mode.
 
-5根分明突出的手指（大拇指、食指、中指、無名指、小拇指）。
+Bombs have different sizes (1x, 1.5x, 2x) corresponding to different point deductions.
 
-手指關節細節和更長的設計。
+More random bird generation timing.
 
-鎧甲板塊和螺栓/鉚釘裝飾。
+### Added Point Deduction Animation Effect: Displays red deduction numbers when clicking bombs.
 
-增強的光效和陰影。
+## 4. Improved User Interface
 
-## 2. HTML部分（第519-547行）：替換了左右兩隻機器手的結構：  
+Square Button Design: The background change button changed to a square style.
 
-增加了更多手指結構（5根手指）。
+Redesigned Category Tabs: Added "Settings" and "All Games" categories.
 
-添加了鎧甲板塊和螺栓裝飾。
+Enhanced Tech-Style Light Points: Dynamically creates more light point effects.
 
-每根手指都有關節細節。
+## 12/17_03:20 Main Modifications:
 
-### 現在機器手臂會顯示為像鎧甲一樣的機械手，手指更加分明突出，整體更有立體感和機械感。
-
-
-# w15_12/17_02:20 主要新增功能 
-
-## 1. 背景更換系統 
-
-新增「設定」選項卡，內含背景更換功能。
-
-添加了「檔案總管模擬視窗」介面。
-
-支援上傳自訂圖片作為遊戲背景。
-
-新增「重置背景」按鈕（正方形按鈕設計）。
-
-## 2. 語言切換功能 
-
-在設定中新增完整的語言切換系統。
-
-支援繁體中文、簡體中文、英文三種語言。
-
-動態更新所有介面文字。
-
-## 3. 增強型射擊遊戲功能 
-
-### 新增炸彈元素：隨機出現的炸彈，點擊會扣分 
-
-### 隨機難度模式改進：
-
-改為 40 秒限時模式。
-
-炸彈有不同大小（1x、1.5x、2x）對應不同扣分。
-
-更隨機的飛鳥生成時間。
-
-### 新增扣分動畫效果：點擊炸彈時顯示紅色扣分數字 
-
-## 4. 改進的使用者介面
-
-正方形按鈕設計：背景更換按鈕改為正方形樣式。
-
-分類標籤重新設計：新增「設定」和「所有遊戲」分類。
-
-科技感光點增強：動態創建更多光點效果。
-
-## 12/17_03:20 主要修改內容：
-
-### 1.刪除了不必要的投籃遊戲程式：只保留了原有的飛鳥射擊遊戲。
+### 1.Deleted Unnecessary Basketball Game Code: Only the original Bird Shooting Game was retained.
  
-### 2.整合了生存射擊遊戲：
+### 2.Integrated Survival Shooting Game:
 
-將[新遊戲]檔的生存射擊遊戲完整整合到[原本]檔中。
+The survival shooting game from the [New Game] file was fully integrated into the [Original] file.
 
-新增了生存射擊遊戲的所有畫面、HUD、遊戲邏輯和繪製功能。
+Added all screens, HUD, game logic, and drawing functions for the survival shooting game.
 
-新增了生存射擊遊戲專用的CSS樣式。
+Added CSS styles specific to the survival shooting game.
 
-#### 3.新增了"survive"遊戲格子：
+#### 3.Added "survive" Game Tile:
 
-在games物件中新增了survive遊戲，屬於"shooting"類別。
+Added a survive game to the games object, belonging to the "shooting" category.
 
-在"所有遊戲"和"射擊遊戲"分類下都會顯示"生存射擊遊戲"格子。
+The "Survival Shooting Game" tile will be displayed under both the "All Games" and "Shooting Games" categories.
 
-#### 4.點擊"survive"格子的功能：
+#### 4.Function of Clicking the "survive" Tile:
 
-當用戶點擊"生存射擊遊戲"格子時，會切換到生存射擊遊戲的開始畫面。
+When a user clicks the "Survival Shooting Game" tile, it switches to the start screen of the survival shooting game.
 
-生存射擊遊戲有完整的開始/退出按鈕，與[2.1]檔的設計一致。
+The survival shooting game has complete start/exit buttons, consistent with the design of the [Original] file.
 
-可以從生存射擊遊戲返回主選單或遊戲選擇界面。
+It is possible to return to the main menu or game selection interface from the survival shooting game.
 
-#### 5.遊戲狀態管理：
+#### 5.Game State Management:
 
-新增了SURVIVAL_GAME遊戲狀態。
+Added a SURVIVAL_GAME game state.
 
-確保兩個遊戲之間的切換順暢，不會互相干擾。
+Ensures smooth switching between the two games without interference.
