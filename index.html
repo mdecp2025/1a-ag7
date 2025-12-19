@@ -1,7 +1,3700 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-<meta http-equiv="refresh" content="0; url=content/index.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永恒領域遊戲</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+        }
+        
+        body {
+            overflow: hidden;
+            background-color: #1a1a2e;
+            color: white;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        #mainScreen {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #mainScreen.custom-bg {
+            background: var(--custom-background, linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)) !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        #mainScreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9)),
+                url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxkZWZzPgogICAgICAgIDxwYXR0ZXJuIGlkPSJMYXlsYSIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPgogICAgICAgICAgICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWExYTJlIi8+CiAgICAgICAgICAgIDxyZWN0IHg9IjAlIiB5PSIwJSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMiUiIGZpbGw9IiM0Y2M5ZjAiIG9wYWNpdHk9IjAuMyIvPgogICAgICAgICAgICA8cmVjdCB4PSIwJSIgeT0iMjAlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIyJSIgZmlsbD0iIzRjYzlmMCIgb3BhY2l0eT0iMC4yIi8+CiAgICAgICAgICAgIDxyZWN0IHg9IjAlIiB5PSI0MCUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjIlIiBmaWxsPSIjNGNjOWYwIiBvcGFjaXR5PSIwLjE1Ii8+CiAgICAgICAgICAgIDxyZWN0IHg9IjAlIiB5PSI2MCUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjIlIiBmaWxsPSIjNGNjOWYwIiBvcGFjaXR5PSIwLjEiLz4KICAgICAgICAgICAgPHJlY3QgeD0iMCUiIHk9IjgwJSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMiUiIGZpbGw9IiM0Y2M5ZjAiIG9wYWNpdHk9IjAuMDUiLz4KICAgICAgICAgICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMTUiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuMSIgLz4KICAgICAgICAgICAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTAwIiByPSIyNSIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC4wOCIgLz4KICAgICAgICAgICAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMjUwIiByPSIzNSIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC4wNSIgLz4KICAgICAgICAgICAgPHBhdGggZD0iTTEwMCAxNTAgTDIwMCAxMDAgTDMwMCAyMDAgTDIwMCAyNTAgWk0yMDAgMTAwIEwzMDAgMTUwIEw0MDAgNTAgTDMwMCAwIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRjYzlmMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2Utb3BhY2l0eT0iMC4xIiAvPgogICAgICAgICAgICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIwIiBmaWxsPSIjNGNjOWYwIiBvcGFjaXR5PSIwLjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxheWxhPC90ZXh0PgogICAgICAgICAgICA8dGV4dCB4PSIyMDAiIHk9IjIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNGNjOWYwIiBvcGFjaXR5PSIwLjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPmV4Y29naXQuPC90ZXh0PgogICAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjTGF5bGEpIi8+Cjwvc3ZnPgo=');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        
+        #mainScreen.custom-bg::before {
+            background: 
+                linear-gradient(rgba(26, 26, 46, 0.7), rgba(26, 26, 46, 0.7)),
+                var(--custom-background, linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%));
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        #mainScreen .title-container {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(30, 60, 114, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            box-shadow: 
+                0 0 30px rgba(76, 201, 240, 0.2),
+                inset 0 0 20px rgba(76, 201, 240, 0.1);
+            margin-bottom: 40px;
+            min-width: 600px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% {
+                box-shadow: 
+                    0 0 30px rgba(76, 201, 240, 0.2),
+                    inset 0 0 20px rgba(76, 201, 240, 0.1);
+            }
+            100% {
+                box-shadow: 
+                    0 0 40px rgba(76, 201, 240, 0.4),
+                    inset 0 0 25px rgba(76, 201, 240, 0.2);
+            }
+        }
+        
+        .title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 
+                0 0 10px rgba(76, 201, 240, 0.8),
+                0 0 20px rgba(76, 201, 240, 0.6),
+                0 0 30px rgba(76, 201, 240, 0.4);
+            color: #ffffff;
+            background: linear-gradient(45deg, #ffffff, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 2px;
+            animation: textPulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textPulse {
+            0% {
+                text-shadow: 
+                    0 0 10px rgba(76, 201, 240, 0.8),
+                    0 0 20px rgba(76, 201, 240, 0.6);
+            }
+            100% {
+                text-shadow: 
+                    0 0 15px rgba(76, 201, 240, 1),
+                    0 0 25px rgba(76, 201, 240, 0.8),
+                    0 0 35px rgba(76, 201, 240, 0.6);
+            }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #a0a0a0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .button {
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .button:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.8);
+        }
+        
+        .button:active {
+            transform: scale(0.98);
+        }
+        
+        #startButton {
+            margin-top: 2rem;
+            font-size: 2rem;
+            padding: 20px 60px;
+            width: 300px;
+        }
+        
+        /* 高科技機器手樣式 - 修改為鎧甲風格 */
+        .robotic-arm {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            pointer-events: none;
+            z-index: 2;
+            animation: armFloat 4s ease-in-out infinite;
+        }
+        
+        .robotic-arm.left {
+            left: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .robotic-arm.right {
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        @keyframes armFloat {
+            0%, 100% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-45%) rotate(3deg);
+            }
+            50% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-55%) rotate(-3deg);
+            }
+        }
+        
+        /* 機器手部件 - 鎧甲風格 */
+        .arm-base {
+            position: absolute;
+            background: linear-gradient(45deg, #3a3a3a, #2a2a2a);
+            border-radius: 15px;
+            box-shadow: 
+                0 0 20px rgba(76, 201, 240, 0.6),
+                inset 0 0 15px rgba(0, 0, 0, 0.7),
+                0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 3px solid #4cc9f0;
+        }
+        
+        .arm-segment {
+            position: absolute;
+            background: linear-gradient(90deg, #4a4a4a, #3a3a3a);
+            border-radius: 10px;
+            border: 3px solid #4cc9f0;
+            box-shadow: 
+                0 0 15px rgba(76, 201, 240, 0.4),
+                inset 0 0 10px rgba(76, 201, 240, 0.3),
+                0 3px 10px rgba(0, 0, 0, 0.4);
+        }
+        
+        .arm-joint {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, #5cc9f0, #1a5a8a, #3a3a3a);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 15px rgba(76, 201, 240, 0.9),
+                inset 0 0 8px rgba(255, 255, 255, 0.6),
+                0 2px 10px rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffffff;
+        }
+        
+        .arm-hand {
+            position: absolute;
+            background: linear-gradient(45deg, #3a3a3a, #2a2a2a);
+            border-radius: 15px;
+            border: 3px solid #4cc9f0;
+            box-shadow: 
+                0 0 20px rgba(76, 201, 240, 0.5),
+                inset 0 0 15px rgba(76, 201, 240, 0.2),
+                0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hand-finger {
+            position: absolute;
+            background: linear-gradient(90deg, #4a4a4a, #3a3a3a);
+            border-radius: 8px;
+            box-shadow: 
+                0 0 10px rgba(76, 201, 240, 0.5),
+                inset 0 0 5px rgba(76, 201, 240, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.4);
+            border: 2px solid #4cc9f0;
+        }
+        
+        /* 新增鎧甲板塊細節 */
+        .arm-plate {
+            position: absolute;
+            background: linear-gradient(45deg, #333333, #444444);
+            border-radius: 5px;
+            border: 1px solid #5cc9f0;
+            box-shadow: 
+                inset 0 0 8px rgba(76, 201, 240, 0.3),
+                0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .arm-rivet {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, #4cc9f0, #2a5a7a);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 5px rgba(76, 201, 240, 0.8),
+                inset 0 0 3px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 左側機器手具體結構 - 鎧甲風格 */
+        .robotic-arm.left .arm-base {
+            width: 80px;
+            height: 100px;
+            left: 0;
+            top: 150px;
+        }
+        
+        .robotic-arm.left .arm-joint-1 {
+            width: 60px;
+            height: 60px;
+            left: 60px;
+            top: 140px;
+            animation: jointRotate1 3s ease-in-out infinite;
+        }
+        
+        .robotic-arm.left .arm-segment-1 {
+            width: 180px;
+            height: 30px;
+            left: 90px;
+            top: 145px;
+            transform: rotate(-15deg);
+        }
+        
+        /* 上臂鎧甲板塊 */
+        .robotic-arm.left .plate-1 {
+            width: 160px;
+            height: 20px;
+            left: 100px;
+            top: 150px;
+            transform: rotate(-15deg);
+        }
+        
+        .robotic-arm.left .arm-joint-2 {
+            width: 55px;
+            height: 55px;
+            left: 230px;
+            top: 110px;
+            animation: jointRotate2 3s ease-in-out infinite reverse;
+        }
+        
+        .robotic-arm.left .arm-segment-2 {
+            width: 150px;
+            height: 28px;
+            left: 260px;
+            top: 118px;
+            transform: rotate(10deg);
+        }
+        
+        /* 前臂鎧甲板塊 */
+        .robotic-arm.left .plate-2 {
+            width: 140px;
+            height: 18px;
+            left: 265px;
+            top: 123px;
+            transform: rotate(10deg);
+        }
+        
+        .robotic-arm.left .arm-hand {
+            width: 70px;
+            height: 60px;
+            left: 380px;
+            top: 95px;
+            transform: rotate(8deg);
+        }
+        
+        /* 手指結構 - 更分明突出的鎧甲手指 */
+        .robotic-arm.left .finger-1 {
+            width: 18px;
+            height: 50px;
+            left: 8px;
+            top: -40px;
+            transform: rotate(-15deg);
+            border-radius: 9px 9px 0 0;
+            border-bottom: none;
+        }
+        
+        .robotic-arm.left .finger-2 {
+            width: 18px;
+            height: 60px;
+            left: 28px;
+            top: -45px;
+            transform: rotate(0deg);
+            border-radius: 9px 9px 0 0;
+            border-bottom: none;
+        }
+        
+        .robotic-arm.left .finger-3 {
+            width: 18px;
+            height: 55px;
+            left: 48px;
+            top: -42px;
+            transform: rotate(12deg);
+            border-radius: 9px 9px 0 0;
+            border-bottom: none;
+        }
+        
+        /* 新增大拇指 */
+        .robotic-arm.left .finger-thumb {
+            width: 16px;
+            height: 35px;
+            left: -10px;
+            top: 5px;
+            transform: rotate(-45deg);
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+        }
+        
+        /* 新增小拇指 */
+        .robotic-arm.left .finger-little {
+            width: 15px;
+            height: 45px;
+            left: 60px;
+            top: -35px;
+            transform: rotate(25deg);
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+        }
+        
+        /* 手指關節細節 */
+        .robotic-arm.left .finger-joint {
+            position: absolute;
+            width: 12px;
+            height: 8px;
+            background: #4cc9f0;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(76, 201, 240, 0.8);
+        }
+        
+        .robotic-arm.left .joint-1 { top: 15px; left: 3px; }
+        .robotic-arm.left .joint-2 { top: 30px; left: 3px; }
+        .robotic-arm.left .joint-3 { top: 45px; left: 3px; }
+        
+        /* 右側機器手具體結構 - 鎧甲風格 */
+        .robotic-arm.right .arm-base {
+            width: 80px;
+            height: 100px;
+            right: 0;
+            top: 150px;
+        }
+        
+        .robotic-arm.right .arm-joint-1 {
+            width: 60px;
+            height: 60px;
+            right: 60px;
+            top: 140px;
+            animation: jointRotate1 3s ease-in-out infinite reverse;
+        }
+        
+        .robotic-arm.right .arm-segment-1 {
+            width: 180px;
+            height: 30px;
+            right: 90px;
+            top: 145px;
+            transform: rotate(15deg);
+        }
+        
+        /* 上臂鎧甲板塊 */
+        .robotic-arm.right .plate-1 {
+            width: 160px;
+            height: 20px;
+            right: 100px;
+            top: 150px;
+            transform: rotate(15deg);
+        }
+        
+        .robotic-arm.right .arm-joint-2 {
+            width: 55px;
+            height: 55px;
+            right: 230px;
+            top: 110px;
+            animation: jointRotate2 3s ease-in-out infinite;
+        }
+        
+        .robotic-arm.right .arm-segment-2 {
+            width: 150px;
+            height: 28px;
+            right: 260px;
+            top: 118px;
+            transform: rotate(-10deg);
+        }
+        
+        /* 前臂鎧甲板塊 */
+        .robotic-arm.right .plate-2 {
+            width: 140px;
+            height: 18px;
+            right: 265px;
+            top: 123px;
+            transform: rotate(-10deg);
+        }
+        
+        .robotic-arm.right .arm-hand {
+            width: 70px;
+            height: 60px;
+            right: 380px;
+            top: 95px;
+            transform: rotate(-8deg);
+        }
+        
+        /* 手指結構 - 更分明突出的鎧甲手指 */
+        .robotic-arm.right .finger-1 {
+            width: 18px;
+            height: 50px;
+            right: 8px;
+            top: -40px;
+            transform: rotate(15deg);
+            border-radius: 9px 9px 0 0;
+            border-bottom: none;
+        }
+        
+        .robotic-arm.right .finger-2 {
+            width: 18px;
+            height: 60px;
+            right: 28px;
+            top: -45px;
+            transform: rotate(0deg);
+            border-radius: 9px 9px 0 0;
+            border-bottom: none;
+        }
+        
+        .robotic-arm.right .finger-3 {
+            width: 18px;
+            height: 55px;
+            right: 48px;
+            top: -42px;
+            transform: rotate(-12deg);
+            border-radius: 9px 9px 0 0;
+            border-bottom: none;
+        }
+        
+        /* 新增大拇指 */
+        .robotic-arm.right .finger-thumb {
+            width: 16px;
+            height: 35px;
+            right: -10px;
+            top: 5px;
+            transform: rotate(45deg);
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+        }
+        
+        /* 新增小拇指 */
+        .robotic-arm.right .finger-little {
+            width: 15px;
+            height: 45px;
+            right: 60px;
+            top: -35px;
+            transform: rotate(-25deg);
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+        }
+        
+        /* 手指關節細節 */
+        .robotic-arm.right .finger-joint {
+            position: absolute;
+            width: 12px;
+            height: 8px;
+            background: #4cc9f0;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(76, 201, 240, 0.8);
+        }
+        
+        .robotic-arm.right .joint-1 { top: 15px; right: 3px; }
+        .robotic-arm.right .joint-2 { top: 30px; right: 3px; }
+        .robotic-arm.right .joint-3 { top: 45px; right: 3px; }
+        
+        /* 新增螺栓/鉚釘裝飾 */
+        .robotic-arm .rivet-1 {
+            width: 10px;
+            height: 10px;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .robotic-arm .rivet-2 {
+            width: 10px;
+            height: 10px;
+            bottom: 10px;
+            left: 10px;
+        }
+        
+        .robotic-arm .rivet-3 {
+            width: 10px;
+            height: 10px;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .robotic-arm .rivet-4 {
+            width: 10px;
+            height: 10px;
+            bottom: 10px;
+            right: 10px;
+        }
+        
+        @keyframes jointRotate1 {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(8deg); }
+        }
+        
+        @keyframes jointRotate2 {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-12deg); }
+        }
+        
+        /* 增強光效 */
+        .robotic-arm::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at center, rgba(76, 201, 240, 0.3), transparent 70%);
+            z-index: -1;
+            filter: blur(25px);
+            top: -10%;
+            left: -10%;
+        }
+        
+        /* 新增科技感光點 */
+        .tech-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .tech-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #4cc9f0;
+            border-radius: 50%;
+            box-shadow: 0 0 5px 2px #4cc9f0;
+            animation: dotFloat 3s infinite ease-in-out;
+        }
+        
+        @keyframes dotFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-10px) scale(1.2);
+                opacity: 0.8;
+            }
+        }
+        
+        /* 其他原有樣式保持不變 */
+        #gameSelectionScreen {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        #gameSelectionScreen.custom-bg {
+            background: var(--custom-background, linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)) !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        #difficultyScreen {
+            background: linear-gradient(45deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        #gameScreen {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        #crosshair {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #4cc9f0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.8);
+            display: none;
+        }
+        
+        #crosshair::before, #crosshair::after {
+            content: '';
+            position: absolute;
+            background-color: #4cc9f0;
+        }
+        
+        #crosshair::before {
+            width: 2px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #crosshair::after {
+            width: 20px;
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 100;
+        }
+        
+        #birdsLeft {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 100;
+        }
+        
+        #timeLeft {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #4cc9f0;
+            z-index: 100;
+            display: none;
+        }
+        
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            width: 100%;
+            color: #a0a0a0;
+            font-size: 1rem;
+            z-index: 2;
+        }
+        
+        #gameOverMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 200;
+            display: none;
+            border: 2px solid #4cc9f0;
+            box-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+        }
+        
+        #gameOverMessage h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4cc9f0;
+        }
+        
+        #gameOverMessage p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        #continueButton {
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #continueButton:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+        }
+        
+        /* 历史记录按钮样式 */
+        #historyButton {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        #historyButton:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+        }
+        
+        /* 历史记录弹窗样式 */
+        #historyPopup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 378px; /* 10cm */
+            height: 567px; /* 15cm */
+            background: rgba(26, 26, 46, 0.95);
+            border: 2px solid #4cc9f0;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.7);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        #historyHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(30, 60, 114, 0.7);
+            border-bottom: 2px solid #4cc9f0;
+        }
+        
+        #historyTitle {
+            font-size: 1.5rem;
+            color: #4cc9f0;
+        }
+        
+        #closeHistory {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+        
+        #closeHistory:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        #historyContent {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .historyItem {
+            background: rgba(30, 60, 114, 0.5);
+            border: 1px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .historyScore {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4cc9f0;
+        }
+        
+        .historyDetails {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+        
+        .noHistory {
+            text-align: center;
+            color: #a0a0a0;
+            margin-top: 50%;
+            font-size: 1.2rem;
+        }
+        
+        /* 滚动条样式 */
+        #historyContent::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #historyContent::-webkit-scrollbar-track {
+            background: rgba(30, 60, 114, 0.3);
+            border-radius: 4px;
+        }
+        
+        #historyContent::-webkit-scrollbar-thumb {
+            background: #4cc9f0;
+            border-radius: 4px;
+        }
+        
+        #historyContent::-webkit-scrollbar-thumb:hover {
+            background: #3aa8d8;
+        }
+        
+        /* 游戏选择界面样式 */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .category-tab {
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 0 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            text-align: center;
+            flex: 1;
+            max-width: 150px;
+        }
+        
+        .category-tab:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+        }
+        
+        .category-tab.active {
+            background: rgba(76, 201, 240, 0.7);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+        }
+        
+        .content-display {
+            background: rgba(30, 60, 114, 0.3);
+            border: 2px solid #4cc9f0;
+            border-radius: 15px;
+            width: 90%;
+            height: 70%;
+            padding: 20px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
+            align-content: flex-start;
+        }
+        
+        .game-item {
+            background: rgba(30, 60, 114, 0.7);
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+        }
+        
+        .game-item:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+        }
+        
+        .game-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4cc9f0;
+        }
+        
+        .no-games {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 1.5rem;
+            margin-top: 50px;
+        }
+        
+        /* 语言切换样式 */
+        .language-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .language-label {
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+        
+        .language-selector {
+            position: relative;
+            width: 160px; /* 4cm */
+        }
+        
+        .language-display {
+            background: rgba(30, 60, 114, 0.7);
+            border: 2px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 40px; /* 0.2cm */
+        }
+        
+        .language-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border: 2px solid #4cc9f0;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+        }
+        
+        .language-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .language-option:hover {
+            background: rgba(76, 201, 240, 0.3);
+        }
+        
+        .language-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .language-selector.open .language-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .language-selector.open .language-options {
+            display: block;
+        }
+        
+        /* 背景更換樣式 - 修改為正方形按鈕 */
+        .background-change-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .background-change-label {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            color: white;
+            min-width: 120px;
+        }
+        
+        /* 修改背景按鈕為正方形 */
+        .background-change-button {
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 120px; /* 正方形寬度 */
+            height: 120px; /* 正方形高度 */
+            text-align: center;
+            margin-right: 15px;
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+        }
+        
+        .background-change-button:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+        }
+        
+        /* 按鈕內文字樣式 - 上下兩行 */
+        .button-text-top {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4cc9f0;
+        }
+        
+        .button-text-bottom {
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+        
+        /* 隱藏的檔案輸入 */
+        #backgroundImageInput {
+            display: none;
+        }
+        
+        /* 檔案總管模擬樣式 */
+        #fileExplorerModal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            height: 70%;
+            max-height: 600px;
+            background: rgba(26, 26, 46, 0.95);
+            border: 2px solid #4cc9f0;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.7);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        #fileExplorerHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(30, 60, 114, 0.7);
+            border-bottom: 2px solid #4cc9f0;
+        }
+        
+        #fileExplorerTitle {
+            font-size: 1.5rem;
+            color: #4cc9f0;
+        }
+        
+        #closeFileExplorer {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+        
+        #closeFileExplorer:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        #fileExplorerContent {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-gap: 15px;
+        }
+        
+        .file-item {
+            background: rgba(30, 60, 114, 0.5);
+            border: 1px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+        }
+        
+        .file-item:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+        
+        .file-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4cc9f0;
+        }
+        
+        .file-name {
+            font-size: 0.9rem;
+            color: white;
+            word-break: break-all;
+        }
+        
+        .file-path {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+        
+        #fileUploadSection {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(30, 60, 114, 0.3);
+            border: 1px solid #4cc9f0;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        #fileUploadButton {
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        #fileUploadButton:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+        }
+        
+        #selectedFileInfo {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+        
+        /* 重置背景按鈕 - 修改為正方形 */
+        #resetBackgroundButton {
+            background: rgba(114, 30, 30, 0.7);
+            color: white;
+            border: 2px solid #f04c4c;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 120px; /* 正方形寬度 */
+            height: 120px; /* 正方形高度 */
+            text-align: center;
+            box-shadow: 0 0 10px rgba(240, 76, 76, 0.3);
+        }
+        
+        #resetBackgroundButton:hover {
+            background: rgba(150, 40, 40, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(240, 76, 76, 0.5);
+        }
+        
+        /* 修改檔案總管內的套用背景按鈕 */
+        #applyBackgroundButton {
+            background: rgba(30, 60, 114, 0.7);
+            color: white;
+            border: 2px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        #applyBackgroundButton:hover {
+            background: rgba(40, 80, 150, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+        
+        /* ========== 生存射擊遊戲樣式 ========== */
+        .survival-game-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            overflow: hidden;
+            user-select: none;
+        }
+        
+        .survival-game-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .survival-game-canvas {
+            display: block;
+            background-color: #2a2a2a;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .survival-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 10;
+        }
+        
+        .survival-title {
+            color: #fff;
+            font-size: 48px;
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        
+        .survival-grid-container {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .survival-grid-item {
+            width: 200px;
+            height: 80px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .survival-grid-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #4CAF50;
+        }
+        
+        .survival-grid-item.exit {
+            background: linear-gradient(135deg, #f44336, #c62828);
+        }
+        
+        .survival-grid-item.exit:hover {
+            box-shadow: 0 0 20px #f44336;
+        }
+        
+        .survival-grid-item.resume {
+            background: linear-gradient(135deg, #2196F3, #0D47A1);
+        }
+        
+        .survival-grid-item.resume:hover {
+            box-shadow: 0 0 20px #2196F3;
+        }
+        
+        .survival-hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 20px;
+            z-index: 5;
+        }
+        
+        #survivalHealthBar {
+            width: 200px;
+            height: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        #survivalHealthFill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #f44336, #4CAF50);
+            transition: width 0.3s;
+        }
+        
+        #survivalAmmo {
+            margin-top: 10px;
+        }
+        
+        #survivalGameOver {
+            display: none;
+            text-align: center;
+        }
+        
+        #survivalScore {
+            font-size: 36px;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+        
+        #survivalPauseScreen {
+            display: none;
+        }
+        
+        .survival-pause-title {
+            color: #fff;
+            font-size: 60px;
+            margin-bottom: 50px;
+            text-shadow: 0 0 15px #2196F3;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        #survivalReloadIndicator {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            color: #FF9800;
+            font-size: 16px;
+            display: none;
+        }
+        
+        #survivalPauseHint {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
+    <div id="gameContainer">
+        <div id="crosshair"></div>
+        
+        <div id="mainScreen" class="screen">
+            <!-- 科技感光點 -->
+            <div class="tech-dots" id="techDots"></div>
+            
+            <!-- 左側機器手 -->
+            <div class="robotic-arm left">
+                <div class="arm-base">
+                    <div class="arm-rivet rivet-1"></div>
+                    <div class="arm-rivet rivet-2"></div>
+                    <div class="arm-rivet rivet-3"></div>
+                    <div class="arm-rivet rivet-4"></div>
+                </div>
+                <div class="arm-joint arm-joint-1"></div>
+                <div class="arm-segment arm-segment-1"></div>
+                <div class="arm-plate plate-1"></div>
+                <div class="arm-joint arm-joint-2"></div>
+                <div class="arm-segment arm-segment-2"></div>
+                <div class="arm-plate plate-2"></div>
+                <div class="arm-hand">
+                    <div class="hand-finger finger-thumb"></div>
+                    <div class="hand-finger finger-1">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-2">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-3">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-little"></div>
+                </div>
+            </div>
+            
+            <!-- 右側機器手 -->
+            <div class="robotic-arm right">
+                <div class="arm-base">
+                    <div class="arm-rivet rivet-1"></div>
+                    <div class="arm-rivet rivet-2"></div>
+                    <div class="arm-rivet rivet-3"></div>
+                    <div class="arm-rivet rivet-4"></div>
+                </div>
+                <div class="arm-joint arm-joint-1"></div>
+                <div class="arm-segment arm-segment-1"></div>
+                <div class="arm-plate plate-1"></div>
+                <div class="arm-joint arm-joint-2"></div>
+                <div class="arm-segment arm-segment-2"></div>
+                <div class="arm-plate plate-2"></div>
+                <div class="arm-hand">
+                    <div class="hand-finger finger-thumb"></div>
+                    <div class="hand-finger finger-1">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-2">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-3">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-little"></div>
+                </div>
+            </div>
+            
+            <!-- 標題容器 -->
+            <div class="title-container">
+                <h1 class="title">永恆領域遊戲</h1>
+            </div>
+            
+            <div id="startButton" class="button">開始遊戲</div>
+            <p class="instructions">按空格鍵或點擊開始按鈕開始遊戲</p>
+        </div>
+        
+        <div id="gameSelectionScreen" class="screen hidden">
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="all">所有遊戲</div>
+                <div class="category-tab" data-category="shooting">射擊遊戲</div>
+                <div class="category-tab" data-category="driving">開車遊戲</div>
+                <div class="category-tab" data-category="card">紙牌遊戲</div>
+                <div class="category-tab" data-category="action">動作遊戲</div>
+                <div class="category-tab" data-category="settings">設定</div>
+                <div class="category-tab" id="backToMainTab">返回</div>
+            </div>
+            
+            <div class="content-display" id="contentDisplay">
+                <!-- 游戏内容将动态加载 -->
+            </div>
+        </div>
+        
+        <div id="difficultyScreen" class="screen hidden">
+            <h1 class="title">選擇難度</h1>
+            <div id="easyButton" class="button">簡單</div>
+            <div id="normalButton" class="button">一般</div>
+            <div id="hardButton" class="button">困難</div>
+            <div id="randomButton" class="button">隨機難度</div>
+            <div id="exitButton" class="button">退出</div>
+            <div id="resumeButton" class="button" style="display: none;">繼續</div>
+            <div id="historyButton">歷史記錄</div>
+            <p class="instructions">按ESC鍵暫停遊戲</p>
+        </div>
+        
+        <div id="gameScreen" class="screen hidden">
+            <canvas id="gameCanvas"></canvas>
+            <div id="score">分數: 0</div>
+            <div id="birdsLeft">剩餘飛鳥: 0</div>
+            <div id="timeLeft">剩餘時間: 40秒</div>
+            <div id="gameOverMessage">
+                <h2>遊戲結束</h2>
+                <p>你的分數: <span id="finalScore">0</span></p>
+                <div id="continueButton">繼續</div>
+            </div>
+        </div>
+        
+        <!-- 历史记录弹窗 -->
+        <div id="historyPopup">
+            <div id="historyHeader">
+                <div id="historyTitle">歷史記錄</div>
+                <div id="closeHistory">✕</div>
+            </div>
+            <div id="historyContent">
+                <div class="noHistory">暫無遊戲記錄</div>
+            </div>
+        </div>
+        
+        <!-- 檔案總管模擬視窗 -->
+        <div id="fileExplorerModal">
+            <div id="fileExplorerHeader">
+                <div id="fileExplorerTitle">選擇背景圖片</div>
+                <div id="closeFileExplorer">✕</div>
+            </div>
+            <div id="fileExplorerContent">
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">圖片</div>
+                    <div class="file-path">C:\Users\YourName\Pictures</div>
+                </div>
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">下載</div>
+                    <div class="file-path">C:\Users\YourName\Downloads</div>
+                </div>
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">桌面</div>
+                    <div class="file-path">C:\Users\YourName\Desktop</div>
+                </div>
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">文件</div>
+                    <div class="file-path">C:\Users\YourName\Documents</div>
+                </div>
+            </div>
+            <div id="fileUploadSection">
+                <p>或直接上傳圖片檔案：</p>
+                <input type="file" id="backgroundImageInput" accept="image/*" style="display: none;">
+                <div id="fileUploadButton">選擇檔案</div>
+                <div id="selectedFileInfo">未選擇檔案</div>
+                <div id="applyBackgroundButton" style="margin-top: 15px; width: 200px; display: none;">套用背景</div>
+            </div>
+        </div>
+        
+        <!-- ========== 生存射擊遊戲畫面 ========== -->
+        <div id="survivalGameScreen" class="survival-game-screen hidden">
+            <div class="survival-game-container">
+                <!-- 主畫面 -->
+                <div id="survivalMainScreen" class="survival-screen">
+                    <h1 class="survival-title">生存射擊遊戲</h1>
+                    <div class="survival-grid-container">
+                        <div id="survivalStartBtn" class="survival-grid-item">開始遊戲</div>
+                    </div>
+                </div>
+                
+                <!-- 選擇畫面 -->
+                <div id="survivalModeScreen" class="survival-screen hidden">
+                    <h1 class="survival-title">選擇模式</h1>
+                    <div class="survival-grid-container">
+                        <div id="survivalGameStartBtn" class="survival-grid-item">開始遊戲</div>
+                        <div id="survivalExitBtn" class="survival-grid-item exit">退出</div>
+                    </div>
+                </div>
+                
+                <!-- 遊戲畫面 -->
+                <canvas id="survivalGameCanvas" class="survival-game-canvas"></canvas>
+                
+                <!-- HUD -->
+                <div id="survivalHud" class="survival-hud">
+                    <div id="survivalHealthBar">
+                        <div id="survivalHealthFill"></div>
+                    </div>
+                    <div>分數: <span id="survivalScoreDisplay">0</span></div>
+                    <div id="survivalAmmo">子彈: <span id="survivalAmmoCount">30</span>/30</div>
+                </div>
+                
+                <!-- 裝填指示器 -->
+                <div id="survivalReloadIndicator">裝填中...</div>
+                
+                <!-- 暫停畫面 -->
+                <div id="survivalPauseScreen" class="survival-screen">
+                    <h1 class="survival-pause-title">遊戲暫停</h1>
+                    <div class="survival-grid-container">
+                        <div id="survivalResumeBtn" class="survival-grid-item resume">繼續遊戲</div>
+                        <div id="survivalPauseExitBtn" class="survival-grid-item exit">退出遊戲</div>
+                    </div>
+                    <div id="survivalPauseHint">按 ESC 繼續遊戲</div>
+                </div>
+                
+                <!-- 遊戲結束畫面 -->
+                <div id="survivalGameOver" class="survival-screen">
+                    <h1 class="survival-title">遊戲結束</h1>
+                    <div id="survivalScore">分數: 0</div>
+                    <div class="survival-grid-container">
+                        <div id="survivalRestartBtn" class="survival-grid-item">重新開始</div>
+                        <!-- 將「主選單」改為「返回」 -->
+                        <div id="survivalMainMenuBtn" class="survival-grid-item exit">返回</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 遊戲狀態管理
+        const GameState = {
+            MAIN_MENU: 0,
+            GAME_SELECTION: 1,
+            DIFFICULTY_SELECT: 2,
+            PLAYING: 3,
+            PAUSED: 4,
+            GAME_OVER: 5,
+            SURVIVAL_GAME: 6,
+            SURVIVAL_MODE_SELECT: 7
+        };
+
+        // 難度設定 - 修改隨機模式的設定
+        const Difficulty = {
+            EASY: {
+                birds: 15,
+                speed: 2,
+                spawnMin: 1000,
+                spawnMax: 2500,
+                name: "簡單",
+                hasBombs: false, // 簡單模式沒有炸彈
+                bombSpawnMin: 0,
+                bombSpawnMax: 0
+            },
+            NORMAL: {
+                birds: 20,
+                speed: 2.3,
+                spawnMin: 800,
+                spawnMax: 2200,
+                name: "一般",
+                hasBombs: true, // 一般模式有炸彈
+                bombSpawnMin: 4000, // 4秒
+                bombSpawnMax: 8000, // 8秒
+                bombSize: 60, // 一般模式炸彈大小固定為60
+                bombPenalty: 10 // 扣10分
+            },
+            HARD: {
+                birds: 30,
+                speed: 2.8,
+                spawnMin: 600,
+                spawnMax: 1800,
+                name: "困難",
+                hasBombs: true, // 困難模式有炸彈
+                bombSpawnMin: 1500, // 1.5秒
+                bombSpawnMax: 3500, // 3.5秒
+                bombSize: 60, // 困難模式炸彈大小固定為60
+                bombPenalty: 10 // 扣10分
+            },
+            RANDOM: {
+                birds: Infinity, // 無限生成飛鳥
+                timeLimit: 40000, // 40秒遊戲時間
+                speed: 2.5,
+                spawnMin: 1000,   // 1秒
+                spawnMax: 4500,   // 4.5秒
+                name: "隨機",
+                hasBombs: true, // 隨機模式有炸彈
+                bombSpawnMin: 500, // 0.5秒
+                bombSpawnMax: 5000, // 5秒，不規律
+                bombSizes: [20, 30, 40], // 自定義炸彈大小：直徑1、1.5、2倍（基數20）
+                bombPenalties: [5, 10, 20], // 對應的扣分
+                bombSize: "custom" // 表示使用自定義大小
+            }
+        };
+
+        // 遊戲變數
+        let currentState = GameState.MAIN_MENU;
+        let currentDifficulty = Difficulty.EASY;
+        let score = 0;
+        let birds = [];
+        let bombs = []; // 新增炸彈陣列
+        let birdsSpawned = 0;
+        let birdsKilled = 0;
+        let birdsEscaped = 0; // 記錄逃脫的飛鳥數量
+        let lastSpawnTime = 0;
+        let lastBombSpawnTime = 0; // 記錄上次生成炸彈的時間
+        let bombSpawnInterval = 0; // 炸彈生成間隔
+        let gameCanvas, ctx;
+        let crosshair;
+        let gameHistory = [];
+        let currentLanguage = 'zh-TW';
+        let currentGameId = 'birdShooting';
+        let selectedBackgroundFile = null;
+        
+        // 新增計時相關變數
+        let gameStartTime = 0;
+        let gameTimer = null;
+        let isRandomMode = false;
+
+        // 游戏数据 - 新增survive游戏
+        const games = {
+            'all': [
+                { id: 'birdShooting', name: '飛鳥射擊遊戲', category: 'shooting' },
+                { id: 'survive', name: '生存射擊遊戲', category: 'shooting' }
+            ],
+            'shooting': [
+                { id: 'birdShooting', name: '飛鳥射擊遊戲', category: 'shooting' },
+                { id: 'survive', name: '生存射擊遊戲', category: 'shooting' }
+            ],
+            'driving': [],
+            'card': [],
+            'action': []
+        };
+
+        // 语言数据
+        const languageData = {
+            'zh-TW': {
+                title: '永恆領域遊戲',
+                startButton: '開始遊戲',
+                instructions: '按空格鍵或點擊開始按鈕開始遊戲',
+                // 游戏选择界面
+                allGames: '所有遊戲',
+                shootingGames: '射擊遊戲',
+                drivingGames: '開車遊戲',
+                cardGames: '紙牌遊戲',
+                actionGames: '動作遊戲',
+                settings: '設定',
+                backToMain: '返回',
+                noGames: '暫無遊戲',
+                // 难度选择界面
+                selectDifficulty: '選擇難度',
+                easy: '簡單',
+                normal: '一般',
+                hard: '困難',
+                random: '隨機難度',
+                exit: '退出',
+                resume: '繼續',
+                history: '歷史記錄',
+                pauseInstructions: '按ESC鍵暫停遊戲',
+                // 游戏界面
+                score: '分數',
+                birdsLeft: '剩餘飛鳥',
+                timeLeft: '剩餘時間',
+                gameOver: '遊戲結束',
+                yourScore: '你的分數',
+                continue: '繼續',
+                // 历史记录
+                historyTitle: '歷史記錄',
+                noHistory: '暫無遊戲記錄',
+                // 设置
+                languageSwitch: '語言切換',
+                backgroundChange: '背景更換',
+                changeImageTop: '更改',
+                changeImageBottom: '圖片',
+                resetBackgroundTop: '重置',
+                resetBackgroundBottom: '背景',
+                // 语言选项
+                chineseTraditional: '中文繁體',
+                chineseSimplified: '中文簡體',
+                english: '英文',
+                french: '法文',
+                russian: '俄羅斯文',
+                danish: '丹文',
+                japanese: '日文',
+                dinka: '丁卡文',
+                // 檔案總管
+                fileExplorerTitle: '選擇背景圖片',
+                selectFile: '選擇檔案',
+                noFileSelected: '未選擇檔案',
+                applyBackground: '套用背景'
+            },
+            'zh-CN': {
+                title: '永恒领域游戏',
+                startButton: '开始游戏',
+                instructions: '按空格键或点击开始按钮开始游戏',
+                // 游戏选择界面
+                allGames: '所有游戏',
+                shootingGames: '射击游戏',
+                drivingGames: '开车游戏',
+                cardGames: '纸牌游戏',
+                actionGames: '动作游戏',
+                settings: '设定',
+                backToMain: '返回',
+                noGames: '暂无游戏',
+                // 难度选择界面
+                selectDifficulty: '选择难度',
+                easy: '简单',
+                normal: '一般',
+                hard: '困难',
+                random: '随机难度',
+                exit: '退出',
+                resume: '继续',
+                history: '历史记录',
+                pauseInstructions: '按ESC键暂停游戏',
+                // 游戏界面
+                score: '分数',
+                birdsLeft: '剩余飞鸟',
+                timeLeft: '剩余时间',
+                gameOver: '游戏结束',
+                yourScore: '你的分数',
+                continue: '继续',
+                // 历史记录
+                historyTitle: '历史记录',
+                noHistory: '暂无游戏记录',
+                // 设置
+                languageSwitch: '语言切换',
+                backgroundChange: '背景更换',
+                changeImageTop: '更改',
+                changeImageBottom: '图片',
+                resetBackgroundTop: '重置',
+                resetBackgroundBottom: '背景',
+                // 语言选项
+                chineseTraditional: '中文繁体',
+                chineseSimplified: '中文简体',
+                english: '英文',
+                french: '法文',
+                russian: '俄罗斯文',
+                danish: '丹文',
+                japanese: '日文',
+                dinka: '丁卡文',
+                // 檔案總管
+                fileExplorerTitle: '选择背景图片',
+                selectFile: '选择档案',
+                noFileSelected: '未选择档案',
+                applyBackground: '套用背景'
+            },
+            'en': {
+                title: 'Eternal Realm Game',
+                startButton: 'Start Game',
+                instructions: 'Press space or click start button to begin',
+                // 游戏选择界面
+                allGames: 'All Games',
+                shootingGames: 'Shooting Games',
+                drivingGames: 'Driving Games',
+                cardGames: 'Card Games',
+                actionGames: 'Action Games',
+                settings: 'Settings',
+                backToMain: 'Back',
+                noGames: 'No Games Available',
+                // 难度选择界面
+                selectDifficulty: 'Select Difficulty',
+                easy: 'Easy',
+                normal: 'Normal',
+                hard: 'Hard',
+                random: 'Random',
+                exit: 'Exit',
+                resume: 'Resume',
+                history: 'History',
+                pauseInstructions: 'Press ESC to pause game',
+                // 游戏界面
+                score: 'Score',
+                birdsLeft: 'Birds Left',
+                timeLeft: 'Time Left',
+                gameOver: 'Game Over',
+                yourScore: 'Your Score',
+                continue: 'Continue',
+                // 历史记录
+                historyTitle: 'History',
+                noHistory: 'No Game Records',
+                // 设置
+                languageSwitch: 'Language Switch',
+                backgroundChange: 'Background Change',
+                changeImageTop: 'Change',
+                changeImageBottom: 'Image',
+                resetBackgroundTop: 'Reset',
+                resetBackgroundBottom: 'Background',
+                // 语言选项
+                chineseTraditional: 'Chinese Traditional',
+                chineseSimplified: 'Chinese Simplified',
+                english: 'English',
+                french: 'French',
+                russian: 'Russian',
+                danish: 'Danish',
+                japanese: 'Japanese',
+                dinka: 'Dinka',
+                // 檔案總管
+                fileExplorerTitle: 'Select Background Image',
+                selectFile: 'Select File',
+                noFileSelected: 'No file selected',
+                applyBackground: 'Apply Background'
+            }
+        };
+
+        // ========== 生存射擊遊戲變數 ==========
+        const survivalGameState = {
+            currentScreen: 'main',
+            isPaused: false,
+            player: {
+                x: 400,
+                y: 300,
+                size: 20,
+                health: 100,
+                maxHealth: 100,
+                speed: 5,
+                angle: 0
+            },
+            bullets: [],
+            enemies: [],
+            score: 0,
+            lastShot: 0,
+            shotDelay: 200,
+            ammo: 30,
+            maxAmmo: 30,
+            reloading: false,
+            keys: {},
+            mouse: { x: 0, y: 0 },
+            lastEnemySpawn: 0,
+            enemySpawnDelay: 1000,
+            gameLoopId: null
+        };
+
+        // 生存射擊遊戲元素
+        let survivalCanvas, survivalCtx;
+
+        // 初始化遊戲
+        function init() {
+            gameCanvas = document.getElementById('gameCanvas');
+            ctx = gameCanvas.getContext('2d');
+            crosshair = document.getElementById('crosshair');
+            
+            // 初始化生存射擊遊戲
+            initSurvivalGame();
+            
+            // 從localStorage加載歷史記錄
+            loadHistory();
+            
+            // 從localStorage加載背景圖片
+            loadBackgroundImage();
+            
+            // 設置畫布大小
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // 設置事件監聽器
+            setupEventListeners();
+            
+            // 創建科技感光點
+            createTechDots();
+            
+            // 開始遊戲循環
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 初始化生存射擊遊戲
+        function initSurvivalGame() {
+            survivalCanvas = document.getElementById('survivalGameCanvas');
+            survivalCtx = survivalCanvas.getContext('2d');
+            
+            // 設置畫布大小
+            resizeSurvivalCanvas();
+            window.addEventListener('resize', resizeSurvivalCanvas);
+            
+            // 設置事件監聽器
+            setupSurvivalEventListeners();
+        }
+
+        // 調整生存射擊遊戲畫布大小
+        function resizeSurvivalCanvas() {
+            survivalCanvas.width = window.innerWidth;
+            survivalCanvas.height = window.innerHeight;
+            if (survivalGameState.currentScreen === 'game' && survivalGameState.player) {
+                survivalGameState.player.x = Math.min(survivalGameState.player.x, survivalCanvas.width - survivalGameState.player.size);
+                survivalGameState.player.y = Math.min(survivalGameState.player.y, survivalCanvas.height - survivalGameState.player.size);
+            }
+        }
+
+        // 設置生存射擊遊戲事件監聽器
+        function setupSurvivalEventListeners() {
+            // 屏幕切換
+            document.getElementById('survivalStartBtn').addEventListener('click', () => {
+                document.getElementById('survivalMainScreen').classList.add('hidden');
+                document.getElementById('survivalModeScreen').classList.remove('hidden');
+                survivalGameState.currentScreen = 'mode';
+            });
+
+            document.getElementById('survivalExitBtn').addEventListener('click', () => {
+                // 返回主遊戲選擇界面
+                hideSurvivalGame();
+                showGameSelectionScreen();
+            });
+
+            document.getElementById('survivalGameStartBtn').addEventListener('click', startSurvivalGame);
+            document.getElementById('survivalRestartBtn').addEventListener('click', startSurvivalGame);
+            // 修改：將「主選單」按鈕改為「返回」並返回選擇模式畫面
+            document.getElementById('survivalMainMenuBtn').addEventListener('click', () => {
+                // 返回選擇模式畫面
+                document.getElementById('survivalGameOver').style.display = 'none';
+                document.getElementById('survivalModeScreen').classList.remove('hidden');
+                survivalGameState.currentScreen = 'mode';
+                
+                // 停止遊戲循環
+                if (survivalGameState.gameLoopId) {
+                    cancelAnimationFrame(survivalGameState.gameLoopId);
+                    survivalGameState.gameLoopId = null;
+                }
+            });
+
+            // 暫停畫面控制
+            document.getElementById('survivalResumeBtn').addEventListener('click', toggleSurvivalPause);
+            // 修改：暫停畫面的「退出遊戲」按鈕也返回選擇模式畫面
+            document.getElementById('survivalPauseExitBtn').addEventListener('click', () => {
+                // 取消暫停狀態
+                survivalGameState.isPaused = false;
+                // 隱藏暫停畫面
+                document.getElementById('survivalPauseScreen').style.display = 'none';
+                // 返回選擇模式畫面
+                document.getElementById('survivalModeScreen').classList.remove('hidden');
+                survivalGameState.currentScreen = 'mode';
+                
+                // 停止遊戲循環
+                if (survivalGameState.gameLoopId) {
+                    cancelAnimationFrame(survivalGameState.gameLoopId);
+                    survivalGameState.gameLoopId = null;
+                }
+            });
+
+            // ESC鍵監聽
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && survivalGameState.currentScreen === 'game') {
+                    toggleSurvivalPause();
+                }
+            });
+
+            // 輸入處理
+            survivalCanvas.addEventListener('mousemove', (e) => {
+                const rect = survivalCanvas.getBoundingClientRect();
+                survivalGameState.mouse.x = e.clientX - rect.left;
+                survivalGameState.mouse.y = e.clientY - rect.top;
+            });
+
+            survivalCanvas.addEventListener('mousedown', (e) => {
+                if (survivalGameState.currentScreen === 'game' && !survivalGameState.reloading && !survivalGameState.isPaused) {
+                    shootSurvival();
+                }
+            });
+
+            // 鍵盤控制
+            document.addEventListener('keydown', (e) => {
+                if (currentState === GameState.SURVIVAL_GAME) {
+                    survivalGameState.keys[e.key.toLowerCase()] = true;
+                    
+                    if (e.key === 'r' && survivalGameState.currentScreen === 'game' && !survivalGameState.isPaused) {
+                        reloadSurvival();
+                    }
+                    
+                    if (e.key === ' ' && survivalGameState.currentScreen === 'game' && !survivalGameState.isPaused) {
+                        shootSurvival();
+                    }
+                }
+            });
+
+            document.addEventListener('keyup', (e) => {
+                if (currentState === GameState.SURVIVAL_GAME) {
+                    survivalGameState.keys[e.key.toLowerCase()] = false;
+                }
+            });
+        }
+
+        // 顯示生存射擊遊戲
+        function showSurvivalGame() {
+            // 隱藏所有其他畫面
+            document.getElementById('mainScreen').classList.add('hidden');
+            document.getElementById('gameSelectionScreen').classList.add('hidden');
+            document.getElementById('difficultyScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('historyPopup').style.display = 'none';
+            document.getElementById('fileExplorerModal').style.display = 'none';
+            
+            // 顯示生存射擊遊戲
+            document.getElementById('survivalGameScreen').classList.remove('hidden');
+            document.getElementById('survivalMainScreen').classList.remove('hidden');
+            document.getElementById('survivalModeScreen').classList.add('hidden');
+            document.getElementById('survivalGameOver').style.display = 'none';
+            document.getElementById('survivalPauseScreen').style.display = 'none';
+            
+            currentState = GameState.SURVIVAL_GAME;
+            survivalGameState.currentScreen = 'main';
+            
+            // 重置遊戲狀態
+            survivalGameState.player = {
+                x: survivalCanvas.width / 2,
+                y: survivalCanvas.height / 2,
+                size: 20,
+                health: 100,
+                maxHealth: 100,
+                speed: 5,
+                angle: 0
+            };
+            survivalGameState.bullets = [];
+            survivalGameState.enemies = [];
+            survivalGameState.score = 0;
+            survivalGameState.ammo = 30;
+            survivalGameState.reloading = false;
+            survivalGameState.lastEnemySpawn = Date.now();
+            
+            updateSurvivalHUD();
+        }
+
+        // 隱藏生存射擊遊戲
+        function hideSurvivalGame() {
+            document.getElementById('survivalGameScreen').classList.add('hidden');
+            // 停止遊戲循環
+            if (survivalGameState.gameLoopId) {
+                cancelAnimationFrame(survivalGameState.gameLoopId);
+                survivalGameState.gameLoopId = null;
+            }
+        }
+
+        // 開始生存射擊遊戲
+        function startSurvivalGame() {
+            document.getElementById('survivalModeScreen').classList.add('hidden');
+            document.getElementById('survivalGameOver').style.display = 'none';
+            document.getElementById('survivalPauseScreen').style.display = 'none';
+            survivalGameState.currentScreen = 'game';
+            survivalGameState.isPaused = false;
+            
+            // 重置遊戲狀態
+            survivalGameState.player = {
+                x: survivalCanvas.width / 2,
+                y: survivalCanvas.height / 2,
+                size: 20,
+                health: 100,
+                maxHealth: 100,
+                speed: 5,
+                angle: 0
+            };
+            survivalGameState.bullets = [];
+            survivalGameState.enemies = [];
+            survivalGameState.score = 0;
+            survivalGameState.ammo = 30;
+            survivalGameState.reloading = false;
+            survivalGameState.lastEnemySpawn = Date.now();
+            
+            updateSurvivalHUD();
+            
+            // 開始遊戲循環
+            survivalGameLoop();
+        }
+
+        // 更新生存射擊遊戲HUD
+        function updateSurvivalHUD() {
+            document.getElementById('survivalScoreDisplay').textContent = survivalGameState.score;
+            document.getElementById('survivalAmmoCount').textContent = survivalGameState.ammo;
+            const healthPercent = (survivalGameState.player.health / survivalGameState.player.maxHealth) * 100;
+            document.getElementById('survivalHealthFill').style.width = healthPercent + '%';
+            
+            // 更新裝填指示器
+            if (survivalGameState.reloading) {
+                document.getElementById('survivalReloadIndicator').style.display = 'block';
+            } else {
+                document.getElementById('survivalReloadIndicator').style.display = 'none';
+            }
+        }
+
+        // 敵人生成
+        function spawnSurvivalEnemy() {
+            if (survivalGameState.currentScreen !== 'game' || survivalGameState.isPaused) return;
+            
+            const now = Date.now();
+            if (now - survivalGameState.lastEnemySpawn < survivalGameState.enemySpawnDelay) return;
+            
+            survivalGameState.lastEnemySpawn = now;
+            
+            // 隨機選擇生成位置（從四個邊緣之一）
+            const side = Math.floor(Math.random() * 4);
+            let x, y;
+            
+            switch(side) {
+                case 0: // 上邊
+                    x = Math.random() * survivalCanvas.width;
+                    y = -50;
+                    break;
+                case 1: // 右邊
+                    x = survivalCanvas.width + 50;
+                    y = Math.random() * survivalCanvas.height;
+                    break;
+                case 2: // 下邊
+                    x = Math.random() * survivalCanvas.width;
+                    y = survivalCanvas.height + 50;
+                    break;
+                case 3: // 左邊
+                    x = -50;
+                    y = Math.random() * survivalCanvas.height;
+                    break;
+            }
+            
+            const enemy = {
+                x: x,
+                y: y,
+                size: 15 + Math.random() * 10,
+                speed: 1 + Math.random() * 2 + (survivalGameState.score * 0.01),
+                health: 20,
+                color: `hsl(${Math.random() * 60}, 100%, 50%)`
+            };
+            
+            survivalGameState.enemies.push(enemy);
+            
+            // 根據分數調整生成速度
+            survivalGameState.enemySpawnDelay = Math.max(300, 1000 - survivalGameState.score * 5);
+        }
+
+        // 射擊
+        function shootSurvival() {
+            if (survivalGameState.isPaused) return;
+            
+            const now = Date.now();
+            if (now - survivalGameState.lastShot < survivalGameState.shotDelay) return;
+            if (survivalGameState.ammo <= 0) {
+                reloadSurvival();
+                return;
+            }
+            
+            survivalGameState.lastShot = now;
+            survivalGameState.ammo--;
+            
+            // 計算射擊角度
+            const angle = Math.atan2(
+                survivalGameState.mouse.y - survivalGameState.player.y,
+                survivalGameState.mouse.x - survivalGameState.player.x
+            );
+            
+            // 創建子彈
+            survivalGameState.bullets.push({
+                x: survivalGameState.player.x,
+                y: survivalGameState.player.y,
+                dx: Math.cos(angle) * 10,
+                dy: Math.sin(angle) * 10,
+                size: 5,
+                life: 100
+            });
+            
+            updateSurvivalHUD();
+        }
+
+        // 裝填彈藥
+        function reloadSurvival() {
+            if (survivalGameState.isPaused) return;
+            if (survivalGameState.reloading || survivalGameState.ammo === survivalGameState.maxAmmo) return;
+            
+            survivalGameState.reloading = true;
+            updateSurvivalHUD();
+            
+            setTimeout(() => {
+                if (!survivalGameState.isPaused) {
+                    survivalGameState.ammo = survivalGameState.maxAmmo;
+                    survivalGameState.reloading = false;
+                    updateSurvivalHUD();
+                }
+            }, 1000);
+        }
+
+        // 暫停/繼續遊戲
+        function toggleSurvivalPause() {
+            if (survivalGameState.currentScreen !== 'game') return;
+            
+            survivalGameState.isPaused = !survivalGameState.isPaused;
+            
+            if (survivalGameState.isPaused) {
+                document.getElementById('survivalPauseScreen').style.display = 'flex';
+                cancelAnimationFrame(survivalGameState.gameLoopId);
+            } else {
+                document.getElementById('survivalPauseScreen').style.display = 'none';
+                survivalGameLoop();
+            }
+        }
+
+        // 生存射擊遊戲循環
+        function survivalGameLoop() {
+            if (survivalGameState.currentScreen !== 'game' || survivalGameState.isPaused) return;
+            
+            updateSurvival();
+            drawSurvival();
+            
+            survivalGameState.gameLoopId = requestAnimationFrame(survivalGameLoop);
+        }
+
+        // 更新生存射擊遊戲邏輯
+        function updateSurvival() {
+            if (survivalGameState.isPaused) return;
+            
+            // 玩家移動
+            if (survivalGameState.keys['w'] || survivalGameState.keys['arrowup']) {
+                survivalGameState.player.y -= survivalGameState.player.speed;
+            }
+            if (survivalGameState.keys['s'] || survivalGameState.keys['arrowdown']) {
+                survivalGameState.player.y += survivalGameState.player.speed;
+            }
+            if (survivalGameState.keys['a'] || survivalGameState.keys['arrowleft']) {
+                survivalGameState.player.x -= survivalGameState.player.speed;
+            }
+            if (survivalGameState.keys['d'] || survivalGameState.keys['arrowright']) {
+                survivalGameState.player.x += survivalGameState.player.speed;
+            }
+            
+            // 邊界檢查
+            survivalGameState.player.x = Math.max(survivalGameState.player.size, 
+                Math.min(survivalCanvas.width - survivalGameState.player.size, survivalGameState.player.x));
+            survivalGameState.player.y = Math.max(survivalGameState.player.size, 
+                Math.min(survivalCanvas.height - survivalGameState.player.size, survivalGameState.player.y));
+            
+            // 更新玩家角度
+            survivalGameState.player.angle = Math.atan2(
+                survivalGameState.mouse.y - survivalGameState.player.y,
+                survivalGameState.mouse.x - survivalGameState.player.x
+            );
+            
+            // 生成敵人
+            spawnSurvivalEnemy();
+            
+            // 更新子彈
+            for (let i = survivalGameState.bullets.length - 1; i >= 0; i--) {
+                const bullet = survivalGameState.bullets[i];
+                bullet.x += bullet.dx;
+                bullet.y += bullet.dy;
+                bullet.life--;
+                
+                // 邊界檢查
+                if (bullet.x < 0 || bullet.x > survivalCanvas.width || 
+                    bullet.y < 0 || bullet.y > survivalCanvas.height ||
+                    bullet.life <= 0) {
+                    survivalGameState.bullets.splice(i, 1);
+                    continue;
+                }
+                
+                // 檢查是否擊中敵人
+                for (let j = survivalGameState.enemies.length - 1; j >= 0; j--) {
+                    const enemy = survivalGameState.enemies[j];
+                    const dx = bullet.x - enemy.x;
+                    const dy = bullet.y - enemy.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < enemy.size) {
+                        enemy.health -= 10;
+                        survivalGameState.bullets.splice(i, 1);
+                        
+                        if (enemy.health <= 0) {
+                            survivalGameState.score += Math.floor(enemy.size * 2);
+                            survivalGameState.enemies.splice(j, 1);
+                        }
+                        updateSurvivalHUD();
+                        break;
+                    }
+                }
+            }
+            
+            // 更新敵人
+            for (let i = survivalGameState.enemies.length - 1; i >= 0; i--) {
+                const enemy = survivalGameState.enemies[i];
+                
+                // 移動向玩家
+                const dx = survivalGameState.player.x - enemy.x;
+                const dy = survivalGameState.player.y - enemy.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                enemy.x += (dx / distance) * enemy.speed;
+                enemy.y += (dy / distance) * enemy.speed;
+                
+                // 檢查是否碰到玩家
+                if (distance < enemy.size + survivalGameState.player.size) {
+                    survivalGameState.player.health -= 2;
+                    survivalGameState.enemies.splice(i, 1);
+                    updateSurvivalHUD();
+                    
+                    if (survivalGameState.player.health <= 0) {
+                        survivalGameOver();
+                    }
+                }
+            }
+        }
+
+        // 繪製生存射擊遊戲
+        function drawSurvival() {
+            // 清空畫布
+            survivalCtx.fillStyle = '#2a2a2a';
+            survivalCtx.fillRect(0, 0, survivalCanvas.width, survivalCanvas.height);
+            
+            // 繪製背景網格
+            drawSurvivalGrid();
+            
+            // 繪製子彈
+            survivalCtx.fillStyle = '#FFD700';
+            survivalGameState.bullets.forEach(bullet => {
+                survivalCtx.beginPath();
+                survivalCtx.arc(bullet.x, bullet.y, bullet.size, 0, Math.PI * 2);
+                survivalCtx.fill();
+            });
+            
+            // 繪製敵人
+            survivalGameState.enemies.forEach(enemy => {
+                survivalCtx.fillStyle = enemy.color;
+                survivalCtx.beginPath();
+                survivalCtx.arc(enemy.x, enemy.y, enemy.size, 0, Math.PI * 2);
+                survivalCtx.fill();
+                
+                // 敵人生命值條
+                survivalCtx.fillStyle = '#f44336';
+                survivalCtx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 10, 
+                            enemy.size * 2, 5);
+                survivalCtx.fillStyle = '#4CAF50';
+                survivalCtx.fillRect(enemy.x - enemy.size, enemy.y - enemy.size - 10, 
+                            (enemy.health / 20) * enemy.size * 2, 5);
+            });
+            
+            // 繪製玩家
+            drawSurvivalPlayer();
+            
+            // 繪製準星
+            drawSurvivalCrosshair();
+        }
+
+        // 繪製網格背景
+        function drawSurvivalGrid() {
+            survivalCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            survivalCtx.lineWidth = 1;
+            
+            const gridSize = 50;
+            
+            // 垂直線
+            for (let x = 0; x < survivalCanvas.width; x += gridSize) {
+                survivalCtx.beginPath();
+                survivalCtx.moveTo(x, 0);
+                survivalCtx.lineTo(x, survivalCanvas.height);
+                survivalCtx.stroke();
+            }
+            
+            // 水平線
+            for (let y = 0; y < survivalCanvas.height; y += gridSize) {
+                survivalCtx.beginPath();
+                survivalCtx.moveTo(0, y);
+                survivalCtx.lineTo(survivalCanvas.width, y);
+                survivalCtx.stroke();
+            }
+        }
+
+        // 繪製玩家
+        function drawSurvivalPlayer() {
+            // 玩家身體
+            survivalCtx.fillStyle = '#4CAF50';
+            survivalCtx.beginPath();
+            survivalCtx.arc(survivalGameState.player.x, survivalGameState.player.y, 
+                   survivalGameState.player.size, 0, Math.PI * 2);
+            survivalCtx.fill();
+            
+            // 玩家武器（指向滑鼠）
+            survivalCtx.strokeStyle = '#795548';
+            survivalCtx.lineWidth = 8;
+            survivalCtx.beginPath();
+            survivalCtx.moveTo(survivalGameState.player.x, survivalGameState.player.y);
+            survivalCtx.lineTo(
+                survivalGameState.player.x + Math.cos(survivalGameState.player.angle) * 30,
+                survivalGameState.player.y + Math.sin(survivalGameState.player.angle) * 30
+            );
+            survivalCtx.stroke();
+            
+            // 玩家生命值條
+            survivalCtx.fillStyle = '#f44336';
+            survivalCtx.fillRect(survivalGameState.player.x - survivalGameState.player.size, 
+                        survivalGameState.player.y - survivalGameState.player.size - 15, 
+                        survivalGameState.player.size * 2, 8);
+            survivalCtx.fillStyle = '#4CAF50';
+            const healthPercent = survivalGameState.player.health / survivalGameState.player.maxHealth;
+            survivalCtx.fillRect(survivalGameState.player.x - survivalGameState.player.size, 
+                        survivalGameState.player.y - survivalGameState.player.size - 15, 
+                        healthPercent * survivalGameState.player.size * 2, 8);
+        }
+
+        // 繪製準星
+        function drawSurvivalCrosshair() {
+            const size = 15;
+            const thickness = 2;
+            
+            survivalCtx.strokeStyle = survivalGameState.reloading ? '#FF9800' : '#00FF00';
+            survivalCtx.lineWidth = thickness;
+            
+            // 水平線
+            survivalCtx.beginPath();
+            survivalCtx.moveTo(survivalGameState.mouse.x - size, survivalGameState.mouse.y);
+            survivalCtx.lineTo(survivalGameState.mouse.x + size, survivalGameState.mouse.y);
+            survivalCtx.stroke();
+            
+            // 垂直線
+            survivalCtx.beginPath();
+            survivalCtx.moveTo(survivalGameState.mouse.x, survivalGameState.mouse.y - size);
+            survivalCtx.lineTo(survivalGameState.mouse.x, survivalGameState.mouse.y + size);
+            survivalCtx.stroke();
+            
+            // 中心點
+            survivalCtx.fillStyle = survivalGameState.reloading ? '#FF9800' : '#FF0000';
+            survivalCtx.beginPath();
+            survivalCtx.arc(survivalGameState.mouse.x, survivalGameState.mouse.y, 2, 0, Math.PI * 2);
+            survivalCtx.fill();
+            
+            // 如果是裝填中，顯示裝填動畫
+            if (survivalGameState.reloading) {
+                survivalCtx.beginPath();
+                survivalCtx.arc(survivalGameState.mouse.x, survivalGameState.mouse.y, size + 5, 0, Math.PI * 2);
+                survivalCtx.strokeStyle = '#FF9800';
+                survivalCtx.lineWidth = 3;
+                survivalCtx.stroke();
+            }
+        }
+
+        // 生存射擊遊戲結束
+        function survivalGameOver() {
+            survivalGameState.currentScreen = 'gameOver';
+            cancelAnimationFrame(survivalGameState.gameLoopId);
+            document.getElementById('survivalScore').textContent = `分數: ${survivalGameState.score}`;
+            document.getElementById('survivalGameOver').style.display = 'flex';
+        }
+
+        // ========== 原有遊戲程式 ==========
+        
+        // 創建科技感光點
+        function createTechDots() {
+            const techDots = document.getElementById('techDots');
+            const dotCount = 50;
+            
+            for (let i = 0; i < dotCount; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'tech-dot';
+                
+                // 隨機位置
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                dot.style.left = `${x}%`;
+                dot.style.top = `${y}%`;
+                
+                // 隨機動畫延遲
+                const delay = Math.random() * 3;
+                dot.style.animationDelay = `${delay}s`;
+                
+                techDots.appendChild(dot);
+            }
+        }
+
+        // 調整畫布大小
+        function resizeCanvas() {
+            gameCanvas.width = window.innerWidth;
+            gameCanvas.height = window.innerHeight;
+        }
+
+        // 設置事件監聽器
+        function setupEventListeners() {
+            // 開始按鈕
+            document.getElementById('startButton').addEventListener('click', showGameSelectionScreen);
+            
+            // 遊戲選擇界面標籤
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 如果點擊的是返回標籤，直接返回主畫面
+                    if (this.id === 'backToMainTab') {
+                        showMainScreen();
+                        return;
+                    }
+                    
+                    // 移除所有標籤的active類
+                    document.querySelectorAll('.category-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    // 添加active類到當前標籤
+                    this.classList.add('active');
+                    // 更新內容顯示
+                    updateContentDisplay(this.dataset.category);
+                });
+            });
+            
+            // 難度選擇按鈕
+            document.getElementById('easyButton').addEventListener('click', () => startGame(Difficulty.EASY));
+            document.getElementById('normalButton').addEventListener('click', () => startGame(Difficulty.NORMAL));
+            document.getElementById('hardButton').addEventListener('click', () => startGame(Difficulty.HARD));
+            document.getElementById('randomButton').addEventListener('click', startRandomGame);
+            document.getElementById('exitButton').addEventListener('click', showGameSelectionScreen);
+            document.getElementById('resumeButton').addEventListener('click', resumeGame);
+            
+            // 歷史記錄按鈕
+            document.getElementById('historyButton').addEventListener('click', showHistory);
+            document.getElementById('closeHistory').addEventListener('click', hideHistory);
+            
+            // 遊戲結束繼續按鈕 - 修改為返回難度選擇頁面
+            document.getElementById('continueButton').addEventListener('click', function() {
+                document.getElementById('gameOverMessage').style.display = 'none';
+                showDifficultyScreen();
+            });
+            
+            // 鍵盤控制
+            document.addEventListener('keydown', handleKeyDown);
+            
+            // 滑鼠移動
+            document.addEventListener('mousemove', updateCrosshair);
+            
+            // 滑鼠點擊
+            document.addEventListener('click', handleClick);
+            
+            // 檔案總管關閉按鈕
+            document.getElementById('closeFileExplorer').addEventListener('click', hideFileExplorer);
+            
+            // 檔案上傳按鈕
+            document.getElementById('fileUploadButton').addEventListener('click', function() {
+                document.getElementById('backgroundImageInput').click();
+            });
+            
+            // 檔案選擇事件
+            document.getElementById('backgroundImageInput').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    selectedBackgroundFile = e.target.files[0];
+                    document.getElementById('selectedFileInfo').textContent = selectedBackgroundFile.name;
+                    document.getElementById('applyBackgroundButton').style.display = 'block';
+                }
+            });
+            
+            // 套用背景按鈕
+            document.getElementById('applyBackgroundButton').addEventListener('click', applyBackground);
+        }
+
+        // 顯示遊戲選擇界面
+        function showGameSelectionScreen() {
+            document.getElementById('mainScreen').classList.add('hidden');
+            document.getElementById('gameSelectionScreen').classList.remove('hidden');
+            document.getElementById('difficultyScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resumeButton').style.display = 'none';
+            document.getElementById('gameOverMessage').style.display = 'none';
+            hideHistory(); // 確保歷史記錄彈窗關閉
+            hideFileExplorer(); // 確保檔案總管關閉
+            hideSurvivalGame(); // 確保生存射擊遊戲關閉
+            
+            // 初始化內容顯示
+            updateContentDisplay('all');
+            
+            currentState = GameState.GAME_SELECTION;
+        }
+
+        // 更新內容顯示
+        function updateContentDisplay(category) {
+            const contentDisplay = document.getElementById('contentDisplay');
+            contentDisplay.innerHTML = '';
+            
+            if (category === 'settings') {
+                // 顯示設定內容
+                const languageSection = document.createElement('div');
+                languageSection.className = 'language-section';
+                
+                const languageLabel = document.createElement('div');
+                languageLabel.className = 'language-label';
+                languageLabel.textContent = languageData[currentLanguage].languageSwitch;
+                
+                const languageSelector = document.createElement('div');
+                languageSelector.className = 'language-selector';
+                
+                const languageDisplay = document.createElement('div');
+                languageDisplay.className = 'language-display';
+                languageDisplay.innerHTML = `
+                    <span>${languageData['zh-TW'].chineseTraditional}</span>
+                    <span class="language-arrow">▼</span>
+                `;
+                
+                const languageOptions = document.createElement('div');
+                languageOptions.className = 'language-options';
+                
+                // 添加語言選項
+                const languages = [
+                    { code: 'zh-TW', name: languageData['zh-TW'].chineseTraditional },
+                    { code: 'zh-CN', name: languageData['zh-TW'].chineseSimplified },
+                    { code: 'en', name: languageData['zh-TW'].english }
+                ];
+                
+                languages.forEach(lang => {
+                    const option = document.createElement('div');
+                    option.className = 'language-option';
+                    option.textContent = lang.name;
+                    option.dataset.lang = lang.code;
+                    option.addEventListener('click', function() {
+                        changeLanguage(this.dataset.lang);
+                        languageSelector.classList.remove('open');
+                    });
+                    languageOptions.appendChild(option);
+                });
+                
+                languageDisplay.addEventListener('click', function() {
+                    languageSelector.classList.toggle('open');
+                });
+                
+                languageSelector.appendChild(languageDisplay);
+                languageSelector.appendChild(languageOptions);
+                languageSection.appendChild(languageLabel);
+                languageSection.appendChild(languageSelector);
+                contentDisplay.appendChild(languageSection);
+                
+                // 背景更換部分 - 修改為正方形按鈕
+                const backgroundSection = document.createElement('div');
+                backgroundSection.className = 'background-change-section';
+                
+                const backgroundLabel = document.createElement('div');
+                backgroundLabel.className = 'background-change-label';
+                backgroundLabel.textContent = languageData[currentLanguage].backgroundChange;
+                
+                // 更改圖片按鈕（正方形）
+                const changeButton = document.createElement('div');
+                changeButton.className = 'background-change-button';
+                changeButton.id = 'changeBackgroundButton';
+                changeButton.innerHTML = `
+                    <div class="button-text-top">${languageData[currentLanguage].changeImageTop}</div>
+                    <div class="button-text-bottom">${languageData[currentLanguage].changeImageBottom}</div>
+                `;
+                
+                changeButton.addEventListener('click', showFileExplorer);
+                
+                // 重置背景按鈕（正方形）
+                const resetButton = document.createElement('div');
+                resetButton.className = 'background-change-button';
+                resetButton.id = 'resetBackgroundButton';
+                resetButton.innerHTML = `
+                    <div class="button-text-top">${languageData[currentLanguage].resetBackgroundTop}</div>
+                    <div class="button-text-bottom">${languageData[currentLanguage].resetBackgroundBottom}</div>
+                `;
+                
+                resetButton.addEventListener('click', resetBackground);
+                
+                backgroundSection.appendChild(backgroundLabel);
+                backgroundSection.appendChild(changeButton);
+                backgroundSection.appendChild(resetButton);
+                contentDisplay.appendChild(backgroundSection);
+                
+            } else {
+                // 顯示遊戲內容
+                const gameList = games[category] || [];
+                
+                if (gameList.length === 0) {
+                    const noGames = document.createElement('div');
+                    noGames.className = 'no-games';
+                    noGames.textContent = languageData[currentLanguage].noGames;
+                    contentDisplay.appendChild(noGames);
+                } else {
+                    gameList.forEach(game => {
+                        const gameItem = document.createElement('div');
+                        gameItem.className = 'game-item';
+                        gameItem.innerHTML = `<h3>${game.name}</h3>`;
+                        gameItem.addEventListener('click', () => {
+                            if (game.id === 'birdShooting') {
+                                currentGameId = game.id;
+                                showDifficultyScreen();
+                            } else if (game.id === 'survive') {
+                                // 顯示生存射擊遊戲
+                                showSurvivalGame();
+                            }
+                        });
+                        contentDisplay.appendChild(gameItem);
+                    });
+                }
+            }
+        }
+
+        // 顯示檔案總管
+        function showFileExplorer() {
+            document.getElementById('fileExplorerModal').style.display = 'flex';
+            // 更新語言
+            updateFileExplorerLanguage();
+        }
+
+        // 隱藏檔案總管
+        function hideFileExplorer() {
+            document.getElementById('fileExplorerModal').style.display = 'none';
+            // 重置檔案選擇
+            document.getElementById('backgroundImageInput').value = '';
+            document.getElementById('selectedFileInfo').textContent = languageData[currentLanguage].noFileSelected;
+            document.getElementById('applyBackgroundButton').style.display = 'none';
+            selectedBackgroundFile = null;
+        }
+
+        // 更新檔案總管語言
+        function updateFileExplorerLanguage() {
+            const data = languageData[currentLanguage];
+            document.getElementById('fileExplorerTitle').textContent = data.fileExplorerTitle;
+            document.getElementById('fileUploadButton').textContent = data.selectFile;
+            document.getElementById('selectedFileInfo').textContent = data.noFileSelected;
+            document.getElementById('applyBackgroundButton').textContent = data.applyBackground;
+        }
+
+        // 套用背景圖片
+        function applyBackground() {
+            if (!selectedBackgroundFile) {
+                alert('請先選擇圖片檔案');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                
+                // 保存到localStorage
+                localStorage.setItem('customBackground', imageData);
+                
+                // 套用背景
+                applyBackgroundToScreens(imageData);
+                
+                // 關閉檔案總管
+                hideFileExplorer();
+                
+                alert('背景已成功更改！');
+            };
+            
+            reader.readAsDataURL(selectedBackgroundFile);
+        }
+
+        // 套用背景到畫面
+        function applyBackgroundToScreens(imageData) {
+            // 套用到主畫面
+            const mainScreen = document.getElementById('mainScreen');
+            mainScreen.style.setProperty('--custom-background', `url('${imageData}')`);
+            mainScreen.classList.add('custom-bg');
+            
+            // 套用到遊戲選擇畫面
+            const gameSelectionScreen = document.getElementById('gameSelectionScreen');
+            gameSelectionScreen.style.setProperty('--custom-background', `url('${imageData}')`);
+            gameSelectionScreen.classList.add('custom-bg');
+        }
+
+        // 載入背景圖片
+        function loadBackgroundImage() {
+            const savedBackground = localStorage.getItem('customBackground');
+            if (savedBackground) {
+                applyBackgroundToScreens(savedBackground);
+            }
+        }
+
+        // 重置背景
+        function resetBackground() {
+            // 移除localStorage中的背景
+            localStorage.removeItem('customBackground');
+            
+            // 移除自訂背景類
+            const mainScreen = document.getElementById('mainScreen');
+            mainScreen.classList.remove('custom-bg');
+            mainScreen.style.removeProperty('--custom-background');
+            
+            const gameSelectionScreen = document.getElementById('gameSelectionScreen');
+            gameSelectionScreen.classList.remove('custom-bg');
+            gameSelectionScreen.style.removeProperty('--custom-background');
+            
+            alert('背景已重置為預設值');
+        }
+
+        // 更改語言
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            const data = languageData[lang];
+            
+            // 更新主界面
+            document.querySelector('#mainScreen .title').textContent = data.title;
+            document.getElementById('startButton').textContent = data.startButton;
+            document.querySelector('#mainScreen .instructions').textContent = data.instructions;
+            
+            // 更新游戏选择界面
+            document.querySelector('[data-category="all"]').textContent = data.allGames;
+            document.querySelector('[data-category="shooting"]').textContent = data.shootingGames;
+            document.querySelector('[data-category="driving"]').textContent = data.drivingGames;
+            document.querySelector('[data-category="card"]').textContent = data.cardGames;
+            document.querySelector('[data-category="action"]').textContent = data.actionGames;
+            document.querySelector('[data-category="settings"]').textContent = data.settings;
+            document.getElementById('backToMainTab').textContent = data.backToMain;
+            
+            // 更新难度选择界面
+            document.querySelector('#difficultyScreen .title').textContent = data.selectDifficulty;
+            document.getElementById('easyButton').textContent = data.easy;
+            document.getElementById('normalButton').textContent = data.normal;
+            document.getElementById('hardButton').textContent = data.hard;
+            document.getElementById('randomButton').textContent = data.random;
+            document.getElementById('exitButton').textContent = data.exit;
+            document.getElementById('resumeButton').textContent = data.resume;
+            document.getElementById('historyButton').textContent = data.history;
+            document.querySelector('#difficultyScreen .instructions').textContent = data.pauseInstructions;
+            
+            // 更新游戏界面
+            document.getElementById('score').textContent = `${data.score}: 0`;
+            document.getElementById('birdsLeft').textContent = `${data.birdsLeft}: 0`;
+            document.getElementById('timeLeft').textContent = `${data.timeLeft}: 40秒`;
+            document.querySelector('#gameOverMessage h2').textContent = data.gameOver;
+            document.querySelector('#gameOverMessage p').textContent = `${data.yourScore}: `;
+            document.getElementById('continueButton').textContent = data.continue;
+            
+            // 更新历史记录
+            document.getElementById('historyTitle').textContent = data.historyTitle;
+            document.querySelector('.noHistory').textContent = data.noHistory;
+            
+            // 更新设置界面
+            if (document.querySelector('.language-label')) {
+                document.querySelector('.language-label').textContent = data.languageSwitch;
+            }
+            
+            // 更新背景更換按鈕
+            const changeButton = document.getElementById('changeBackgroundButton');
+            if (changeButton) {
+                changeButton.innerHTML = `
+                    <div class="button-text-top">${data.changeImageTop}</div>
+                    <div class="button-text-bottom">${data.changeImageBottom}</div>
+                `;
+            }
+            
+            const resetButton = document.getElementById('resetBackgroundButton');
+            if (resetButton) {
+                resetButton.innerHTML = `
+                    <div class="button-text-top">${data.resetBackgroundTop}</div>
+                    <div class="button-text-bottom">${data.resetBackgroundBottom}</div>
+                `;
+            }
+            
+            // 更新背景更換標籤
+            const backgroundLabel = document.querySelector('.background-change-label');
+            if (backgroundLabel) {
+                backgroundLabel.textContent = data.backgroundChange;
+            }
+            
+            // 更新档案总管
+            updateFileExplorerLanguage();
+            
+            // 更新游戏项目
+            updateContentDisplay(document.querySelector('.category-tab.active').dataset.category);
+        }
+
+        // 顯示歷史記錄
+        function showHistory() {
+            document.getElementById('historyPopup').style.display = 'flex';
+            updateHistoryDisplay();
+        }
+
+        // 隱藏歷史記錄
+        function hideHistory() {
+            document.getElementById('historyPopup').style.display = 'none';
+        }
+
+        // 更新歷史記錄顯示
+        function updateHistoryDisplay() {
+            const historyContent = document.getElementById('historyContent');
+            
+            if (gameHistory.length === 0) {
+                historyContent.innerHTML = `<div class="noHistory">${languageData[currentLanguage].noHistory}</div>`;
+                return;
+            }
+            
+            let historyHTML = '';
+            gameHistory.forEach((record, index) => {
+                historyHTML += `
+                    <div class="historyItem">
+                        <div class="historyDetails">
+                            <div>${record.date}</div>
+                            <div>${languageData[currentLanguage].difficulty || '難度'}: ${record.difficulty}</div>
+                            <div>遊戲: ${record.game}</div>
+                        </div>
+                        <div class="historyScore">${record.score} ${languageData[currentLanguage].score}</div>
+                    </div>
+                `;
+            });
+            
+            historyContent.innerHTML = historyHTML;
+        }
+
+        // 保存歷史記錄到localStorage
+        function saveHistory() {
+            localStorage.setItem('birdShootingGameHistory', JSON.stringify(gameHistory));
+        }
+
+        // 從localStorage加載歷史記錄
+        function loadHistory() {
+            const savedHistory = localStorage.getItem('birdShootingGameHistory');
+            if (savedHistory) {
+                gameHistory = JSON.parse(savedHistory);
+            }
+        }
+
+        // 添加新的歷史記錄
+        function addHistoryRecord(score, difficulty, game) {
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            // 將新記錄添加到開頭
+            gameHistory.unshift({
+                date: dateStr,
+                score: score,
+                difficulty: difficulty,
+                game: game
+            });
+            
+            // 只保留最近的50條記錄
+            if (gameHistory.length > 50) {
+                gameHistory = gameHistory.slice(0, 50);
+            }
+            
+            // 保存到localStorage
+            saveHistory();
+            
+            // 更新顯示
+            updateHistoryDisplay();
+        }
+
+        // 顯示難度選擇畫面
+        function showDifficultyScreen() {
+            document.getElementById('mainScreen').classList.add('hidden');
+            document.getElementById('gameSelectionScreen').classList.add('hidden');
+            document.getElementById('difficultyScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resumeButton').style.display = 'none';
+            document.getElementById('gameOverMessage').style.display = 'none';
+            hideHistory(); // 確保歷史記錄彈窗關閉
+            hideFileExplorer(); // 確保檔案總管關閉
+            hideSurvivalGame(); // 確保生存射擊遊戲關閉
+            currentState = GameState.DIFFICULTY_SELECT;
+        }
+
+        // 顯示主畫面
+        function showMainScreen() {
+            document.getElementById('difficultyScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('gameSelectionScreen').classList.add('hidden');
+            document.getElementById('mainScreen').classList.remove('hidden');
+            hideHistory(); // 確保歷史記錄彈窗關閉
+            hideFileExplorer(); // 確保檔案總管關閉
+            hideSurvivalGame(); // 確保生存射擊遊戲關閉
+            currentState = GameState.MAIN_MENU;
+        }
+
+        // 開始遊戲
+        function startGame(difficulty) {
+            currentDifficulty = difficulty;
+            score = 0;
+            birds = [];
+            bombs = []; // 重置炸彈
+            birdsSpawned = 0;
+            birdsKilled = 0;
+            birdsEscaped = 0; // 重置逃脫的飛鳥數量
+            lastSpawnTime = 0;
+            lastBombSpawnTime = 0; // 重置炸彈生成時間
+            bombSpawnInterval = 0; // 重置炸彈生成間隔
+            
+            // 檢查是否為隨機模式
+            isRandomMode = currentDifficulty.name === "隨機";
+            
+            // 如果是隨機模式，初始化計時器
+            if (isRandomMode) {
+                gameStartTime = Date.now();
+                document.getElementById('timeLeft').style.display = 'block';
+                document.getElementById('birdsLeft').style.display = 'none';
+                updateTimeLeft();
+                
+                // 設置計時器
+                if (gameTimer) clearInterval(gameTimer);
+                gameTimer = setInterval(updateTimeLeft, 100);
+            } else {
+                // 非隨機模式，顯示剩餘飛鳥
+                document.getElementById('birdsLeft').style.display = 'block';
+                document.getElementById('timeLeft').style.display = 'none';
+            }
+            
+            document.getElementById('difficultyScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('gameOverMessage').style.display = 'none';
+            crosshair.style.display = 'block';
+            
+            updateScore();
+            updateBirdsLeft();
+            
+            currentState = GameState.PLAYING;
+        }
+
+        // 更新剩餘時間（隨機模式專用）
+        function updateTimeLeft() {
+            if (!isRandomMode || currentState !== GameState.PLAYING) return;
+            
+            const elapsed = Date.now() - gameStartTime;
+            const timeLeft = Math.max(0, currentDifficulty.timeLimit - elapsed);
+            const secondsLeft = Math.ceil(timeLeft / 1000);
+            
+            document.getElementById('timeLeft').textContent = 
+                `${languageData[currentLanguage].timeLeft}: ${secondsLeft}秒`;
+            
+            // 檢查時間是否結束
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        // 開始隨機難度遊戲
+        function startRandomGame() {
+            startGame(Difficulty.RANDOM);
+        }
+
+        // 繼續遊戲
+        function resumeGame() {
+            document.getElementById('difficultyScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('resumeButton').style.display = 'none';
+            crosshair.style.display = 'block';
+            currentState = GameState.PLAYING;
+            
+            // 如果是隨機模式，重新開始計時器
+            if (isRandomMode) {
+                gameTimer = setInterval(updateTimeLeft, 100);
+            }
+        }
+
+        // 暫停遊戲
+        function pauseGame() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('difficultyScreen').classList.remove('hidden');
+            document.getElementById('resumeButton').style.display = 'block';
+            crosshair.style.display = 'none';
+            currentState = GameState.PAUSED;
+            
+            // 如果是隨機模式，暫停計時器
+            if (isRandomMode && gameTimer) {
+                clearInterval(gameTimer);
+                gameTimer = null;
+            }
+        }
+
+        // 處理鍵盤輸入
+        function handleKeyDown(e) {
+            switch(e.code) {
+                case 'Space':
+                    if (currentState === GameState.MAIN_MENU) {
+                        showGameSelectionScreen();
+                    }
+                    break;
+                case 'Escape':
+                    if (currentState === GameState.PLAYING) {
+                        pauseGame();
+                    }
+                    break;
+            }
+        }
+
+        // 更新準星位置
+        function updateCrosshair(e) {
+            crosshair.style.left = (e.clientX - 20) + 'px';
+            crosshair.style.top = (e.clientY - 20) + 'px';
+        }
+
+        // 處理點擊事件 - 新增炸彈點擊檢測
+        function handleClick(e) {
+            if (currentState !== GameState.PLAYING) return;
+            
+            const clickRadius = 30; // 點擊範圍為圓圈的1.5倍
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            // 先檢查是否點擊到炸彈（炸彈優先級高）
+            for (let i = bombs.length - 1; i >= 0; i--) {
+                const bomb = bombs[i];
+                const distance = Math.sqrt(
+                    Math.pow(mouseX - bomb.x, 2) + Math.pow(mouseY - bomb.y, 2)
+                );
+                
+                if (distance < bomb.width/2 + 10) { // 炸彈點擊範圍稍大
+                    // 點擊到炸彈，扣分
+                    bombs.splice(i, 1);
+                    score = Math.max(0, score - bomb.penalty); // 分數不會低於0
+                    
+                    // 顯示扣分動畫
+                    showPenaltyAnimation(mouseX, mouseY, bomb.penalty);
+                    
+                    updateScore();
+                    return; // 點到炸彈後就不檢查飛鳥了
+                }
+            }
+            
+            // 檢查是否點擊到飛鳥
+            for (let i = birds.length - 1; i >= 0; i--) {
+                const bird = birds[i];
+                const distance = Math.sqrt(
+                    Math.pow(mouseX - bird.x, 2) + Math.pow(mouseY - bird.y, 2)
+                );
+                
+                if (distance < clickRadius) {
+                    // 擊中飛鳥
+                    birds.splice(i, 1);
+                    birdsKilled++;
+                    score += 10;
+                    updateScore();
+                    updateBirdsLeft();
+                    break;
+                }
+            }
+        }
+
+        // 顯示扣分動畫
+        function showPenaltyAnimation(x, y, penalty) {
+            const penaltyText = document.createElement('div');
+            penaltyText.textContent = `-${penalty}`;
+            penaltyText.style.position = 'absolute';
+            penaltyText.style.left = x + 'px';
+            penaltyText.style.top = y + 'px';
+            penaltyText.style.color = '#FF0000';
+            penaltyText.style.fontSize = '24px';
+            penaltyText.style.fontWeight = 'bold';
+            penaltyText.style.textShadow = '0 0 5px #FFFFFF';
+            penaltyText.style.pointerEvents = 'none';
+            penaltyText.style.zIndex = '1001';
+            penaltyText.style.transition = 'all 0.8s ease-out';
+            
+            document.getElementById('gameContainer').appendChild(penaltyText);
+            
+            // 動畫效果
+            setTimeout(() => {
+                penaltyText.style.transform = 'translateY(-50px)';
+                penaltyText.style.opacity = '0';
+            }, 10);
+            
+            // 移除元素
+            setTimeout(() => {
+                if (penaltyText.parentNode) {
+                    penaltyText.parentNode.removeChild(penaltyText);
+                }
+            }, 900);
+        }
+
+        // 更新分數顯示
+        function updateScore() {
+            document.getElementById('score').textContent = `${languageData[currentLanguage].score}: ${score}`;
+        }
+
+        // 更新剩餘飛鳥顯示
+        function updateBirdsLeft() {
+            if (isRandomMode) return; // 隨機模式不顯示剩餘飛鳥
+            
+            const birdsRemaining = currentDifficulty.birds - birdsKilled - birdsEscaped;
+            document.getElementById('birdsLeft').textContent = `${languageData[currentLanguage].birdsLeft}: ${birdsRemaining}`;
+        }
+
+        // 生成飛鳥
+        function spawnBird() {
+            const now = Date.now();
+            
+            // 隨機模式：使用1~4.5秒隨機生成
+            if (isRandomMode) {
+                if (now - lastSpawnTime > getRandomSpawnTimeForRandomMode()) {
+                    createBird();
+                    lastSpawnTime = now;
+                }
+            } 
+            // 其他模式：按照原來的邏輯生成
+            else if (birdsSpawned < currentDifficulty.birds && 
+                now - lastSpawnTime > getRandomSpawnTime()) {
+                createBird();
+                lastSpawnTime = now;
+                updateBirdsLeft();
+            }
+        }
+
+        // 創建飛鳥（共用函數）
+        function createBird() {
+            // 隨機決定從左邊還是右邊生成
+            const fromLeft = Math.random() > 0.5;
+            const x = fromLeft ? -50 : gameCanvas.width + 50;
+            const y = Math.random() * (gameCanvas.height - 100) + 50;
+            
+            // 飛鳥屬性
+            const bird = {
+                x: x,
+                y: y,
+                width: 60,
+                height: 30,
+                speed: currentDifficulty.speed * (fromLeft ? 1 : -1),
+                color: getRandomColor(),
+                fromLeft: fromLeft
+            };
+            
+            birds.push(bird);
+            birdsSpawned++;
+        }
+
+        // 生成炸彈 - 修改隨機模式的炸彈生成邏輯
+        function spawnBomb() {
+            if (!currentDifficulty.hasBombs) return;
+            
+            const now = Date.now();
+            if (now - lastBombSpawnTime > bombSpawnInterval) {
+                // 隨機決定從左邊還是右邊生成
+                const fromLeft = Math.random() > 0.5;
+                const x = fromLeft ? -50 : gameCanvas.width + 50;
+                const y = Math.random() * (gameCanvas.height - 100) + 50;
+                
+                // 炸彈屬性
+                let bombSize, bombWidth, bombHeight, bombPenalty;
+                
+                if (currentDifficulty.name === "隨機") {
+                    // 隨機模式使用自定義大小：直徑1、1.5、2倍
+                    const sizeIndex = Math.floor(Math.random() * 3); // 0, 1, 2
+                    bombWidth = currentDifficulty.bombSizes[sizeIndex];
+                    bombHeight = currentDifficulty.bombSizes[sizeIndex];
+                    bombPenalty = currentDifficulty.bombPenalties[sizeIndex];
+                    
+                    // 設定炸彈大小名稱
+                    if (bombWidth === 20) {
+                        bombSize = "small";
+                    } else if (bombWidth === 30) {
+                        bombSize = "medium";
+                    } else {
+                        bombSize = "large";
+                    }
+                } else {
+                    // 一般和困難模式保持原有大小
+                    bombSize = "medium";
+                    bombWidth = currentDifficulty.bombSize;
+                    bombHeight = currentDifficulty.bombSize;
+                    bombPenalty = currentDifficulty.bombPenalty;
+                }
+                
+                const bomb = {
+                    x: x,
+                    y: y,
+                    width: bombWidth,
+                    height: bombHeight,
+                    size: bombSize,
+                    speed: currentDifficulty.speed * (fromLeft ? 1 : -1),
+                    penalty: bombPenalty,
+                    fromLeft: fromLeft,
+                    rotation: 0,
+                    rotationSpeed: (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1) // 旋轉速度
+                };
+                
+                bombs.push(bomb);
+                
+                // 設置下一次生成的時間間隔
+                bombSpawnInterval = Math.random() * 
+                    (currentDifficulty.bombSpawnMax - currentDifficulty.bombSpawnMin) + 
+                    currentDifficulty.bombSpawnMin;
+                
+                lastBombSpawnTime = now;
+            }
+        }
+
+        // 獲取隨機生成時間（非隨機模式）
+        function getRandomSpawnTime() {
+            return Math.random() * 
+                (currentDifficulty.spawnMax - currentDifficulty.spawnMin) + 
+                currentDifficulty.spawnMin;
+        }
+
+        // 獲取隨機生成時間（隨機模式專用：1~4.5秒）
+        function getRandomSpawnTimeForRandomMode() {
+            return Math.random() * (4500 - 1000) + 1000; // 1000ms to 4500ms (1-4.5秒)
+        }
+
+        // 獲取隨機顏色
+        function getRandomColor() {
+            const colors = [
+                '#FF6B6B', '#4ECDC4', '#FFE66D', '#6A0572', 
+                '#1A936F', '#114B5F', '#F9C80E', '#EA3546'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // 更新飛鳥位置
+        function updateBirds() {
+            for (let i = birds.length - 1; i >= 0; i--) {
+                const bird = birds[i];
+                bird.x += bird.speed;
+                
+                // 檢查是否飛出畫面
+                const birdWidth = bird.width;
+                if ((bird.fromLeft && bird.x > gameCanvas.width + birdWidth/2) || 
+                    (!bird.fromLeft && bird.x < -birdWidth/2)) {
+                    // 飛鳥飛出畫面，移除並增加逃脫計數
+                    birds.splice(i, 1);
+                    birdsEscaped++;
+                    updateBirdsLeft();
+                }
+            }
+            
+            // 檢查遊戲是否結束
+            if (isRandomMode) {
+                // 隨機模式：只檢查時間，時間到時在updateTimeLeft中結束遊戲
+                return;
+            } else {
+                // 其他模式：所有飛鳥都生成完畢且所有飛鳥都消失
+                if (birdsSpawned >= currentDifficulty.birds && birds.length === 0) {
+                    endGame();
+                }
+            }
+        }
+
+        // 更新炸彈位置
+        function updateBombs() {
+            for (let i = bombs.length - 1; i >= 0; i--) {
+                const bomb = bombs[i];
+                bomb.x += bomb.speed;
+                bomb.rotation += bomb.rotationSpeed * 0.05;
+                
+                // 檢查是否飛出畫面
+                const bombWidth = bomb.width;
+                if ((bomb.fromLeft && bomb.x > gameCanvas.width + bombWidth/2) || 
+                    (!bomb.fromLeft && bomb.x < -bombWidth/2)) {
+                    // 炸彈飛出畫面，移除
+                    bombs.splice(i, 1);
+                }
+            }
+        }
+
+        // 結束遊戲
+        function endGame() {
+            currentState = GameState.GAME_OVER;
+            crosshair.style.display = 'none';
+            
+            // 停止計時器（如果是隨機模式）
+            if (isRandomMode && gameTimer) {
+                clearInterval(gameTimer);
+                gameTimer = null;
+            }
+            
+            // 清空炸彈
+            bombs = [];
+            
+            // 更新最終分數顯示
+            document.getElementById('finalScore').textContent = score;
+            
+            // 添加歷史記錄
+            const gameName = currentGameId === 'birdShooting' ? '飛鳥射擊遊戲' : '未知遊戲';
+            addHistoryRecord(score, currentDifficulty.name, gameName);
+            
+            // 顯示遊戲結束訊息
+            setTimeout(() => {
+                document.getElementById('gameOverMessage').style.display = 'block';
+            }, 500);
+        }
+
+        // 繪製飛鳥
+        function drawBirds() {
+            birds.forEach(bird => {
+                ctx.fillStyle = bird.color;
+                
+                // 繪製飛鳥身體
+                ctx.beginPath();
+                ctx.ellipse(bird.x, bird.y, bird.width/2, bird.height/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 繪製翅膀
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.beginPath();
+                ctx.ellipse(
+                    bird.x - (bird.speed > 0 ? -10 : 10), 
+                    bird.y - 5, 
+                    bird.width/3, 
+                    bird.height/1.5, 
+                    0, 0, Math.PI * 2
+                );
+                ctx.fill();
+                
+                // 繪製眼睛
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(
+                    bird.x + (bird.speed > 0 ? bird.width/4 : -bird.width/4), 
+                    bird.y - 5, 
+                    5, 0, Math.PI * 2
+                );
+                ctx.fill();
+                
+                ctx.fillStyle = 'black';
+                ctx.beginPath();
+                ctx.arc(
+                    bird.x + (bird.speed > 0 ? bird.width/4 : -bird.width/4), 
+                    bird.y - 5, 
+                    2, 0, Math.PI * 2
+                );
+                ctx.fill();
+            });
+        }
+
+        // 繪製炸彈 - 修改隨機模式炸彈的繪製
+        function drawBombs() {
+            bombs.forEach(bomb => {
+                ctx.save();
+                ctx.translate(bomb.x, bomb.y);
+                ctx.rotate(bomb.rotation);
+                
+                // 根據炸彈大小和模式設定顏色
+                let bombColor, innerColor, sparkColor;
+                
+                if (currentDifficulty.name === "隨機") {
+                    // 隨機模式使用不同顏色區分大小
+                    if (bomb.size === "large") {
+                        bombColor = '#FF3333'; // 亮紅色
+                        innerColor = '#FF6666';
+                        sparkColor = '#FF9900';
+                    } else if (bomb.size === "medium") {
+                        bombColor = '#FF9900'; // 橙色
+                        innerColor = '#FFCC66';
+                        sparkColor = '#FF6600';
+                    } else {
+                        bombColor = '#FFFF00'; // 黃色
+                        innerColor = '#FFFF99';
+                        sparkColor = '#FFCC00';
+                    }
+                } else {
+                    // 一般和困難模式保持原有顏色
+                    bombColor = '#FF9900'; // 橙色
+                    innerColor = '#FFCC66';
+                    sparkColor = '#FF4500';
+                }
+                
+                // 繪製炸彈外圓
+                ctx.fillStyle = bombColor;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, bomb.width/2, bomb.height/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 繪製炸彈內圓
+                ctx.fillStyle = innerColor;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, bomb.width/3, bomb.height/3, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 繪製炸彈引信 - 根據大小調整
+                const fuseHeight = bomb.width * 0.25; // 引信高度為寬度的25%
+                ctx.fillStyle = '#8B4513'; // 棕色
+                ctx.fillRect(-bomb.width/20, -bomb.height/2 - fuseHeight, bomb.width/10, fuseHeight);
+                
+                // 繪製炸彈火花 - 根據大小調整
+                ctx.fillStyle = sparkColor;
+                ctx.beginPath();
+                ctx.ellipse(0, -bomb.height/2 - fuseHeight, bomb.width/10, bomb.width/8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 繪製危險符號 - 根據大小調整字體
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold ' + (bomb.width/6) + 'px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('!', 0, 0);
+                
+                // 如果是隨機模式，在炸彈上顯示大小標識
+                if (currentDifficulty.name === "隨機") {
+                    ctx.fillStyle = '#000000';
+                    ctx.font = 'bold ' + (bomb.width/10) + 'px Arial';
+                    let sizeText;
+                    if (bomb.width === 20) sizeText = "1x";
+                    else if (bomb.width === 30) sizeText = "1.5x";
+                    else sizeText = "2x";
+                    ctx.fillText(sizeText, 0, bomb.height/3);
+                }
+                
+                ctx.restore();
+                
+                // 繪製炸彈閃爍效果 - 根據模式調整閃爍頻率
+                const flashSpeed = currentDifficulty.name === "隨機" ? 150 : 200; // 隨機模式閃爍更快
+                if (Math.sin(Date.now() / flashSpeed) > 0) {
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.ellipse(bomb.x, bomb.y, bomb.width/2 + 5, bomb.height/2 + 5, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            });
+        }
+
+        // 繪製遊戲背景
+        function drawBackground() {
+            // 繪製漸層背景
+            const gradient = ctx.createLinearGradient(0, 0, 0, gameCanvas.height);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+            
+            // 繪製雲朵
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            for (let i = 0; i < 5; i++) {
+                const x = (Date.now() / 10000 + i * 0.5) % 1 * gameCanvas.width * 2 - gameCanvas.width;
+                const y = i * 100 + 50;
+                const width = 100 + i * 30;
+                const height = 40 + i * 10;
+                
+                ctx.beginPath();
+                ctx.ellipse(x, y, width, height, 0, 0, Math.PI * 2);
+                ctx.ellipse(x + width * 0.5, y - height * 0.3, width * 0.6, height * 0.8, 0, 0, Math.PI * 2);
+                ctx.ellipse(x - width * 0.5, y - height * 0.3, width * 0.6, height * 0.8, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 遊戲主循環
+        function gameLoop() {
+            if (currentState === GameState.PLAYING) {
+                // 生成和更新飛鳥
+                spawnBird();
+                updateBirds();
+                
+                // 生成和更新炸彈（只有一般、困難和隨機模式才有）
+                if (currentDifficulty.hasBombs) {
+                    spawnBomb();
+                    updateBombs();
+                }
+                
+                // 繪製遊戲
+                drawBackground();
+                drawBirds();
+                if (currentDifficulty.hasBombs) {
+                    drawBombs();
+                }
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 初始化遊戲
+        window.onload = init;
+    </script>
 </body>
 </html>
