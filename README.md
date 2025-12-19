@@ -66,7 +66,7 @@
 ## Click [Click here to record when opening a YouTube video](https://youtu.be/_Cj6NyARDBo)
 ## Click [Code Example](index.html)   
 ## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
-## Click [This is a personal notes/reflections section](C:/Users/user/Desktop/[大]上學期/計算機程式/w15專案/專案.pdf)
+## Click [This is a personal notes/reflections section](file:///G:/[%E5%A4%A7%E5%AD%B8]114%E5%B9%B4_1%E4%B8%8A_%E4%B8%8A%E8%AA%B2%E8%B3%87%E6%96%99/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A8%8B%E5%BC%8F/w15%E5%B0%88%E6%A1%88/[%E5%B0%88%E6%A1%88]%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%AD%B8%E7%BF%92%E7%A8%8B%E5%BC%8F%E9%96%8B%E7%99%BC.htm)
 
 ### Page 1
 ![Page 1](folder/page07.png)
