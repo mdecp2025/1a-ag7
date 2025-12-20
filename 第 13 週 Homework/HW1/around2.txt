@@ -1,0 +1,25 @@
+def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+repeat 6:
+    move()
+turn_left()
+repeat 4:
+    move()
+turn_left()
+repeat 5:
+    move()
+put()
+turn_right() 
+repeat 5:
+    move()
+turn_left()
+repeat 4:
+    move()
+turn_left()
+repeat 9:
+    move()
+turn_left()
+repeat 3:
+    move()
