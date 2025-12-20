@@ -1,9 +1,6 @@
 # ## [此處是1a-ag7分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
 ### Robotics Reflections ⬆
 
-# ## [https://41423117.github.io/_PowerToys_/
-
-
 # w4 Computer Programming Project Report
 
 **Team Members**：陳漢宸、周昱翰、李承祐  
