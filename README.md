@@ -26,17 +26,17 @@
 
 |   |
 |---|
-| <img src="images/page001.png" alt="page001 icon" width="650"> 1 |
-| <img src="images/page002.png" alt="page002 icon" width="650"> 2 |
-| <img src="images/page003.png" alt="page003 icon" width="650"> 3 |
-| <img src="images/page004.png" alt="page004 icon" width="650"> 4 |
-| <img src="images/page005.png" alt="page005 icon" width="650"> 5 |
-| <img src="images/page006.png" alt="page006 icon" width="650"> 6 |
-| <img src="images/page007.png" alt="page007 icon" width="650"> 7 |
-| <img src="images/page008.png" alt="page008 icon" width="650"> 8 |
-| <img src="images/page009.png" alt="page009 icon" width="650"> 9 |
-| <img src="images/page010.png" alt="page010 icon" width="650"> 10 |
-| <img src="images/page011.png" alt="page011 icon" width="650"> 11 |   |
+| <img src="images/page001.png" alt="page001 icon" width="700"> 1 |
+| <img src="images/page002.png" alt="page002 icon" width="700"> 2 |
+| <img src="images/page003.png" alt="page003 icon" width="700"> 3 |
+| <img src="images/page004.png" alt="page004 icon" width="700"> 4 |
+| <img src="images/page005.png" alt="page005 icon" width="700"> 5 |
+| <img src="images/page006.png" alt="page006 icon" width="700"> 6 |
+| <img src="images/page007.png" alt="page007 icon" width="700"> 7 |
+| <img src="images/page008.png" alt="page008 icon" width="700"> 8 |
+| <img src="images/page009.png" alt="page009 icon" width="700"> 9 |
+| <img src="images/page010.png" alt="page010 icon" width="700"> 10 |
+| <img src="images/page011.png" alt="page011 icon" width="700"> 11 |   |
 
 ### Page 1
 ![Page 1](images/page001.png)
