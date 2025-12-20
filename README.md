@@ -47,7 +47,7 @@
 
 ## Click [here to open the simulator](https://41423117.github.io/Eternal-Realm-Games/)
 ## Click [Click here to record when opening a YouTube video](https://youtu.be/_Cj6NyARDBo)
-## Click [Code Example](index.html)   
+## Click [Code Example](Eternal-Realm-Games/index.html)   
 ## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
 
 
