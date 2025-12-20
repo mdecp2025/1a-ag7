@@ -1,0 +1,162 @@
+from robot_lib import World as BaseWorld, AnimatedRobot as BaseRobot, timer, CELL_SIZE
+
+# --- 1. 定義世界（加入細格） ---
+class MyWorld(BaseWorld):
+    # 擴大世界寬度以容納 10 個數字 (15 * 5 = 75 sub_cells)
+    def __init__(self, width=15, height=10, sub_cell=5):
+        super().__init__(width, height)
+        self.sub_cell = sub_cell
+        self.sub_size = CELL_SIZE // sub_cell
+        self._draw_fine_grid()
+
+    def _draw_fine_grid(self):
+        ctx = self.layers["grid"].getContext("2d")
+        ctx.strokeStyle = "#e0e0e0"
+        ctx.lineWidth = 0.5
+        # 畫垂直細線
+        for i in range(self.width * self.sub_cell + 1):
+            x = i * self.sub_size
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, self.height * CELL_SIZE); ctx.stroke()
+        # 畫水平細線
+        for j in range(self.height * self.sub_cell + 1):
+            y = j * self.sub_size
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(self.width * CELL_SIZE, y); ctx.stroke()
+
+    # 細格座標轉換為像素座標 (已修正 BaseWorld Y 軸反轉問題)
+    def sub_to_px(self, sub_x, sub_y):
+        px = sub_x * self.sub_size + self.sub_size // 2
+        # 將 "上往下" 的 sub_y 轉換為 BaseWorld "下往上" 的像素 py
+        py = (self.height * self.sub_cell - 1 - sub_y) * self.sub_size + self.sub_size // 2
+        return px, py
+
+    # 在細格座標上畫線 (紅色線)
+    def draw_line(self, x1, y1, x2, y2):
+        ctx = self.layers["objects"].getContext("2d")
+        ctx.strokeStyle = "#d33" # 紅色
+        ctx.lineWidth = 9
+        ctx.lineCap = "round"
+        ctx.beginPath()
+        ctx.moveTo(*self.sub_to_px(x1, y1))
+        ctx.lineTo(*self.sub_to_px(x2, y2))
+        ctx.stroke()
+
+# --- 2. 定義機器人（以細格移動） ---
+class MyRobot(BaseRobot):
+    def __init__(self, world, start_sub_x=1, start_sub_y=1):
+        super().__init__(world, 0, 0) 
+        self.sub_x = start_sub_x 
+        self.sub_y = start_sub_y 
+        self.robot_size = world.sub_size * 1.8
+
+    # 重新繪製機器人（使用細格座標）
+    def _draw_robot(self):
+        self.robot_ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
+        img = self.images[self.facing]
+        px, py = self.world.sub_to_px(self.sub_x, self.sub_y)
+        s = self.robot_size
+        if img.complete:
+            self.robot_ctx.drawImage(img, px - s//2, py - s//2, s, s)
+
+    # 瞬間移動（不畫線）
+    def teleport_to(self, tx, ty):
+        def action(done):
+            self.sub_x, self.sub_y = tx, ty
+            self._draw_robot()
+            timer.set_timeout(done, 10) 
+        self.queue.append(action)
+        self._run_queue()
+
+    # 移動 + 畫線（最核心）
+    def move_to(self, tx, ty, draw_trace=True):
+        def action(done):
+            def step():
+                if self.sub_x == tx and self.sub_y == ty:
+                    done(); return
+                
+                prev_x, prev_y = self.sub_x, self.sub_y
+
+                dx = tx - self.sub_x
+                dy = ty - self.sub_y
+                
+                target = None
+                if dx > 0:      target = "E"
+                elif dx < 0:    target = "W"
+                elif dy > 0:    target = "S" # sub_y 增大 (往下) = S
+                elif dy < 0:    target = "N" # sub_y 減小 (往上) = N
+
+                if target:
+                    self.facing = target
+
+                self.sub_x += 1 if dx > 0 else (-1 if dx < 0 else 0)
+                self.sub_y += 1 if dy > 0 else (-1 if dy < 0 else 0)
+
+                if draw_trace:
+                    self.world.draw_line(prev_x, prev_y, self.sub_x, self.sub_y)
+                self._draw_robot()
+                timer.set_timeout(step, 10) 
+            step()
+        self.queue.append(action)
+        self._run_queue()
+
+# --- 3. 七段顯示器定義 ---
+SEGMENTS = {
+    0:[1,1,1,1,1,1,0], 1:[0,1,1,0,0,0,0], 2:[1,1,0,1,1,0,1],
+    3:[1,1,1,1,0,0,1], 4:[0,1,1,0,0,1,1], 5:[1,0,1,1,0,1,1],
+    6:[1,0,1,1,1,1,1], 7:[1,1,1,0,0,0,0], 8:[1,1,1,1,1,1,1],
+    9:[1,1,1,1,0,1,1]
+}
+
+# 每個線段的細格座標路徑（相對座標）
+# Y 軸：0 (頂部) -> 6 (底部)
+# 這是標準 PATHS，現在我們需要一個翻轉 180 度的 PATHS
+# 上下翻轉： Y' = 6 - Y
+FLIPPED_PATHS = [
+    [(0,6),(1,6),(2,6),(3,6)],             # A (原 0) -> 變成 D
+    [(3,6),(3,5),(3,4),(3,3)],             # B (原 0->3) -> 變成 F (從下往上畫)
+    [(3,3),(3,2),(3,1),(3,0)],             # C (原 3->6) -> 變成 E (從上往下畫)
+    [(3,0),(2,0),(1,0),(0,0)],             # D (原 6) -> 變成 A
+    [(0,0),(0,1),(0,2),(0,3)],             # E (原 6->3) -> 變成 C
+    [(0,3),(0,4),(0,5),(0,6)],             # F (原 3->0) -> 變成 B
+    [(0,3),(1,3),(2,3),(3,3)]              # G 中 (不變)
+]
+
+
+def draw_digit(robot, digit, ox, oy, flipped=False):
+    if digit not in SEGMENTS: return
+    paths = FLIPPED_PATHS if flipped else PATHS
+    
+    for i, on in enumerate(SEGMENTS[digit]):
+        if not on: continue
+        path = paths[i]
+        
+        # 移動到線段起點
+        start_x = ox + path[0][0]
+        start_y = oy + path[0][1] 
+        robot.teleport_to(start_x, start_y)
+        
+        # 畫出線段
+        for j in range(1, len(path)):
+            tx = ox + path[j][0]
+            ty = oy + path[j][1] 
+            robot.move_to(tx, ty, draw_trace=True)
+
+# ==================== 主程式：鏡射 180 度到上方 (紅色線) ====================
+world = MyWorld(width=15, height=10, sub_cell=5) 
+
+# 數字高度為 7 格 (Y=0 到 Y=6)。
+# 將數字繪製在畫布頂部 (Y 越小越靠近頂部)。
+# 設置 Y 偏移量為 1，數字將從 Y=1 畫到 Y=7。
+START_Y_SUB_CELL = 1 
+
+# 機器人從 (0, 0) 細格開始
+robot = MyRobot(world, 0, 0) 
+
+# 只繪製鏡射 (180 度翻轉) 到上方的序列
+for i in range(10):
+    digit = i
+    # 數字寬度為 4 格，間隔 1 格，總共 5 格
+    start_x_offset = 1 + i * 5 
+    # 傳入 flipped=True，使用翻轉後的 PATHS
+    draw_digit(robot, digit, start_x_offset, START_Y_SUB_CELL, flipped=True)
+
+print("機器人正在寫字：0123456789 (已鏡射 180 度到畫布上方，下方消失)")

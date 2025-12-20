@@ -1,0 +1,145 @@
+點右上方的 Share (分享) 再選擇要分享的內容就可以了
+
+我昨天電腦自動更新為 W11 24H2 結果無線滑鼠與先前的設定都失效, 非常 upset
+
+這是一台 1萬六的筆電, 設定畫面長這樣
+
+我將不相干的所有微軟全部移除, 但他自動更新後
+修改許多設定, 可攜系統就變得很難用
+
+所以目前最好的操作系統是 Mac, 其次為 Linux
+
+微軟的野心太大, 不給使用者許多自由空間, 寫程式尤其是寫 Web - based 程式絕對不要使用
+
+Windows!!!!!
+
+以下是我的安裝套件:
+
+其他的工具全部作為可攜, 可是微軟三天兩頭過來搗蛋, 會強制更新
+
+我只安裝這六個套件
+
+若要在 ubuntu 部署程式, 不熟 linux 指令, 
+
+可以透過 portable filezilla 將設定檔案或程式在難用的 windows 準備好之後再送到 Ubuntu
+
+這個就是 https://s5.eng.nfu.edu.tw:9499 因為 brython 程式使用 client 端的硬體, 所以 server 的 loading 很小
+之後的網際程式發展一定比手機 app 的應用廣, 尤其是機械設計相關應用
+
+OK, 之後有甚麼問題再來討論, 若有同學希望從電腦硬體安裝 pve (proxmox) 一種 Debian based 的操作系統, 專門用來建立 VM (virtual machine), 可以從工作站室取出上一代或上上一代的舊電腦進行安裝部署, 可以用來建立最具彈性與效率的電腦工作環境
+
+這一台在我的研究室, 遠端登入後可以進行操作
+
+更新後連滑鼠都怪怪!!
+
+好! 我先退出, 有問題再來!!
+
+最後一件事, 你們若要取的 s5.eng.nfu.edu.tw 系統中的帳號: https://s5.eng.nfu.edu.tw:9500
+
+kmolab 可以通關
+
+選擇班級, 輸入學號姓名就可以取得一個帳號密碼與兩個 port 
+
+8 開頭用來設定內部 server 
+9 開頭則可以從外部連線, 加上 portable filezilla
+就可以將 token 送到 .git/config 設定中
+各學員就可以在這個網站中透過動態網頁進行編輯
+
+但是倉儲中的 config/config 密碼編碼檔案必須設法進行保全
+
+你們若有哪一組要試, 再來說明
+
+休息一下!!!
+
+我可以從 portable filezilla, 將名單取下, 找一個已經離我們而去的同學來進行測試
+
+因為 python 在 Linux 操作系統中扮演非常重要的角色, 所以在 Linux 執行 python 程式, 一定要使用虛擬系統, 不建議直接在操作系統的 Python 中隨意安裝套件
+
+有關這點 Linux 做得很好, 該給用戶的權限不會保留, 但也一定要遵守特定規則
+否則系統就會亂掉
+
+這個就是 venv, 用來執行這個網際套件的虛擬 python
+
+這是學員資料庫, 目前採 SQLite, 因為透過 peewee ORM 可以延伸到使用 MYSQL 與 PostgreSQL
+我要取下 stud.sqlite 然後到 Windows 查看內容
+
+在 Windows 開啟 .sqlite 資料庫可以使用 db_browser
+
+因為要放在 github 因此壓成三個檔案
+
+stud.sqlite 有兩個資料表 (table),共有 8 個欄位 (field) 採用 SQL 語法進行查詢, 但這裡可以直接看內容
+
+進去後用戶的密碼不知會不會曝光, 我先離開一下
+用這個帳號當例子, 是不是沒問題, 班代在不在?
+好像 OK
+
+接下來要將分組倉儲送到s5.eng.nfu.edu.tw 主機中
+
+win11 24h2 就會跳出這個
+
+接下來進行 sftp 連線
+
+其實可以直接上傳目錄
+
+接下來將 token 放入 .git/config
+
+啟動後修改密碼, 其編碼會放入 config/config 檔案中, 若要回推到 github 必須進行保全, 也就是要在 .gitignore 中要求不要將 config/config 送到 github
+
+若有 venv 也不要送, venv 必須 ssh 進入後自行建立, 查一下 Chatgpt 看如何建立
+來
+
+管理者才能 sudo == super user do
+
+這個應該已經建立
+
+ssh 進入後可以進入倉儲再下 
+
+python3  -m venv venv
+
+表示要執行 python 第三版 中的 venv 模組
+建立一個目錄名稱為 venv 的虛擬環境
+
+接著利用
+
+source venv/bin/activate 
+
+啟動這個虛擬環境然後進入虛擬環境中
+接下來要安裝啟動 cmsimde 所需的模組
+
+pip install flask flask_cors bs4 lxml pelican markdown waitress
+
+我們使用 waitress WSGI 而不是使用 replite 與 codespaces 所用的 gevent
+
+最後只要 python3 waitress_server.py
+
+啟動後不會有任何回應, 理論上要再將此一服務設定為隨機啟動
+但需要有管理者權限才行
+
+初步管理者密碼為 admin, 因為在公開網路上必須修改
+而且必須 git config --global user.name
+git config --global user.email 之後才能 acp
+
+就可以從 9022 看到動態網站
+
+到底有沒有人想知道如何部署? 因為有一些些複雜
+
+沒有我們就停在這裡?
+還是 demo 一次
+
+ssh a22@s5.eng.nfu.edu.tw
+
+遠端登入
+
+pwd 列出所在目錄 print working directory
+
+ls -l 列出目錄內容 list in long format
+
+進入 s 
+cd s
+還需要放入 port
+
+8 開頭的 port 要放入 waitress_server.py
+
+在 Windows 修改後要 sftp 進入替換
+
+接下來在 ssh 命令列建立 venv 來執行
