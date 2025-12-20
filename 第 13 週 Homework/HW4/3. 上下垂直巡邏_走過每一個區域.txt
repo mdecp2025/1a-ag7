@@ -1,0 +1,88 @@
+import robot
+import asyncio
+
+async def main():
+    # 初始化世界為 10x10，機器人從 (1, 1) 開始
+    world, bot = await robot.init(10, 10, 1, 1)
+    print("機器人開始行動")
+    
+    # --- 垂直蛇行巡邏邏輯 START ---
+
+    # 1. 將機器人初始方向調整為「北 (N)」 (向上)
+    # 假設機器人初始面向東 (E)，需要左轉一次： E -> N
+    await bot.turn_left() 
+
+    width = world.width  # 10
+    height = world.height # 10
+
+    # 垂直巡邏 (從左側 x=0 到右側 x=9)
+    for x in range(width):
+        
+        # 決定當前列的方向 (南或北)
+        # 偶數列 (x=0, 2, 4...) 往北 (N, 向上)
+        if x % 2 == 0:
+            target_direction = "N"
+            steps = height - 1 # 從 y=0 到 y=9 需走 9 步
+        # 奇數列 (x=1, 3, 5...) 往南 (S, 向下)
+        else:
+            target_direction = "S"
+            steps = height - 1 # 從 y=9 到 y=0 需走 9 步
+
+        # 1. 調整至垂直方向
+        # 轉向邏輯：利用 `bot.turn_left()`
+        current_facing = bot.facing # 假設 bot 實例有 facing 屬性
+        
+        # 轉向目標方向 (N 或 S)
+        # 註：此處需要知道 bot.facing 的準確值才能寫出精確的 turn_left 次數，
+        #     但根據巡邏順序，我們只需要考慮 N/S 之間的轉換以及 N->E 或 S->E
+        
+        # 由於我們在換行時會確保機器人面向東或西，這裡的邏輯需要確保方向正確：
+        
+        if x == 0:
+            # 初始時已轉為 N (向上)，無需再次轉向 N
+            pass 
+        elif x > 0:
+            # 換列後，機器人應該面向 E 或 W (如果剛從 N 或 S 移動到 x+1)
+            
+            # 如果要往北 (N)
+            if target_direction == "N":
+                # 從 E 轉到 N：左轉 1 次
+                # 從 W 轉到 N：左轉 3 次
+                if bot.facing == "E":
+                    await bot.turn_left()
+                elif bot.facing == "W":
+                    for _ in range(3): await bot.turn_left()
+                    
+            # 如果要往南 (S)
+            elif target_direction == "S":
+                # 從 E 轉到 S：左轉 3 次
+                # 從 W 轉到 S：左轉 1 次
+                if bot.facing == "E":
+                    for _ in range(3): await bot.turn_left()
+                elif bot.facing == "W":
+                    await bot.turn_left()
+
+
+        # 2. 垂直移動一整列
+        if steps > 0:
+            await bot.walk(steps)
+            
+        # 3. 換列：如果不是最後一列 (x < width - 1)
+        if x < width - 1:
+            # 轉向 'E' 準備向右移動 1 格 (換列)
+            if bot.facing == "N":
+                # N -> E (右轉): 左轉 3 次
+                for _ in range(3): await bot.turn_left()
+            elif bot.facing == "S":
+                # S -> E (左轉): 左轉 1 次
+                await bot.turn_left()
+            
+            # 向右移動 1 格 (換列)
+            await bot.walk(1)
+
+    # 巡邏結束
+    print("🚩 巡邏完成！")
+    
+    # --- 垂直蛇行巡邏邏輯 END ---
+
+await main()
