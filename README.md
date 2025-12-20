@@ -24,7 +24,7 @@
 
 ## Project Report Content
 
-|   |
+| Introduction to the Image File |
 |---|
 | <img src="images/page001.png" alt="page001 icon" width="750"> 1 |
 | <img src="images/page002.png" alt="page002 icon" width="750"> 2 |
