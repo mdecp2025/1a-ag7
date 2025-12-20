@@ -26,17 +26,17 @@
 
 | Introduction to the Image File |
 |---|
-| <img src="images/page001.png" alt="page001 icon" width="750"> 1 |
-| <img src="images/page002.png" alt="page002 icon" width="750"> 2 |
-| <img src="images/page003.png" alt="page003 icon" width="750"> 3 |
-| <img src="images/page004.png" alt="page004 icon" width="750"> 4 |
-| <img src="images/page005.png" alt="page005 icon" width="750"> 5 |
-| <img src="images/page006.png" alt="page006 icon" width="750"> 6 |
-| <img src="images/page007.png" alt="page007 icon" width="750"> 7 |
-| <img src="images/page008.png" alt="page008 icon" width="750"> 8 |
-| <img src="images/page009.png" alt="page009 icon" width="750"> 9 |
-| <img src="images/page010.png" alt="page010 icon" width="750"> 10 |
-| <img src="images/page011.png" alt="page011 icon" width="750"> 11 |   |
+| <img src="images/page001.png" alt="page001 icon" width="750"> [1] |
+| <img src="images/page002.png" alt="page002 icon" width="750"> [2] |
+| <img src="images/page003.png" alt="page003 icon" width="750"> [3] |
+| <img src="images/page004.png" alt="page004 icon" width="750"> [4] |
+| <img src="images/page005.png" alt="page005 icon" width="750"> [5] |
+| <img src="images/page006.png" alt="page006 icon" width="750"> [6] |
+| <img src="images/page007.png" alt="page007 icon" width="750"> [7] |
+| <img src="images/page008.png" alt="page008 icon" width="750"> [8] |
+| <img src="images/page009.png" alt="page009 icon" width="750"> [9] |
+| <img src="images/page010.png" alt="page010 icon" width="750"> [10] |
+| <img src="images/page011.png" alt="page011 icon" width="750"> [11] |   |
 
 
 # --------------------------------------------------------------------------------------------------------------------------------
