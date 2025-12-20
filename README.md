@@ -65,38 +65,15 @@
 ## Click [This is an individually created website](https://github.com/41423117/Eternal-Realm-Games)
 ## Click [This is a personal notes/reflections section](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2F41423117%2Fword%2Frefs%2Fheads%2Fmain%2F%255B%25E5%25B0%2588%25E6%25A1%2588%255D%25E5%25BE%259E%25E9%259B%25B6%25E9%2596%258B%25E5%25A7%258B%25E5%25AD%25B8%25E7%25BF%2592%25E7%25A8%258B%25E5%25BC%258F%25E9%2596%258B%25E7%2599%25BC.docx&wdOrigin=BROWSELINK)
 
-### Page 1
-![Page 1](folder/page07.png)
 
-### Page 2
-![Page 2](folder/page08.png)
-
-### Page 3
-![Page 3](folder/page04.png)
-
-### Page 4  
-![Page 4](folder/page05.png)
-
-### Page 5
-![Page 5](folder/page06.png)
-
-### Page 6  
-![Page 6](folder/page09.png)
-
-### Page 7
-![Page 7](folder/page10.png)
-
-### Page 8
-![Page 8](folder/page11.png)
-
-### Page 9
-![Page 9](folder/page12.png)
-
-### Page 10 
-![Page 10](folder/page13.png)
-
-### Page 11  
-![Page 11](folder/page14.png)
+|   |   |
+|---|---|
+| <img src="folder/page07.png" alt="page07 icon" height="250"> 1 | <img src="folder/page08.png" alt="page08 icon" height="250"> 2 |
+| <img src="folder/page04.png" alt="page04 icon" height="250"> 3 | <img src="folder/page05.png" alt="page05 icon" height="250"> 4 |
+| <img src="folder/page06.png" alt="page06 icon" height="250"> 5 | <img src="folder/page09.png" alt="page09 icon" height="250"> 6 |
+| <img src="folder/page10.png" alt="page10 icon" height="250"> 7 | <img src="folder/page11.png" alt="page11 icon" height="250"> 8 |
+| <img src="folder/page12.png" alt="page12 icon" height="250"> 9 | <img src="folder/page13.png" alt="page13 icon" height="250"> 10 |
+| <img src="folder/page14.png" alt="page14 icon" height="250"> 11 |   |
 
 
 # w9_11/6_12:41 Successfully launched
