@@ -26,7 +26,7 @@
 
 |   |
 |---|
-| <img src="images/page001.png" alt="page001 icon" width="700"> 1 |
+| <img src="images/page001.png" alt="page001 icon" width="720"> 1 |
 | <img src="images/page002.png" alt="page002 icon" width="700"> 2 |
 | <img src="images/page003.png" alt="page003 icon" width="700"> 3 |
 | <img src="images/page004.png" alt="page004 icon" width="700"> 4 |
