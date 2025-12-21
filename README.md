@@ -185,7 +185,7 @@ Other languages can be easily added.
 
 This implementation retains all the original features of the Bird Shooting Game while adding the game selection interface and language switching function. The interface design maintains the original style, ensuring a consistent user experience.
 
-# w13 12/06_04:00 更Feature Update
+# w13 12/06_04:00 Feature Update
 
 ## New Features:
 
@@ -339,3 +339,78 @@ It is possible to return to the main menu or game selection interface from the s
 Added a SURVIVAL_GAME game state.
 
 Ensures smooth switching between the two games without interference.
+
+
+# w15_12/21_14:10_Modification Summary:
+
+## Boss System:
+
+A boss spawns every 1.5 minutes
+
+Boss HP: Initial 30 points, increases by 10 points each spawn
+
+Boss Damage: Initial 10 points, increases by 12 points each spawn
+
+Boss movement speed is slower, but increases with each spawn
+
+Bosses drop a +20 damage power-up when killed
+
+# Power-up System:
+
+## Regular enemies have a 50% chance to drop:
+
++3 damage (black)
+
++30 HP recovery (turquoise-green)
+
++20 permanent maximum HP (gold-red)
+
+## Bosses always drop: +20 damage (light blue-white)
+
+# Player Changes:
+
+Initial HP: 200 points
+
+Initial damage: 5 points
+
+Unlimited ammunition
+
+Can pick up power-ups to gain corresponding attributes
+
+# Visual Effects:
+
+Bosses have distinct markers and health bars
+
+Power-ups have flashing effects
+
+Prompt messages appear when picking up power-ups
+
+HUD displays the player's current attributes
+
+# Game Balance:
+
+Regular enemy HP: 15 or 20 points randomly
+
+Regular enemy damage: 2 points
+
+Bosses become stronger with each spawn
+
+Power-ups provide permanent attribute enhancements
+
+# Changed the "Exit Game" button in the pause screen to "Back":
+
+Modified the button text in the HTML
+
+Updated the event listener so clicking it returns to the game selection screen instead of the main screen
+
+# Moved player attribute display to the top-right corner:
+
+Added CSS styling for #playerStats, setting it to display in the top-right corner
+
+Modified the updateSurvivalHUD() function to change the player attribute display position from top-left to top-right
+
+# Now when you pause in the survival shooting game:
+
+Clicking the "Back" button will return you to the game selection screen
+
+Player attributes (damage, health, permanent health bonus) are displayed in the top-right corner
