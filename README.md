@@ -1,7 +1,7 @@
 # ## [此處是1a-ag7分組靜態網網站](https://mdecp2025.github.io/1a-ag7/content/index.html)
 ### Robotics Reflections ⬆
-## Click [This is a personal notes/reflections section](https://s5.aconvert.com/convert/p3r68-cdx67/4mrjd-19z30.html)
-## Click [GitHub page update Teaching](https://s6.aconvert.com/convert/p3r68-cdx67/ajoyu-fcjh8.html)
+## Click [This is a personal notes/reflections section](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2F41423117%2FWord%2Frefs%2Fheads%2Fmain%2F%255B%25E5%25B0%2588%25E6%25A1%2588%255D%25E5%25BE%259E%25E9%259B%25B6%25E9%2596%258B%25E5%25A7%258B%25E5%25AD%25B8%25E7%25BF%2592%25E7%25A8%258B%25E5%25BC%258F%25E9%2596%258B%25E7%2599%25BC.docx&wdOrigin=BROWSELINK)
+## Click [GitHub page update Teaching](https://github.com/41423117/pdf/blob/main/github%E7%B6%B2%E9%A0%81%E6%9B%B4%E6%96%B0.pdf)
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # 
