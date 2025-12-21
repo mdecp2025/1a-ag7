@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>永恒領域遊戲</title>
     <style>
+        /* 所有CSS代碼保持不變，只添加上述CSS修改 */
         * {
             margin: 0;
             padding: 0;
@@ -1391,6 +1392,15 @@
             box-shadow: 0 0 20px #2196F3;
         }
         
+        /* 修改後退按鈕樣式 */
+        .survival-grid-item:not(.resume):not(.exit) {
+            background: linear-gradient(135deg, #2196F3, #0D47A1);
+        }
+        
+        .survival-grid-item:not(.resume):not(.exit):hover {
+            box-shadow: 0 0 20px #2196F3;
+        }
+        
         .survival-hud {
             position: absolute;
             top: 20px;
@@ -1463,21 +1473,6 @@
             bottom: 20px;
             color: rgba(255, 255, 255, 0.5);
             font-size: 16px;
-        }
-        
-        /* 玩家屬性顯示在右上角 */
-        #playerStats {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            color: white;
-            font-size: 16px;
-            z-index: 5;
-            text-align: right;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #4CAF50;
         }
         
         /* 新增能量塊動畫效果 */
@@ -1715,8 +1710,7 @@
                     <h1 class="survival-pause-title">遊戲暫停</h1>
                     <div class="survival-grid-container">
                         <div id="survivalResumeBtn" class="survival-grid-item resume">繼續遊戲</div>
-                        <!-- 修改為後退按鈕 -->
-                        <div id="survivalPauseExitBtn" class="survival-grid-item exit">後退</div>
+                        <div id="survivalPauseExitBtn" class="survival-grid-item">後退</div>
                     </div>
                     <div id="survivalPauseHint">按 ESC 繼續遊戲</div>
                 </div>
@@ -1727,7 +1721,7 @@
                     <div id="survivalScore">分數: 0</div>
                     <div class="survival-grid-container">
                         <div id="survivalRestartBtn" class="survival-grid-item">重新開始</div>
-                        <div id="survivalMainMenuBtn" class="survival-grid-item exit">主選單</div>
+                        <div id="survivalMainMenuBtn" class="survival-grid-item">後退</div>
                     </div>
                 </div>
             </div>
@@ -2099,19 +2093,23 @@
 
             document.getElementById('survivalGameStartBtn').addEventListener('click', startSurvivalGame);
             document.getElementById('survivalRestartBtn').addEventListener('click', startSurvivalGame);
+            
+            // 修改：將主選單按鈕改為後退，點擊後返回遊戲選擇畫面
             document.getElementById('survivalMainMenuBtn').addEventListener('click', () => {
                 document.getElementById('survivalGameOver').style.display = 'none';
                 hideSurvivalGame();
-                showMainScreen();
+                showGameSelectionScreen(); // 返回遊戲選擇畫面
             });
 
-            // 暫停畫面控制 - 修改為返回遊戲選擇畫面
-            document.getElementById('survivalResumeBtn').addEventListener('click', toggleSurvivalPause);
+            // 修改：暫停畫面退出按鈕改為後退，點擊後返回遊戲選擇畫面
             document.getElementById('survivalPauseExitBtn').addEventListener('click', () => {
                 toggleSurvivalPause();
                 hideSurvivalGame();
                 showGameSelectionScreen(); // 返回遊戲選擇畫面
             });
+
+            // 修改：暫停畫面繼續按鈕事件
+            document.getElementById('survivalResumeBtn').addEventListener('click', toggleSurvivalPause);
 
             // ESC鍵監聽
             document.addEventListener('keydown', (e) => {
@@ -2248,7 +2246,7 @@
             survivalGameLoop();
         }
 
-        // 更新生存射擊遊戲HUD - 修改玩家屬性顯示位置
+        // 更新生存射擊遊戲HUD - 修改玩家狀態信息位置
         function updateSurvivalHUD() {
             document.getElementById('survivalScoreDisplay').textContent = survivalGameState.score;
             const healthPercent = (survivalGameState.player.health / survivalGameState.player.maxHealth) * 100;
@@ -2257,28 +2255,33 @@
             // 子彈無限
             document.getElementById('survivalAmmoCount').textContent = '∞';
             
-            // 顯示玩家屬性 - 移到右上方
+            // 顯示玩家屬性 - 移動到右上角
             const playerStats = document.createElement('div');
             playerStats.id = 'playerStats';
             playerStats.style.position = 'absolute';
-            playerStats.style.top = '60px';
-            playerStats.style.right = '20px';
+            playerStats.style.top = '20px';  // 與分數和血量條對齊
+            playerStats.style.right = '20px';  // 右側
             playerStats.style.color = 'white';
             playerStats.style.fontSize = '16px';
             playerStats.style.zIndex = '5';
-            playerStats.style.textAlign = 'right';
+            playerStats.style.textAlign = 'right';  // 右對齊
+            playerStats.style.background = 'rgba(0, 0, 0, 0.5)';
+            playerStats.style.padding = '10px';
+            playerStats.style.borderRadius = '5px';
+            playerStats.style.border = '1px solid rgba(76, 201, 240, 0.5)';
+            playerStats.style.boxShadow = '0 0 10px rgba(76, 201, 240, 0.3)';
             playerStats.innerHTML = `
                 傷害: ${survivalGameState.player.bulletDamage}<br>
                 血量: ${survivalGameState.player.health}/${survivalGameState.player.maxHealth}<br>
-                永久生命加成: +${survivalGameState.player.permanentHealthIncrease}
+                生命加成: +${survivalGameState.player.permanentHealthIncrease}
             `;
             
             // 如果已存在則更新，否則添加
             const existingStats = document.getElementById('playerStats');
             if (existingStats) {
                 existingStats.innerHTML = playerStats.innerHTML;
+                existingStats.style.top = '20px';
                 existingStats.style.right = '20px';
-                existingStats.style.left = 'auto';
                 existingStats.style.textAlign = 'right';
             } else {
                 document.getElementById('survivalHud').appendChild(playerStats);
