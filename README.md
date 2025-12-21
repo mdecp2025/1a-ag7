@@ -357,9 +357,9 @@ Boss movement speed is slower, but increases with each spawn
 
 Bosses drop a +20 damage power-up when killed
 
-# Power-up System:
+## Power-up System:
 
-## Regular enemies have a 50% chance to drop:
+### Regular enemies have a 50% chance to drop:
 
 +3 damage (black)
 
@@ -367,9 +367,9 @@ Bosses drop a +20 damage power-up when killed
 
 +20 permanent maximum HP (gold-red)
 
-## Bosses always drop: +20 damage (light blue-white)
+### Bosses always drop: +20 damage (light blue-white)
 
-# Player Changes:
+## Player Changes:
 
 Initial HP: 200 points
 
@@ -379,7 +379,7 @@ Unlimited ammunition
 
 Can pick up power-ups to gain corresponding attributes
 
-# Visual Effects:
+## Visual Effects:
 
 Bosses have distinct markers and health bars
 
@@ -389,7 +389,7 @@ Prompt messages appear when picking up power-ups
 
 HUD displays the player's current attributes
 
-# Game Balance:
+## Game Balance:
 
 Regular enemy HP: 15 or 20 points randomly
 
@@ -399,20 +399,60 @@ Bosses become stronger with each spawn
 
 Power-ups provide permanent attribute enhancements
 
-# Changed the "Exit Game" button in the pause screen to "Back":
+## Changed the "Exit Game" button in the pause screen to "Back":
 
 Modified the button text in the HTML
 
 Updated the event listener so clicking it returns to the game selection screen instead of the main screen
 
-# Moved player attribute display to the top-right corner:
+## Moved player attribute display to the top-right corner:
 
 Added CSS styling for #playerStats, setting it to display in the top-right corner
 
 Modified the updateSurvivalHUD() function to change the player attribute display position from top-left to top-right
 
-# Now when you pause in the survival shooting game:
+## Now when you pause in the survival shooting game:
 
 Clicking the "Back" button will return you to the game selection screen
 
 Player attributes (damage, health, permanent health bonus) are displayed in the top-right corner
+
+# 12/21_17:45_Main Modifications:
+
+Added Boss image loading functionality - The game will attempt to load the Boss image from the provided URL.
+
+Created a fallback Boss image - If the external image fails to load, a mechanical-style Boss will be automatically generated.
+
+## Enhanced Boss behavior:
+
+The Boss now faces and rotates toward the player.
+
+The Boss shoots red bullets at the player.
+
+The Boss moves around the player instead of charging directly at them.
+
+The Boss drops more power-ups when defeated.
+
+## Adjusted Boss attributes:
+
+Base health increased from 30 to 80 points.
+
+Health increase per spawn raised from 10 to 20 points.
+
+Damage increase per spawn raised from 12 to 20 points.
+
+Size increased from 50+5n to 70+5n.
+
+## Optimized Boss visual effects:
+
+Uses either an image or a drawn mechanical Boss.
+
+Added Boss markers and health bars.
+
+The Boss displays spawn count alerts.
+
+## Improved Boss drop system:
+
+The Boss drops 3-5 power-ups when defeated.
+
+Higher probability of dropping advanced power-ups (damage +20 and max health +20).
