@@ -456,3 +456,50 @@ The Boss displays spawn count alerts.
 The Boss drops 3-5 power-ups when defeated.
 
 Higher probability of dropping advanced power-ups (damage +20 and max health +20).
+
+
+# w16_12/22_17:15_Main modifications:
+
+## 1. Add state variables for survival shooter:
+
+```
+canSpawnEnemies: true, // 是否可以生成小怪
+maxEnemies: 9, // 場上最多小怪數量
+enemyBaseSpeed: 2.0, // 小怪基礎速度（均勻）
+bossWarningActive: false, // Boss警告是否激活
+bossWarningTime: 5000, // Boss出現前警告時間（5秒）
+bossCooldownTime: 5000, // Boss死後冷卻時間（5秒）
+bossAlive: false, // Boss是否存活
+lastBossDeathTime: 0, // 上次Boss死亡時間
+warningShown: false // 警告是否已顯示
+```
+
+## 2. Modify enemy spawning logic:
+
+Limit the maximum number of enemies to 9.
+
+Automatically replenish enemies to 9 upon death.
+
+Set enemy movement to a uniform speed (enemyBaseSpeed: 2.0).
+
+## 3. Add Boss state check system:
+
+```
+function checkBossStatus()
+```
+
+## 4. Boss spawning logic updates:
+
+Display warning 5 seconds before Boss spawns.
+
+Set relevant state flags when the Boss spawns.
+
+Record death time and start the cooldown timer upon Boss death.
+
+## 5. Visual effect enhancements:
+
+Display Boss spawn countdown.
+
+Display enemy respawn countdown.
+
+Maintain the original Boss warning effects.
