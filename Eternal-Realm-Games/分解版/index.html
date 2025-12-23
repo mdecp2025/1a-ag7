@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永恒領域遊戲</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="crosshair"></div>
+        
+        <!-- 主畫面 -->
+        <div id="mainScreen" class="screen">
+            <div class="tech-dots" id="techDots"></div>
+            
+            <!-- 左側機器手 -->
+            <div class="robotic-arm left">
+                <div class="arm-base">
+                    <div class="arm-rivet rivet-1"></div>
+                    <div class="arm-rivet rivet-2"></div>
+                    <div class="arm-rivet rivet-3"></div>
+                    <div class="arm-rivet rivet-4"></div>
+                </div>
+                <div class="arm-joint arm-joint-1"></div>
+                <div class="arm-segment arm-segment-1"></div>
+                <div class="arm-plate plate-1"></div>
+                <div class="arm-joint arm-joint-2"></div>
+                <div class="arm-segment arm-segment-2"></div>
+                <div class="arm-plate plate-2"></div>
+                <div class="arm-hand">
+                    <div class="hand-finger finger-thumb"></div>
+                    <div class="hand-finger finger-1">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-2">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-3">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-little"></div>
+                </div>
+            </div>
+            
+            <!-- 右側機器手 -->
+            <div class="robotic-arm right">
+                <div class="arm-base">
+                    <div class="arm-rivet rivet-1"></div>
+                    <div class="arm-rivet rivet-2"></div>
+                    <div class="arm-rivet rivet-3"></div>
+                    <div class="arm-rivet rivet-4"></div>
+                </div>
+                <div class="arm-joint arm-joint-1"></div>
+                <div class="arm-segment arm-segment-1"></div>
+                <div class="arm-plate plate-1"></div>
+                <div class="arm-joint arm-joint-2"></div>
+                <div class="arm-segment arm-segment-2"></div>
+                <div class="arm-plate plate-2"></div>
+                <div class="arm-hand">
+                    <div class="hand-finger finger-thumb"></div>
+                    <div class="hand-finger finger-1">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-2">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-3">
+                        <div class="finger-joint joint-1"></div>
+                        <div class="finger-joint joint-2"></div>
+                        <div class="finger-joint joint-3"></div>
+                    </div>
+                    <div class="hand-finger finger-little"></div>
+                </div>
+            </div>
+            
+            <!-- 標題容器 -->
+            <div class="title-container">
+                <h1 class="title">永恆領域遊戲</h1>
+            </div>
+            
+            <div id="startButton" class="button">開始遊戲</div>
+            <p class="instructions">按空格鍵或點擊開始按鈕開始遊戲</p>
+        </div>
+        
+        <!-- 遊戲選擇畫面 -->
+        <div id="gameSelectionScreen" class="screen hidden">
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="all">所有遊戲</div>
+                <div class="category-tab" data-category="shooting">射擊遊戲</div>
+                <div class="category-tab" data-category="driving">開車遊戲</div>
+                <div class="category-tab" data-category="card">紙牌遊戲</div>
+                <div class="category-tab" data-category="action">動作遊戲</div>
+                <div class="category-tab" data-category="settings">設定</div>
+                <div class="category-tab" id="backToMainTab">返回</div>
+            </div>
+            
+            <div class="content-display" id="contentDisplay">
+                <!-- 遊戲內容將動態加載 -->
+            </div>
+        </div>
+        
+        <!-- 難度選擇畫面 -->
+        <div id="difficultyScreen" class="screen hidden">
+            <h1 class="title">選擇難度</h1>
+            <div id="easyButton" class="button">簡單</div>
+            <div id="normalButton" class="button">一般</div>
+            <div id="hardButton" class="button">困難</div>
+            <div id="randomButton" class="button">隨機難度</div>
+            <div id="exitButton" class="button">退出</div>
+            <div id="resumeButton" class="button" style="display: none;">繼續</div>
+            <div id="historyButton">歷史記錄</div>
+            <p class="instructions">按ESC鍵暫停遊戲</p>
+        </div>
+        
+        <!-- 遊戲畫面 -->
+        <div id="gameScreen" class="screen hidden">
+            <canvas id="gameCanvas"></canvas>
+            <div id="score">分數: 0</div>
+            <div id="birdsLeft">剩餘飛鳥: 0</div>
+            <div id="timeLeft">剩餘時間: 40秒</div>
+            <div id="gameOverMessage">
+                <h2>遊戲結束</h2>
+                <p>你的分數: <span id="finalScore">0</span></p>
+                <div id="continueButton">繼續</div>
+            </div>
+        </div>
+        
+        <!-- 歷史記錄彈窗 -->
+        <div id="historyPopup">
+            <div id="historyHeader">
+                <div id="historyTitle">歷史記錄</div>
+                <div id="closeHistory">✕</div>
+            </div>
+            <div id="historyContent">
+                <div class="noHistory">暫無遊戲記錄</div>
+            </div>
+        </div>
+        
+        <!-- 檔案總管模擬視窗 -->
+        <div id="fileExplorerModal">
+            <div id="fileExplorerHeader">
+                <div id="fileExplorerTitle">選擇背景圖片</div>
+                <div id="closeFileExplorer">✕</div>
+            </div>
+            <div id="fileExplorerContent">
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">圖片</div>
+                    <div class="file-path">C:\Users\YourName\Pictures</div>
+                </div>
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">下載</div>
+                    <div class="file-path">C:\Users\YourName\Downloads</div>
+                </div>
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">桌面</div>
+                    <div class="file-path">C:\Users\YourName\Desktop</div>
+                </div>
+                <div class="file-item" data-type="folder">
+                    <div class="file-icon">📁</div>
+                    <div class="file-name">文件</div>
+                    <div class="file-path">C:\Users\YourName\Documents</div>
+                </div>
+            </div>
+            <div id="fileUploadSection">
+                <p>或直接上傳圖片檔案：</p>
+                <input type="file" id="backgroundImageInput" accept="image/*" style="display: none;">
+                <div id="fileUploadButton">選擇檔案</div>
+                <div id="selectedFileInfo">未選擇檔案</div>
+                <div id="applyBackgroundButton" style="margin-top: 15px; width: 200px; display: none;">套用背景</div>
+            </div>
+        </div>
+        
+        <!-- 生存射擊遊戲畫面 -->
+        <div id="survivalGameScreen" class="survival-game-screen hidden">
+            <div class="survival-game-container">
+                <!-- 主畫面 -->
+                <div id="survivalMainScreen" class="survival-screen">
+                    <h1 class="survival-title">生存射擊遊戲</h1>
+                    <div class="survival-grid-container">
+                        <div id="survivalStartBtn" class="survival-grid-item">開始遊戲</div>
+                    </div>
+                </div>
+                
+                <!-- 選擇畫面 -->
+                <div id="survivalModeScreen" class="survival-screen hidden">
+                    <h1 class="survival-title">選擇模式</h1>
+                    <div class="survival-grid-container">
+                        <div id="survivalGameStartBtn" class="survival-grid-item">開始遊戲</div>
+                        <div id="survivalExitBtn" class="survival-grid-item exit">退出</div>
+                    </div>
+                </div>
+                
+                <!-- 遊戲畫面 -->
+                <canvas id="survivalGameCanvas" class="survival-game-canvas"></canvas>
+                
+                <!-- HUD -->
+                <div id="survivalHud" class="survival-hud">
+                    <div id="survivalHealthBar">
+                        <div id="survivalHealthFill"></div>
+                    </div>
+                    <div>分數: <span id="survivalScoreDisplay">0</span></div>
+                    <div id="survivalAmmo">子彈: <span id="survivalAmmoCount">∞</span></div>
+                </div>
+                
+                <!-- 裝填指示器 -->
+                <div id="survivalReloadIndicator">裝填中...</div>
+                
+                <!-- 暫停畫面 -->
+                <div id="survivalPauseScreen" class="survival-screen">
+                    <h1 class="survival-pause-title">遊戲暫停</h1>
+                    <div class="survival-grid-container">
+                        <div id="survivalResumeBtn" class="survival-grid-item resume">繼續遊戲</div>
+                        <div id="survivalPauseExitBtn" class="survival-grid-item">後退</div>
+                    </div>
+                    <div id="survivalPauseHint">按 ESC 繼續遊戲</div>
+                </div>
+                
+                <!-- 遊戲結束畫面 -->
+                <div id="survivalGameOver" class="survival-screen">
+                    <h1 class="survival-title">遊戲結束</h1>
+                    <div id="survivalScore">分數: 0</div>
+                    <div class="survival-grid-container">
+                        <div id="survivalRestartBtn" class="survival-grid-item">重新開始</div>
+                        <div id="survivalMainMenuBtn" class="survival-grid-item">後退</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

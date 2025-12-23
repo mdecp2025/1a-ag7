@@ -1,0 +1,1488 @@
+/* 所有CSS代碼 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft JhengHei', Arial, sans-serif;
+}
+
+body {
+    overflow: hidden;
+    background-color: #1a1a2e;
+    color: white;
+}
+
+#gameContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#mainScreen {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+#mainScreen.custom-bg {
+    background: var(--custom-background, linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+#mainScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9)),
+        url('assets/pattern.svg');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+#mainScreen.custom-bg::before {
+    background: 
+        linear-gradient(rgba(26, 26, 46, 0.7), rgba(26, 26, 46, 0.7)),
+        var(--custom-background, linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%));
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+#mainScreen .title-container {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(30, 60, 114, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 201, 240, 0.3);
+    box-shadow: 
+        0 0 30px rgba(76, 201, 240, 0.2),
+        inset 0 0 20px rgba(76, 201, 240, 0.1);
+    margin-bottom: 40px;
+    min-width: 600px;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% {
+        box-shadow: 
+            0 0 30px rgba(76, 201, 240, 0.2),
+            inset 0 0 20px rgba(76, 201, 240, 0.1);
+    }
+    100% {
+        box-shadow: 
+            0 0 40px rgba(76, 201, 240, 0.4),
+            inset 0 0 25px rgba(76, 201, 240, 0.2);
+    }
+}
+
+.title {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-shadow: 
+        0 0 10px rgba(76, 201, 240, 0.8),
+        0 0 20px rgba(76, 201, 240, 0.6),
+        0 0 30px rgba(76, 201, 240, 0.4);
+    color: #ffffff;
+    background: linear-gradient(45deg, #ffffff, #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 2px;
+    animation: textPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes textPulse {
+    0% {
+        text-shadow: 
+            0 0 10px rgba(76, 201, 240, 0.8),
+            0 0 20px rgba(76, 201, 240, 0.6);
+    }
+    100% {
+        text-shadow: 
+            0 0 15px rgba(76, 201, 240, 1),
+            0 0 25px rgba(76, 201, 240, 0.8),
+            0 0 35px rgba(76, 201, 240, 0.6);
+    }
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: #a0a0a0;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.button {
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 10px;
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+    position: relative;
+    z-index: 2;
+}
+
+.button:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.8);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+#startButton {
+    margin-top: 2rem;
+    font-size: 2rem;
+    padding: 20px 60px;
+    width: 300px;
+}
+
+/* 高科技機器手樣式 - 修改為鎧甲風格 */
+.robotic-arm {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+    z-index: 2;
+    animation: armFloat 4s ease-in-out infinite;
+}
+
+.robotic-arm.left {
+    left: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.robotic-arm.right {
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@keyframes armFloat {
+    0%, 100% {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-45%) rotate(3deg);
+    }
+    50% {
+        transform: translateY(-50%) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-55%) rotate(-3deg);
+    }
+}
+
+/* 機器手部件 - 鎧甲風格 */
+.arm-base {
+    position: absolute;
+    background: linear-gradient(45deg, #3a3a3a, #2a2a2a);
+    border-radius: 15px;
+    box-shadow: 
+        0 0 20px rgba(76, 201, 240, 0.6),
+        inset 0 0 15px rgba(0, 0, 0, 0.7),
+        0 5px 15px rgba(0, 0, 0, 0.5);
+    border: 3px solid #4cc9f0;
+}
+
+.arm-segment {
+    position: absolute;
+    background: linear-gradient(90deg, #4a4a4a, #3a3a3a);
+    border-radius: 10px;
+    border: 3px solid #4cc9f0;
+    box-shadow: 
+        0 0 15px rgba(76, 201, 240, 0.4),
+        inset 0 0 10px rgba(76, 201, 240, 0.3),
+        0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.arm-joint {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, #5cc9f0, #1a5a8a, #3a3a3a);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 15px rgba(76, 201, 240, 0.9),
+        inset 0 0 8px rgba(255, 255, 255, 0.6),
+        0 2px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid #ffffff;
+}
+
+.arm-hand {
+    position: absolute;
+    background: linear-gradient(45deg, #3a3a3a, #2a2a2a);
+    border-radius: 15px;
+    border: 3px solid #4cc9f0;
+    box-shadow: 
+        0 0 20px rgba(76, 201, 240, 0.5),
+        inset 0 0 15px rgba(76, 201, 240, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hand-finger {
+    position: absolute;
+    background: linear-gradient(90deg, #4a4a4a, #3a3a3a);
+    border-radius: 8px;
+    box-shadow: 
+        0 0 10px rgba(76, 201, 240, 0.5),
+        inset 0 0 5px rgba(76, 201, 240, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.4);
+    border: 2px solid #4cc9f0;
+}
+
+/* 新增鎧甲板塊細節 */
+.arm-plate {
+    position: absolute;
+    background: linear-gradient(45deg, #333333, #444444);
+    border-radius: 5px;
+    border: 1px solid #5cc9f0;
+    box-shadow: 
+        inset 0 0 8px rgba(76, 201, 240, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.arm-rivet {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, #4cc9f0, #2a5a7a);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 5px rgba(76, 201, 240, 0.8),
+        inset 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+/* 左側機器手具體結構 - 鎧甲風格 */
+.robotic-arm.left .arm-base {
+    width: 80px;
+    height: 100px;
+    left: 0;
+    top: 150px;
+}
+
+.robotic-arm.left .arm-joint-1 {
+    width: 60px;
+    height: 60px;
+    left: 60px;
+    top: 140px;
+    animation: jointRotate1 3s ease-in-out infinite;
+}
+
+.robotic-arm.left .arm-segment-1 {
+    width: 180px;
+    height: 30px;
+    left: 90px;
+    top: 145px;
+    transform: rotate(-15deg);
+}
+
+/* 上臂鎧甲板塊 */
+.robotic-arm.left .plate-1 {
+    width: 160px;
+    height: 20px;
+    left: 100px;
+    top: 150px;
+    transform: rotate(-15deg);
+}
+
+.robotic-arm.left .arm-joint-2 {
+    width: 55px;
+    height: 55px;
+    left: 230px;
+    top: 110px;
+    animation: jointRotate2 3s ease-in-out infinite reverse;
+}
+
+.robotic-arm.left .arm-segment-2 {
+    width: 150px;
+    height: 28px;
+    left: 260px;
+    top: 118px;
+    transform: rotate(10deg);
+}
+
+/* 前臂鎧甲板塊 */
+.robotic-arm.left .plate-2 {
+    width: 140px;
+    height: 18px;
+    left: 265px;
+    top: 123px;
+    transform: rotate(10deg);
+}
+
+.robotic-arm.left .arm-hand {
+    width: 70px;
+    height: 60px;
+    left: 380px;
+    top: 95px;
+    transform: rotate(8deg);
+}
+
+/* 手指結構 - 更分明突出的鎧甲手指 */
+.robotic-arm.left .finger-1 {
+    width: 18px;
+    height: 50px;
+    left: 8px;
+    top: -40px;
+    transform: rotate(-15deg);
+    border-radius: 9px 9px 0 0;
+    border-bottom: none;
+}
+
+.robotic-arm.left .finger-2 {
+    width: 18px;
+    height: 60px;
+    left: 28px;
+    top: -45px;
+    transform: rotate(0deg);
+    border-radius: 9px 9px 0 0;
+    border-bottom: none;
+}
+
+.robotic-arm.left .finger-3 {
+    width: 18px;
+    height: 55px;
+    left: 48px;
+    top: -42px;
+    transform: rotate(12deg);
+    border-radius: 9px 9px 0 0;
+    border-bottom: none;
+}
+
+/* 新增大拇指 */
+.robotic-arm.left .finger-thumb {
+    width: 16px;
+    height: 35px;
+    left: -10px;
+    top: 5px;
+    transform: rotate(-45deg);
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+}
+
+/* 新增小拇指 */
+.robotic-arm.left .finger-little {
+    width: 15px;
+    height: 45px;
+    left: 60px;
+    top: -35px;
+    transform: rotate(25deg);
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+}
+
+/* 手指關節細節 */
+.robotic-arm.left .finger-joint {
+    position: absolute;
+    width: 12px;
+    height: 8px;
+    background: #4cc9f0;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(76, 201, 240, 0.8);
+}
+
+.robotic-arm.left .joint-1 { top: 15px; left: 3px; }
+.robotic-arm.left .joint-2 { top: 30px; left: 3px; }
+.robotic-arm.left .joint-3 { top: 45px; left: 3px; }
+
+/* 右側機器手具體結構 - 鎧甲風格 */
+.robotic-arm.right .arm-base {
+    width: 80px;
+    height: 100px;
+    right: 0;
+    top: 150px;
+}
+
+.robotic-arm.right .arm-joint-1 {
+    width: 60px;
+    height: 60px;
+    right: 60px;
+    top: 140px;
+    animation: jointRotate1 3s ease-in-out infinite reverse;
+}
+
+.robotic-arm.right .arm-segment-1 {
+    width: 180px;
+    height: 30px;
+    right: 90px;
+    top: 145px;
+    transform: rotate(15deg);
+}
+
+/* 上臂鎧甲板塊 */
+.robotic-arm.right .plate-1 {
+    width: 160px;
+    height: 20px;
+    right: 100px;
+    top: 150px;
+    transform: rotate(15deg);
+}
+
+.robotic-arm.right .arm-joint-2 {
+    width: 55px;
+    height: 55px;
+    right: 230px;
+    top: 110px;
+    animation: jointRotate2 3s ease-in-out infinite;
+}
+
+.robotic-arm.right .arm-segment-2 {
+    width: 150px;
+    height: 28px;
+    right: 260px;
+    top: 118px;
+    transform: rotate(-10deg);
+}
+
+/* 前臂鎧甲板塊 */
+.robotic-arm.right .plate-2 {
+    width: 140px;
+    height: 18px;
+    right: 265px;
+    top: 123px;
+    transform: rotate(-10deg);
+}
+
+.robotic-arm.right .arm-hand {
+    width: 70px;
+    height: 60px;
+    right: 380px;
+    top: 95px;
+    transform: rotate(-8deg);
+}
+
+/* 手指結構 - 更分明突出的鎧甲手指 */
+.robotic-arm.right .finger-1 {
+    width: 18px;
+    height: 50px;
+    right: 8px;
+    top: -40px;
+    transform: rotate(15deg);
+    border-radius: 9px 9px 0 0;
+    border-bottom: none;
+}
+
+.robotic-arm.right .finger-2 {
+    width: 18px;
+    height: 60px;
+    right: 28px;
+    top: -45px;
+    transform: rotate(0deg);
+    border-radius: 9px 9px 0 0;
+    border-bottom: none;
+}
+
+.robotic-arm.right .finger-3 {
+    width: 18px;
+    height: 55px;
+    right: 48px;
+    top: -42px;
+    transform: rotate(-12deg);
+    border-radius: 9px 9px 0 0;
+    border-bottom: none;
+}
+
+/* 新增大拇指 */
+.robotic-arm.right .finger-thumb {
+    width: 16px;
+    height: 35px;
+    right: -10px;
+    top: 5px;
+    transform: rotate(45deg);
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+}
+
+/* 新增小拇指 */
+.robotic-arm.right .finger-little {
+    width: 15px;
+    height: 45px;
+    right: 60px;
+    top: -35px;
+    transform: rotate(-25deg);
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+}
+
+/* 手指關節細節 */
+.robotic-arm.right .finger-joint {
+    position: absolute;
+    width: 12px;
+    height: 8px;
+    background: #4cc9f0;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(76, 201, 240, 0.8);
+}
+
+.robotic-arm.right .joint-1 { top: 15px; right: 3px; }
+.robotic-arm.right .joint-2 { top: 30px; right: 3px; }
+.robotic-arm.right .joint-3 { top: 45px; right: 3px; }
+
+/* 新增螺栓/鉚釘裝飾 */
+.robotic-arm .rivet-1 {
+    width: 10px;
+    height: 10px;
+    top: 10px;
+    left: 10px;
+}
+
+.robotic-arm .rivet-2 {
+    width: 10px;
+    height: 10px;
+    bottom: 10px;
+    left: 10px;
+}
+
+.robotic-arm .rivet-3 {
+    width: 10px;
+    height: 10px;
+    top: 10px;
+    right: 10px;
+}
+
+.robotic-arm .rivet-4 {
+    width: 10px;
+    height: 10px;
+    bottom: 10px;
+    right: 10px;
+}
+
+@keyframes jointRotate1 {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(8deg); }
+}
+
+@keyframes jointRotate2 {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-12deg); }
+}
+
+/* 增強光效 */
+.robotic-arm::before {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle at center, rgba(76, 201, 240, 0.3), transparent 70%);
+    z-index: -1;
+    filter: blur(25px);
+    top: -10%;
+    left: -10%;
+}
+
+/* 新增科技感光點 */
+.tech-dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.tech-dot {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #4cc9f0;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 2px #4cc9f0;
+    animation: dotFloat 3s infinite ease-in-out;
+}
+
+@keyframes dotFloat {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-10px) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* 其他原有樣式保持不變 */
+#gameSelectionScreen {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+#gameSelectionScreen.custom-bg {
+    background: var(--custom-background, linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+#difficultyScreen {
+    background: linear-gradient(45deg, #1a1a2e 0%, #16213e 100%);
+}
+
+#gameScreen {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+}
+
+#crosshair {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #4cc9f0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(76, 201, 240, 0.8);
+    display: none;
+}
+
+#crosshair::before, #crosshair::after {
+    content: '';
+    position: absolute;
+    background-color: #4cc9f0;
+}
+
+#crosshair::before {
+    width: 2px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#crosshair::after {
+    width: 20px;
+    height: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.5rem;
+    color: white;
+    z-index: 100;
+}
+
+#birdsLeft {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: white;
+    z-index: 100;
+}
+
+#timeLeft {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: #4cc9f0;
+    z-index: 100;
+    display: none;
+}
+
+.instructions {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    width: 100%;
+    color: #a0a0a0;
+    font-size: 1rem;
+    z-index: 2;
+}
+
+#gameOverMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 200;
+    display: none;
+    border: 2px solid #4cc9f0;
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
+}
+
+#gameOverMessage h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #4cc9f0;
+}
+
+#gameOverMessage p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+#continueButton {
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#continueButton:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+}
+
+/* 历史记录按钮样式 */
+#historyButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+#historyButton:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+}
+
+/* 历史记录弹窗样式 */
+#historyPopup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 378px; /* 10cm */
+    height: 567px; /* 15cm */
+    background: rgba(26, 26, 46, 0.95);
+    border: 2px solid #4cc9f0;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(76, 201, 240, 0.7);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#historyHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(30, 60, 114, 0.7);
+    border-bottom: 2px solid #4cc9f0;
+}
+
+#historyTitle {
+    font-size: 1.5rem;
+    color: #4cc9f0;
+}
+
+#closeHistory {
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#closeHistory:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+#historyContent {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.historyItem {
+    background: rgba(30, 60, 114, 0.5);
+    border: 1px solid #4cc9f0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.historyScore {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4cc9f0;
+}
+
+.historyDetails {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+}
+
+.noHistory {
+    text-align: center;
+    color: #a0a0a0;
+    margin-top: 50%;
+    font-size: 1.2rem;
+}
+
+/* 滚动条样式 */
+#historyContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+#historyContent::-webkit-scrollbar-track {
+    background: rgba(30, 60, 114, 0.3);
+    border-radius: 4px;
+}
+
+#historyContent::-webkit-scrollbar-thumb {
+    background: #4cc9f0;
+    border-radius: 4px;
+}
+
+#historyContent::-webkit-scrollbar-thumb:hover {
+    background: #3aa8d8;
+}
+
+/* 游戏选择界面样式 */
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.category-tab {
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    text-align: center;
+    flex: 1;
+    max-width: 150px;
+}
+
+.category-tab:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+}
+
+.category-tab.active {
+    background: rgba(76, 201, 240, 0.7);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+}
+
+.content-display {
+    background: rgba(30, 60, 114, 0.3);
+    border: 2px solid #4cc9f0;
+    border-radius: 15px;
+    width: 90%;
+    height: 70%;
+    padding: 20px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    align-content: flex-start;
+}
+
+.game-item {
+    background: rgba(30, 60, 114, 0.7);
+    border: 2px solid #4cc9f0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+}
+
+.game-item:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+}
+
+.game-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #4cc9f0;
+}
+
+.no-games {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 1.5rem;
+    margin-top: 50px;
+}
+
+/* 语言切换样式 */
+.language-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.language-label {
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.language-selector {
+    position: relative;
+    width: 160px; /* 4cm */
+}
+
+.language-display {
+    background: rgba(30, 60, 114, 0.7);
+    border: 2px solid #4cc9f0;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px; /* 0.2cm */
+}
+
+.language-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 46, 0.95);
+    border: 2px solid #4cc9f0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 100;
+}
+
+.language-option {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.language-option:hover {
+    background: rgba(76, 201, 240, 0.3);
+}
+
+.language-arrow {
+    transition: transform 0.3s ease;
+}
+
+.language-selector.open .language-arrow {
+    transform: rotate(180deg);
+}
+
+.language-selector.open .language-options {
+    display: block;
+}
+
+/* 背景更換樣式 - 修改為正方形按鈕 */
+.background-change-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.background-change-label {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    color: white;
+    min-width: 120px;
+}
+
+/* 修改背景按鈕為正方形 */
+.background-change-button {
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px; /* 正方形寬度 */
+    height: 120px; /* 正方形高度 */
+    text-align: center;
+    margin-right: 15px;
+    box-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+}
+
+.background-change-button:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+}
+
+/* 按鈕內文字樣式 - 上下兩行 */
+.button-text-top {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #4cc9f0;
+}
+
+.button-text-bottom {
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+/* 隱藏的檔案輸入 */
+#backgroundImageInput {
+    display: none;
+}
+
+/* 檔案總管模擬樣式 */
+#fileExplorerModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    height: 70%;
+    max-height: 600px;
+    background: rgba(26, 26, 46, 0.95);
+    border: 2px solid #4cc9f0;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(76, 201, 240, 0.7);
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#fileExplorerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(30, 60, 114, 0.7);
+    border-bottom: 2px solid #4cc9f0;
+}
+
+#fileExplorerTitle {
+    font-size: 1.5rem;
+    color: #4cc9f0;
+}
+
+#closeFileExplorer {
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#closeFileExplorer:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+#fileExplorerContent {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 15px;
+}
+
+.file-item {
+    background: rgba(30, 60, 114, 0.5);
+    border: 1px solid #4cc9f0;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+}
+
+.file-item:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+}
+
+.file-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #4cc9f0;
+}
+
+.file-name {
+    font-size: 0.9rem;
+    color: white;
+    word-break: break-all;
+}
+
+.file-path {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+    margin-top: 5px;
+}
+
+#fileUploadSection {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(30, 60, 114, 0.3);
+    border: 1px solid #4cc9f0;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#fileUploadButton {
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+#fileUploadButton:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+}
+
+#selectedFileInfo {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #a0a0a0;
+}
+
+/* 重置背景按鈕 - 修改為正方形 */
+#resetBackgroundButton {
+    background: rgba(114, 30, 30, 0.7);
+    color: white;
+    border: 2px solid #f04c4c;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px; /* 正方形寬度 */
+    height: 120px; /* 正方形高度 */
+    text-align: center;
+    box-shadow: 0 0 10px rgba(240, 76, 76, 0.3);
+}
+
+#resetBackgroundButton:hover {
+    background: rgba(150, 40, 40, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(240, 76, 76, 0.5);
+}
+
+/* 修改檔案總管內的套用背景按鈕 */
+#applyBackgroundButton {
+    background: rgba(30, 60, 114, 0.7);
+    color: white;
+    border: 2px solid #4cc9f0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    margin-top: 15px;
+    display: inline-block;
+    text-align: center;
+}
+
+#applyBackgroundButton:hover {
+    background: rgba(40, 80, 150, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+}
+
+/* ========== 生存射擊遊戲樣式 ========== */
+.survival-game-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    overflow: hidden;
+    user-select: none;
+}
+
+.survival-game-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.survival-game-canvas {
+    display: block;
+    background-color: #2a2a2a;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.survival-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.survival-title {
+    color: #fff;
+    font-size: 48px;
+    margin-bottom: 50px;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.survival-grid-container {
+    display: grid;
+    gap: 30px;
+}
+
+.survival-grid-item {
+    width: 200px;
+    height: 80px;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.survival-grid-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #4CAF50;
+}
+
+.survival-grid-item.exit {
+    background: linear-gradient(135deg, #f44336, #c62828);
+}
+
+.survival-grid-item.exit:hover {
+    box-shadow: 0 0 20px #f44336;
+}
+
+.survival-grid-item.resume {
+    background: linear-gradient(135deg, #2196F3, #0D47A1);
+}
+
+.survival-grid-item.resume:hover {
+    box-shadow: 0 0 20px #2196F3;
+}
+
+/* 修改後退按鈕樣式 */
+.survival-grid-item:not(.resume):not(.exit) {
+    background: linear-gradient(135deg, #2196F3, #0D47A1);
+}
+
+.survival-grid-item:not(.resume):not(.exit):hover {
+    box-shadow: 0 0 20px #2196F3;
+}
+
+.survival-hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 20px;
+    z-index: 5;
+}
+
+#survivalHealthBar {
+    width: 200px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#survivalHealthFill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #f44336, #4CAF50);
+    transition: width 0.3s;
+}
+
+#survivalAmmo {
+    margin-top: 10px;
+}
+
+#survivalGameOver {
+    display: none;
+    text-align: center;
+}
+
+#survivalScore {
+    font-size: 36px;
+    color: #4CAF50;
+    margin: 20px 0;
+}
+
+#survivalPauseScreen {
+    display: none;
+}
+
+.survival-pause-title {
+    color: #fff;
+    font-size: 60px;
+    margin-bottom: 50px;
+    text-shadow: 0 0 15px #2196F3;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#survivalReloadIndicator {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    color: #FF9800;
+    font-size: 16px;
+    display: none;
+}
+
+#survivalPauseHint {
+    position: absolute;
+    bottom: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+}
+
+/* 新增能量塊動畫效果 */
+@keyframes powerUpFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* 新增Boss警報動畫 */
+@keyframes bossAlertPulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* 新增浮動文字動畫 */
+@keyframes floatUp {
+    0% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -50px); }
+}
