@@ -6,7 +6,8 @@
 <p style="padding-left: 60px;">可攜系統啟動後，在命令列執行 conda activate y:\envs\cmsimde 可進入能執行 CMSiMDE 的環境。</p>
 <p style="padding-left: 60px;">若希望可攜系統啟動直接進入 cmsimde 環境，可將 start_miniconda3.bat 檔案中第 98 行: call "%CONDA_ROOT%\Scripts\activate.bat" %ENV_NAME% 更換為 call "%CONDA_ROOT%\Scripts\activate.bat" %Disk%:\envs\cmsimde</p>
 <p></p>
-<p>個人檔案總和的 [更新網頁步驟] :</p>
+<p></p>
+<p><span style="color: #993300;">個人檔案總和的 [更新網頁步驟]</span> :</p>
 <p style="padding-left: 30px;">使用 git status 檢查你的更改。</p>
 <p style="padding-left: 30px;">使用 git add . 指令將所有更改暫存起來。</p>
 <p style="padding-left: 30px;">使用<span> </span><u>git commit -m "你的提交訊息"</u><span> </span>指令將暫存的更改提交到本地儲存庫。</p>
@@ -14,8 +15,10 @@
 <p>推送到遠端 GitHub 儲存庫：</p>
 <p style="padding-left: 30px;">使用 git push 指令將本地的更改推送到 GitHub 遠端儲存庫。推送完成後，GitHub Pages 會自動偵測到更改並重新構建你的網站。</p>
 <p style="padding-left: 30px;"></p>
-<p>w12  機器人程式編輯器:</p>
-<p style="padding-left: 30px;"><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=222">https://s5.eng.nfu.edu.tw:9499/brython_test?load=222</a> </p>
+<p></p>
+<p><span style="color: #993300;">w12  機器人程式編輯器:</span></p>
+<p></p>
+<p style="padding-left: 30px;">1. <a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=222">https://s5.eng.nfu.edu.tw:9499/brython_test?load=222</a></p>
 <p style="padding-left: 60px;">1.🌍 MyWorld 類別的修改</p>
 <p style="padding-left: 90px;">世界尺寸擴大 :</p>
 <p style="padding-left: 120px;">原先 : MyWorld(width=10, height=10, sub_cell=5) 2222。</p>
@@ -42,8 +45,8 @@
 <p style="padding-left: 90px;">主程式繪製邏輯變更 :</p>
 <p style="padding-left: 120px;">原先 : 繪製 10 個數字，X 偏移量為 4 + i * 6 17。</p>
 <p style="padding-left: 120px;">改後 : 繪製 10 個數字，X 偏移量為 1 + i * 5 (每個數字寬度 4 格，間隔 1 格，總共 5 格) 18。</p>
-<p style="padding-left: 30px;"><span></span><a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=224">https://s5.eng.nfu.edu.tw:9499/brython_test?load=224</a> </p>
-<p style="padding-left: 60px;"><span></span></p>
+<p style="padding-left: 30px;"></p>
+<p style="padding-left: 30px;"><span>2. <a href="https://s5.eng.nfu.edu.tw:9499/brython_test?load=224">https://s5.eng.nfu.edu.tw:9499/brython_test?load=224</a></span></p>
 <p style="padding-left: 60px;">1. 🎨 結構化與參數化 (核心變更)</p>
 <p style="padding-left: 90px;">新增繪圖函數 draw_taiwan_flag :</p>
 <p style="padding-left: 120px;">原先：所有繪圖邏輯直接寫在主程式碼中，只能在固定位置繪製單面國旗 1。</p>
@@ -67,7 +70,7 @@
 <p style="padding-left: 120px;">(2) 繪製一個 45 度旋轉的國旗 13。</p>
 <p style="padding-left: 90px;">同時，程式碼清理了 Canvas 畫布 (ctx.clearRect) 以準備繪製 14。</p>
 <p></p>
-<p>w13  <span>📝 專案心得與學習總結</span></p>
+<p><span style="color: #993300;">w13  📝 專案心得與學習總結</span></p>
 <p style="padding-left: 30px;">🎯 專案目標與核心任務 這個專案主要圍繞以下三個核心任務展開，展示了對 Reeborg 程式設計環境和基本控制邏輯的掌握： </p>
 <p style="padding-left: 60px;">1. 環境巡邏 (Patrol)：讓機器人以有規律的方式（例如水平蛇行或垂直巡邏）遍歷整個區域，確保路徑規劃的完整性和效率。 </p>
 <p style="padding-left: 90px;">相關檔案：1. 水平巡邏.txt 、2. 上下垂直巡邏.txt 、2. 水平巡邏_走過每一個區域.txt       </p>
@@ -94,8 +97,8 @@
 <p style="padding-left: 60px;">DOM 操作與事件處理：程式碼涉及 js.document.createElement("canvas") 和 js.document.addEventListener('keydown', key_handler) 等，這表明這個專案能夠將 Python 程式碼與瀏覽器環境 (HTML/JavaScript) 進行深度整合，實現鍵盤和觸控按鈕對機器人的控制 。   </p>
 <p style="padding-left: 30px;">結論 總體而言，這是一個全面且深入的 Reeborg 專案。它從基本的機器人控制和路徑規劃開始，逐步引入了蛇行算法、環境感知、狀態管理等核心邏輯，最終在進階檔案中展示了物件導向、非同步處理以及與網頁介面互動的能力。透過這個專案的實作，不僅掌握了 Reeborg 世界的操作，也為學習更複雜的自動化、遊戲開發或 Web 應用程式奠定了堅實的基礎。</p>
 <p style="padding-left: 30px;"></p>
-<p>w14 三個程式執行成功:</p>
-<p style="padding-left: 30px;"><a href="https://youtu.be/v_NxkFA5HxQ?si=-2jpIOsqMr2Ekmwc">https://youtu.be/v_NxkFA5HxQ?si=-2jpIOsqMr2Ekmwc</a></p>
+<p><span style="color: #993300;">w14 三個程式執行成功<strong>影片</strong>:</span></p>
+<p style="padding-left: 30px;">https://youtu.be/fZ4O8b5ErlI</p>
 <p></p>
 <p style="padding-left: 30px;"></p>
 <h1>Reeborg</h1>
